@@ -31,10 +31,8 @@ import objects.*;
  * @author Mateusz
  */
 public class MainDocumentController implements Initializable {
-    private File loadedFile; //plik z danymi
+    public Logic logic;
     private String separator=","; //separator to ; lub ,
-    public ArrayList<DataObject> dataset; //zbior obiektów wczytanych
-    private String[] attributesNames;
 
     @FXML private ComboBox separatorChoice;
     @FXML private MenuItem closeButton;
@@ -59,52 +57,24 @@ public class MainDocumentController implements Initializable {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("CSV files","*.csv")
             );
-        loadedFile = fileChooser.showOpenDialog(separatorChoice.getScene().getWindow());
         try {
-            fileToObjects(loadedFile);
-            objectsToTextArea();
+            logic.setFile(fileChooser.showOpenDialog(separatorChoice.getScene().getWindow()));
+            logic.fileToObjects(separator);
+            objectsToTextArea(logic.getAttributesNames(), logic.getDataset());
         }
         catch (Exception e){
             e.printStackTrace();
             System.out.println("Cancelled");
         }
     }
-    
-    private void fileToObjects(File f) throws FileNotFoundException, IOException{
-        BufferedReader br = new BufferedReader(new FileReader(f.getPath()));
-        attributesNames=br.readLine().split(separator);
-        int j=1; //ilosc obiektow
-        String line;
-        dataset=new ArrayList<>();
-        while ((line = br.readLine()) != null) {
-            String oneObject[] = line.split(separator);
-            int i = 0; //ktory z kolei atrybut wczytywany
-            ArrayList<Attribute> all_attributes = new ArrayList<Attribute>() {
-            };
-            for (String x : oneObject) {
-                Attribute attribute = new Attribute(attributesNames[i], x);
-                if (i != oneObject.length - 1) {
-                    all_attributes.add(attribute);
-                } else {
-                    attribute.setDecisionMaking(true);
-                    all_attributes.add(attribute);
-                }
-                i++;
-            }
-            DataObject newObject = new DataObject(""+j);
-            newObject.setAttributes(all_attributes);
-            dataset.add(newObject);
-            j++;
-        }
-    }
-    private void objectsToTextArea(){
+    private void objectsToTextArea(String[] names, ArrayList<DataObject> objects){
         examplesToString.setText("Parameters: ");
-        for (int i=0; i<attributesNames.length; i++){
-            examplesToString.appendText(attributesNames[i]+", ");
+        for (int i=0; i<names.length; i++){
+            examplesToString.appendText(names[i]+", ");
         }
         examplesToString.deleteText(examplesToString.getLength()-2, examplesToString.getLength());
         examplesToString.appendText(";\nObjects: \n");
-        for (DataObject x : dataset){
+        for (DataObject x : objects){
             examplesToString.appendText(x.toString());
         }
     }
@@ -116,6 +86,8 @@ public class MainDocumentController implements Initializable {
         separatorChoice.getItems().addAll(",", ";");
         separatorChoice.getSelectionModel().select(",");
         examplesToString.setText("No dataset loaded.");
+        this.logic = new Logic();
+        System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
     }    
     
 }
