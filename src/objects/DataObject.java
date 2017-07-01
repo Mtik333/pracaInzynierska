@@ -15,13 +15,13 @@ import java.util.List;
  */
 public class DataObject {
     private String name;
-    private ArrayList<Attribute> attributes;
+    private List<Attribute> attributes;
     
     @Override
     public String toString() {
         StringBuilder returnString=new StringBuilder();
         for (Attribute x : attributes){
-            returnString.append(x.getValue()+", ");
+            returnString.append(x.getValue()).append(", ");
         }
         returnString.delete(returnString.length()-2, returnString.length());
         returnString.append(';');
@@ -44,7 +44,7 @@ public class DataObject {
         return attributes;
     }
 
-    public void setAttributes(ArrayList<Attribute> attributes) {
+    public void setAttributes(List<Attribute> attributes) {
         this.attributes = attributes;
     }
 

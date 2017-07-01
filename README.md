@@ -7,3 +7,7 @@ First attempts on trying to create the interface and kind of logic:
 
 0.0.2 - 29.06.2017__
 Cleaning the controller a bit and adding the Logic class for most of the computations and handling loading the file
+
+0.0.3 - 01.07.2017__
+First attempts on graph drawing
+- next commits going to focus on ant colony rather than GUI

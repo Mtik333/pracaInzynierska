@@ -25,6 +25,7 @@ public class PracaInżynierska extends Application {
         stage.setTitle("TEST");
         stage.setScene(scene);
         stage.show();
+        
     }
 
     /**
