@@ -19,9 +19,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -30,11 +33,14 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import objects.*;
 import org.w3c.dom.events.MouseEvent;
 
@@ -44,6 +50,14 @@ import org.w3c.dom.events.MouseEvent;
  */
 public class MainDocumentController implements Initializable {
     public Logic logic;
+
+    public Logic getLogic() {
+        return logic;
+    }
+
+    public void setLogic(Logic logic) {
+        this.logic = logic;
+    }
     private String separator=","; //separator to ; lub ,
 
     @FXML private ComboBox separatorChoice;
@@ -77,6 +91,7 @@ public class MainDocumentController implements Initializable {
             logic.setGraph(null);
             objectsToTextArea(logic.getAttributesNames(), logic.getDataset());
             drawGraph();
+            logic.fillIndiscMatrix();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -107,6 +122,19 @@ public class MainDocumentController implements Initializable {
             solver.getChildren().add(group);
             //System.out.println(solver.getChildren().toString());
         }
+    }
+    @FXML
+    private void showMatrixGraphics() throws IOException{
+        //Stage stage = new Stage();
+        //FXMLLoader myLoader = new FXMLLoader(getClass().getResource("SetSeparatorFXML.fxml"));
+        //SetSeparatorFXMLController controller = new SetSeparatorFXMLController();
+        //Parent root = (Parent)myLoader.load();  
+        //controller.setLogic(logic);
+    }
+    
+    @FXML
+    private void generateAnts(){
+        logic.generateAntsForFirstIteration();
     }
     
     @Override

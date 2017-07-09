@@ -11,3 +11,8 @@ Cleaning the controller a bit and adding the Logic class for most of the computa
 0.0.3 - 01.07.2017__
 First attempts on graph drawing
 - next commits going to focus on ant colony rather than GUI
+
+0.1.0 - 09.07.2017__
+A kinda huge difference, because there's a working Ant object
+- ants find the solution using discrebility matrix
+- graphics are abandoned right now, it's gonna be a web application due to drawing graphs issues

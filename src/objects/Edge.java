@@ -10,10 +10,19 @@ package objects;
  * @author Mateusz
  */
 public class Edge {
-    private double pheromone;
+    private double pheromone; //feromon na sciezce
+    private int weight; //waga sciezki
     private Vertice start;
     private Vertice end;
 
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+    
     public double getPheromone() {
         return pheromone;
     }
@@ -42,6 +51,7 @@ public class Edge {
         this.start = start;
         this.end = end;
         this.pheromone=0;
+        this.weight=1;
     }
     @Override
     public String toString(){
