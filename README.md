@@ -16,3 +16,7 @@ First attempts on graph drawing
 A kinda huge difference, because there's a working Ant object
 - ants find the solution using discrebility matrix
 - graphics are abandoned right now, it's gonna be a web application due to drawing graphs issues
+
+0.1.1 - 09.07.2017__
+Ant algorithm probably works, although experiments for bigger datasets have to be performed
+- it's difficult now to set proper constans for pheromones update, some edges got ultrapheromoned

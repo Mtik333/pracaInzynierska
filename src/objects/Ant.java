@@ -47,7 +47,7 @@ public class Ant implements Runnable {
     @Override
     public void run() {
         currentIter = 0;
-        chosenEdges = new ArrayList<Edge>(0);
+        chosenEdges = new ArrayList<Edge>();
         boolean reducedMatrix=reduceMatrix();
         while (currentIter < maxList && !reducedMatrix) {
             double pheromoneSum = calculateSum();
@@ -62,13 +62,15 @@ public class Ant implements Runnable {
             currentIter++;
             addEdgeToSolution();
         }
-        foundSolution=true;
+        if (empty_matrix(discMatrix))
+            foundSolution=true;
+        else foundSolution=false;
         
     }
     private void addEdgeToSolution(){
         for (Edge x : allEdges){
-            if (x.getStart().getName().equals(pickedAttributes.get(currentIter-1)) || x.getEnd().getName().equals(pickedAttributes.get(currentIter-1))){
-                if (x.getStart().getName().equals(pickedAttributes.get(currentIter)) || x.getEnd().getName().equals(pickedAttributes.get(currentIter))){
+            if (x.getStart().getName().equals(pickedAttributes.get(currentIter-1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter-1).getName())){
+                if (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName())){
                     chosenEdges.add(x);
                 }
             }
@@ -181,11 +183,14 @@ public class Ant implements Runnable {
     }
 
     public boolean reduceMatrix() {
+        StringBuilder stringCompare = new StringBuilder();
         for (int i = 0; i < discMatrix.length; i++) {
             for (int j = i+1; j < discMatrix.length; j++) {
                 if (discMatrix[i][j]!=null){
-                    if (discMatrix[i][j].contains(Integer.toString(pickedAttributes.get(pickedAttributes.size()-1).getIndex())))
+                    stringCompare.append(",").append(pickedAttributes.get(pickedAttributes.size()-1).getIndex()).append(",");
+                    if (discMatrix[i][j].contains(stringCompare.toString()))
                         discMatrix[i][j]=null;
+                    stringCompare.setLength(0);
                 }
             }
         }

@@ -33,10 +33,11 @@ public class Logic {
     private List<Attribute> currentReduct;
     private float pheromoneRelevance; //istotnosc feromonu
     private float edgeRelevance; //istotnosc wagi sciezki
-    private double pheromoneEvaporation; //współczynnik wyparowywania
+    private double pheromoneEvaporation = 0.5; //współczynnik wyparowywania
     private int currentLoopLimit; //ilosc przejsc w danej iteracji
-    private int loopNumber=20; //ilosc iteracji
-    private int amountOfAnts=5; //ilosc mrowek
+    private int loopNumber = 20; //ilosc iteracji
+    private int amountOfAnts = 5; //ilosc mrowek\
+    private int constantForUpdating = 1;
     private String[] attributesNames; //nazwy atrybutów
     private List<Attribute> attributesAll; //atrybuty
     private String[][] indiscMatrix; //macierz rozróznialności
@@ -45,7 +46,6 @@ public class Logic {
     public Logic() {
     }
 
-    
     public List<Ant> getAntsList() {
         return antsList;
     }
@@ -53,7 +53,7 @@ public class Logic {
     public void setAntsList(List<Ant> antsList) {
         this.antsList = antsList;
     }
-    
+
     public int getDecisionMaker() {
         return decisionMaker;
     }
@@ -101,11 +101,11 @@ public class Logic {
     public void setIndiscMatrix(String[][] indiscMatrix) {
         this.indiscMatrix = indiscMatrix;
     }
-    
+
     public void fileToObjects(String separator) throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(loadedFile.getPath()));
         setAttributesNames(br.readLine().split(separator));
-        this.attributesAll=new ArrayList<>();
+        this.attributesAll = new ArrayList<>();
         setDecisionMaker(getAttributesNames().length - 1);
         int j = 1; //ilosc obiektow
         String line;
@@ -132,14 +132,14 @@ public class Logic {
         if (getGraph() == null) {
             generateGraph();
         }
-        attributesAll=dataset.get(0).getAttributes();
+        attributesAll = dataset.get(0).getAttributes();
     }
 
     public void generateGraph() {
         List<Vertice> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
-        for (int i=0; i<attributesNames.length; i++){
-            vertices.add(new Vertice(attributesNames[i],i));
+        for (int i = 0; i < attributesNames.length; i++) {
+            vertices.add(new Vertice(attributesNames[i], i));
         }
         vertices.remove(decisionMaker); //usuwamy wierzcholek decyzyjny
         for (int i = 0; i < vertices.size(); i++) {
@@ -153,46 +153,60 @@ public class Logic {
 
     public void fillIndiscMatrix() {
         DataObject dat1, dat2;
-        StringBuilder cellString=new StringBuilder();
+        StringBuilder cellString = new StringBuilder();
         this.indiscMatrix = new String[getDataset().size()][getDataset().size()];
         for (int i = 0; i < dataset.size(); i++) {
             for (int j = (i + 1); j < dataset.size(); j++) {
                 if (!dataset.get(i).getAttributes().get(decisionMaker).getValue().equals(dataset.get(j).getAttributes().get(decisionMaker).getValue())) {
-                    dat1=dataset.get(i);
-                    dat2=dataset.get(j);
+                    dat1 = dataset.get(i);
+                    dat2 = dataset.get(j);
                     cellString.setLength(0);
-                    for (int k=0; k<attributesNames.length-1; k++){ //problem gdy decisionmaker nie na końcu
-                        if (!dat1.getAttributes().get(k).getValue().equals(dat2.getAttributes().get(k).getValue()))
+                    cellString.append(",");
+                    for (int k = 0; k < attributesNames.length - 1; k++) { //problem gdy decisionmaker nie na końcu
+                        if (!dat1.getAttributes().get(k).getValue().equals(dat2.getAttributes().get(k).getValue())) {
                             cellString.append(k).append(",");
+                        }
                     }
-                    if (cellString.length()>0)
-                        cellString.deleteCharAt(cellString.length()-1);
-                    indiscMatrix[i][j]=cellString.toString();
+                    /*if (cellString.length() > 0) {
+                        cellString.deleteCharAt(cellString.length() - 1);
+                    }*/
+                    indiscMatrix[i][j] = cellString.toString();
                 }
             }
         }
     }
-    public void generateAntsForFirstIteration(){
+
+    public void generateAntsForFirstIteration() {
         antsList = new ArrayList<Ant>(); //lista mrówek
         Random random = new Random();
         if (getGraph() == null) {
             generateGraph();
         }
-        currentLoopLimit = getGraph().getVertices().size()-1; //ile wierzchołków
-        doTheAlgorithm(currentLoopLimit);
-    }
-    public void generateBasicPheromone(){
-        Random random = new Random();
-        for (Edge x : graph.getEdges()){
-            x.setPheromone(random.nextDouble()*0.1+0.5);
+        currentLoopLimit = getGraph().getVertices().size() - 1; //ile wierzchołków
+        constantForUpdating = getGraph().getVertices().size()/2;
+        for (int i = 0; i < loopNumber; i++) {
+            doTheAlgorithm(currentLoopLimit);
+        }
+        System.out.println("The reduct:");
+        for (Attribute x : currentReduct){
+            System.out.print(x.getName()+",");
         }
     }
-    public void doTheAlgorithm(int maxIteration){
-        ExecutorService executor = Executors.newFixedThreadPool(maxIteration); //wszystkie watki ruszajo
+
+    public void generateBasicPheromone() {
+        Random random = new Random();
+        for (Edge x : graph.getEdges()) {
+            x.setPheromone(random.nextDouble() * 0.1 + 0.5);
+        }
+    }
+
+    public void doTheAlgorithm(int maxIteration) {
+        antsList.clear();
+        ExecutorService executor = Executors.newFixedThreadPool(amountOfAnts); //wszystkie watki ruszajo
         generateBasicPheromone(); //generuj pierwotny feromon
         Random random = new Random();
-        for (int i=0; i<amountOfAnts; i++){
-            int j = random.nextInt(maxIteration);
+        for (int i = 0; i < amountOfAnts; i++) {
+            int j = random.nextInt(getGraph().getVertices().size());
             Ant ant = new Ant(i);
             ant.setMaxList(maxIteration);
             ant.setAllEdges(getGraph().getEdges());
@@ -201,34 +215,49 @@ public class Logic {
             ant.setDiscMatrix(indiscMatrix);
             antsList.add(ant);
         }
-        for (Ant x : antsList){
+        for (Ant x : antsList) {
             executor.execute(x); //startuj watek
         }
         executor.shutdown();
-        while (!executor.isTerminated()){}
+        while (!executor.isTerminated()) {
+        }
         evaluateSubsets();
+        updatePheromone();
     }
-    public void evaluateSubsets(){
-        for (Ant ant : antsList){
-            for (Vertice vertice : ant.getPickedAttributes()){
-                System.out.print(vertice.getName()+",");
+
+    public void evaluateSubsets() {
+        for (Ant ant : antsList) {
+            if (ant.isFoundSolution()) {
+                for (Vertice vertice : ant.getPickedAttributes()) {
+                    System.out.print(vertice.getName() + ",");
+                }
+                System.out.println();
             }
-            System.out.println();
         }
         System.out.println("\nFinished all threads");
-        for (Ant x : antsList){
-            if (x.getPickedAttributes().size()<currentLoopLimit){
-                currentReduct=new ArrayList<Attribute>();
-                for (Vertice vertice : x.getPickedAttributes()){
+        if (currentReduct == null) {
+            currentReduct = new ArrayList<Attribute>();
+        }
+        for (Ant x : antsList) {
+            if (x.getPickedAttributes().size() < currentLoopLimit) {
+                currentLoopLimit = x.getPickedAttributes().size();
+                currentReduct.clear();
+                for (Vertice vertice : x.getPickedAttributes()) {
                     currentReduct.add(attributesAll.get(vertice.getIndex()));
                 }
             }
         }
-        System.out.println("testststs");
     }
-    public void updatePheromone(){
-        for (Edge x : getGraph().getEdges()){
-            
+
+    public void updatePheromone() {
+        for (Edge x : getGraph().getEdges()) {
+            x.setPheromone(x.getPheromone() * (1 - pheromoneEvaporation));
+        }
+        for (Ant y : antsList) {
+            double contribution = constantForUpdating / y.getChosenEdges().size();
+            for (Edge x : y.getChosenEdges()) {
+                x.setPheromone(x.getPheromone() + contribution);
+            }
         }
     }
 }
