@@ -56,7 +56,7 @@ public class Ant implements Runnable {
                     return u / pheromoneSum; //To change body of generated lambdas, choose Tools | Templates.
                 });
             }
-            System.out.println(probabilities.values().stream().mapToDouble(Number::doubleValue).sum());
+            //System.out.println(probabilities.values().stream().mapToDouble(Number::doubleValue).sum());
             pickedAttributes.add(pickVerticeByProbability());
             reducedMatrix=reduceMatrix();
             currentIter++;

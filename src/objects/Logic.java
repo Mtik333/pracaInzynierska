@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +44,7 @@ public class Logic {
     private List<Attribute> attributesAll; //atrybuty
     private String[][] indiscMatrix; //macierz rozróznialności
     private int decisionMaker; //indeks atrybutu decyzyjnego
+    private List<String> decisionValues; //wartosci decyzyjne
 
     public Logic() {
     }
@@ -167,29 +170,31 @@ public class Logic {
                             cellString.append(k).append(",");
                         }
                     }
+                    if (cellString.length()>2)
+                        indiscMatrix[i][j] = cellString.toString();
                     /*if (cellString.length() > 0) {
                         cellString.deleteCharAt(cellString.length() - 1);
                     }*/
-                    indiscMatrix[i][j] = cellString.toString();
                 }
             }
         }
     }
 
     public void generateAntsForFirstIteration() {
-        antsList = new ArrayList<Ant>(); //lista mrówek
         Random random = new Random();
         if (getGraph() == null) {
             generateGraph();
         }
+        amountOfAnts = getGraph().getVertices().size();
+        antsList = new ArrayList<Ant>(); //lista mrówek
         currentLoopLimit = getGraph().getVertices().size() - 1; //ile wierzchołków
-        constantForUpdating = getGraph().getVertices().size()/2;
+        constantForUpdating = getGraph().getVertices().size() / 2;
         for (int i = 0; i < loopNumber; i++) {
             doTheAlgorithm(currentLoopLimit);
         }
         System.out.println("The reduct:");
-        for (Attribute x : currentReduct){
-            System.out.print(x.getName()+",");
+        for (Attribute x : currentReduct) {
+            System.out.print(x.getName() + ",");
         }
     }
 
@@ -236,7 +241,8 @@ public class Logic {
         }
         System.out.println("\nFinished all threads");
         if (currentReduct == null) {
-            currentReduct = new ArrayList<Attribute>();
+            currentReduct = new ArrayList<Attribute>(dataset.get(0).getAttributes());
+            currentReduct.remove(currentReduct.size()-1);
         }
         for (Ant x : antsList) {
             if (x.getPickedAttributes().size() < currentLoopLimit) {
@@ -258,6 +264,99 @@ public class Logic {
             for (Edge x : y.getChosenEdges()) {
                 x.setPheromone(x.getPheromone() + contribution);
             }
+        }
+    }
+
+    public int countDecisionClasses() {
+        decisionValues = new ArrayList<>();
+        for (DataObject dataObject : dataset) {
+            if (!decisionValues.contains(dataObject.getAttributes().get(decisionMaker).getValue())) {
+                decisionValues.add(dataObject.getAttributes().get(decisionMaker).getValue());
+            }
+        }
+        return decisionValues.size();
+    }
+
+    public int countConflictsRow(int[] ctRow) {
+        double initialValue = Math.pow(Arrays.stream(ctRow).sum(), 2);
+        for (int value : ctRow) {
+            initialValue = initialValue - Math.pow(value, 2);
+        }
+        initialValue = initialValue * 0.5;
+        return (int) initialValue;
+    }
+
+    public int countConflictsTotal(int[] ctTotal) {
+        double finalValue = Math.pow(Arrays.stream(ctTotal).sum(), 2);
+        for (int value : ctTotal) {
+            finalValue = finalValue - Math.pow(value, 2);
+        }
+        finalValue = finalValue * 0.5;
+        return (int) finalValue;
+    }
+
+    public void coreDDM() {
+        List<String> foundCore = new ArrayList<>();
+        for (int i = 0; i < indiscMatrix.length; i++) {
+            for (int j = i; j < indiscMatrix[i].length; j++) {
+                if (indiscMatrix[i][j] != null) {
+                    if (indiscMatrix[i][j].chars().filter(ch -> ch == ',').count() == 2) {
+                        int singleton = (int)indiscMatrix[i][j].replace(",", "").charAt(0)-'0';
+                        if (!foundCore.contains(attributesAll.get(singleton).getName())){
+                            foundCore.add(attributesAll.get(singleton).getName());
+                        }
+                    }
+                }
+            }
+        }
+        for (String x : foundCore) {
+            System.out.print(x + ",");
+        }
+    }
+    
+    public void coreCT2(){
+        List<Attribute> foundCore = new ArrayList<>();
+        int decisionClasses = countDecisionClasses();
+        System.out.println(decisionClasses);
+        for (int i = 0; i < attributesAll.size() - 1; i++) {
+            int[] ctRow = new int[decisionClasses];
+            int[] ctTotal = new int[decisionClasses];
+            int confs = 0;
+            DataObject prev = null;
+            boolean difference = false;
+            Collections.sort(dataset, new DataObjectComparator(i));
+            for (int k=0; k<dataset.size(); k++){
+                for (int j = 0; j < dataset.get(0).getAttributes().size() - 1; j++) {
+                    if (j != i) {
+                        if (prev != null) {
+                            if (!prev.getAttributes().get(j).getValue().equals(dataset.get(k).getAttributes().get(j).getValue())) {
+                                difference = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (difference == false) {
+                    ctTotal[decisionValues.indexOf(dataset.get(k).getAttributes().get(decisionMaker).getValue())]++;
+                    ctRow[decisionValues.indexOf(dataset.get(k).getAttributes().get(decisionMaker).getValue())]++;
+                    prev = dataset.get(k);
+                } else {
+                    int confsRow = countConflictsRow(ctRow);
+                    confs = confs + confsRow;
+                    Arrays.fill(ctRow, 0);
+                    difference = false;
+                    prev = null;
+                    k--;
+                }
+            }
+            int discdA = countConflictsTotal(ctTotal);
+            int discdAminus = discdA - confs;
+            if (discdAminus < discdA) {
+                foundCore.add(attributesAll.get(i));
+            }
+        }
+        for (Attribute a : foundCore){
+            System.out.print(a.getName()+",");
         }
     }
 }

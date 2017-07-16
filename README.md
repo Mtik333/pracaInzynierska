@@ -20,3 +20,8 @@ A kinda huge difference, because there's a working Ant object
 0.1.1 - 09.07.2017__
 Ant algorithm probably works, although experiments for bigger datasets have to be performed
 - it's difficult now to set proper constans for pheromones update, some edges got ultrapheromoned
+
+0.2.0 - 16.07.2017__
+Implemented Core-CT and Core-DDM algorithms for finding core in provided dataset
+- time elapsed for execution of each algorithms might be calculated to choose the better one
+- still not working on graphical side, probably something will change after the last algorithm will be implemented

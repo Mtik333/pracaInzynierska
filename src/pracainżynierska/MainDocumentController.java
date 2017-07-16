@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -92,6 +93,7 @@ public class MainDocumentController implements Initializable {
             objectsToTextArea(logic.getAttributesNames(), logic.getDataset());
             drawGraph();
             logic.fillIndiscMatrix();
+            System.out.println("aaa");
         }
         catch (Exception e){
             e.printStackTrace();
@@ -135,6 +137,12 @@ public class MainDocumentController implements Initializable {
     @FXML
     private void generateAnts(){
         logic.generateAntsForFirstIteration();
+    }
+    
+    @FXML
+    private void generateCore(){
+        logic.coreCT2();
+        //logic.coreDDM();
     }
     
     @Override
