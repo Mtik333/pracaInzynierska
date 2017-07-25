@@ -26,10 +26,13 @@ Implemented Core-CT and Core-DDM algorithms for finding core in provided dataset
 - time elapsed for execution of each algorithms might be calculated to choose the better one
 - still not working on graphical side, probably something will change after the last algorithm will b implemented
 
-0.2.1 - 23.07-2017__
+0.2.1 - 23.07.2017__
 Worked a bit on the interface, finally there's a kind of graph with edges and nodes
 However, algorithm functionality is still to be anchored to the graphical interface, next week maybe
 - nodes are movable and so edges
 - right-clicking on edge will show amount of pheromone on the edge
 - right-clicking on node will show number of ants on the edge
 - more buttons prepared for future work on the GUI
+
+0.2.2 - 25.07.2017__
+Created the interface branch for GUI development

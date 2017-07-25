@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pracainżynierska;
+package interfejsinżynierski;
 
+import data.DataAccessor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,17 +16,16 @@ import javafx.stage.Stage;
  *
  * @author Mateusz
  */
-public class PracaInżynierska extends Application {
+public class InterfejsInżynierski extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainDocument.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/fxmls/FXMLDocument.fxml"));
         Scene scene = new Scene(root);
-        stage.setTitle("TEST");
+        DataAccessor.setPrimaryStage(stage);
+        stage.setTitle("Ant algorithms");
         stage.setScene(scene);
         stage.show();
-        
     }
 
     /**
@@ -33,7 +33,6 @@ public class PracaInżynierska extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        
     }
     
 }

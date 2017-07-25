@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package objects;
+package data.roughsets;
 
-import com.google.common.collect.ComparisonChain;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
