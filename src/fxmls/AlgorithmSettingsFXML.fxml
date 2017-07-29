@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AlgorithmSettingsFXMLController">
+   <children>
+      <VBox>
+         <children>
+            <HBox>
+               <children>
+                  <Label prefHeight="40.0" prefWidth="180.0" text="Chosen algorithm:" />
+                  <ChoiceBox fx:id="algorithmChoice" prefHeight="40.0" prefWidth="220.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="40.0" prefWidth="180.0" text="Pheromone importance:" />
+                  <TextField fx:id="pheromoneImportance" prefHeight="40.0" prefWidth="220.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="50.0">
+               <children>
+                  <Label prefHeight="40.0" prefWidth="180.0" text="Edge weight importance:" />
+                  <TextField fx:id="weightImportance" prefHeight="40.0" prefWidth="220.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="15.0" layoutY="115.0">
+               <children>
+                  <Label prefHeight="40.0" prefWidth="180.0" text="Loop limit:" />
+                  <TextField fx:id="loopLimit" prefHeight="40.0" prefWidth="220.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="15.0" layoutY="165.0">
+               <children>
+                  <Label prefHeight="40.0" prefWidth="180.0" text="Number of ants:" />
+                  <TextField fx:id="antsNumber" prefHeight="40.0" prefWidth="220.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="15.0" layoutY="215.0">
+               <children>
+                  <Label prefHeight="40.0" prefWidth="180.0" text="Constant for pheromone update:" />
+                  <TextField fx:id="pheromoneConstant" prefHeight="40.0" prefWidth="220.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelSettings" prefHeight="25.0" prefWidth="70.0" text="Cancel">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <Button fx:id="okButton" alignment="CENTER" mnemonicParsing="false" onAction="#setSettings" prefHeight="25.0" prefWidth="70.0" text="Set" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

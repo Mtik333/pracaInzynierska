@@ -36,3 +36,7 @@ However, algorithm functionality is still to be anchored to the graphical interf
 
 0.2.2 - 25.07.2017__
 Created the interface branch for GUI development
+
+0.2.3 - 29.07.2017__
+- prepared view for ant algorithm settings (no validation at this moment).
+- "graph design" is now based on edges/vertices' objects. Thanks to this a window showing pheromone on edge will be easy to make (I hope)

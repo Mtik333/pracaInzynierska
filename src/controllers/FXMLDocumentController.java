@@ -6,13 +6,18 @@
 package controllers;
 
 import data.DataAccessor;
+import data.NewLogic;
+import data.graph.Edge;
+import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -66,9 +71,11 @@ public class FXMLDocumentController implements Initializable {
     private AnchorPane solver;
     private List<Label> labels;
     private List<Line> lines;
+    private Map<Line, Edge> edgeLines;
+    private Map<Label, Vertice> verticeLabels;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
-
+    private NewLogic newLogic = new NewLogic();
     @FXML
     public void loadDataset(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -79,6 +86,8 @@ public class FXMLDocumentController implements Initializable {
         );
         try {
             DataAccessor.setFile(fileChooser.showOpenDialog(examplesToString.getScene().getWindow()));
+            if (DataAccessor.getFile()==null)
+                return;
             if (!DataAccessor.parseFile()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Parsing error");
@@ -87,7 +96,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
-//            logic.setGraph(null);
+            newLogic.generateGraph();
             drawGraph();
 //            logic.fillIndiscMatrix();
         } catch (Exception e) {
@@ -104,22 +113,34 @@ public class FXMLDocumentController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Set separator");
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(DataAccessor.primaryStage);
+        stage.initOwner(DataAccessor.getPrimaryStage());
         stage.setScene(new Scene(root1));
         stage.show();
     }
 
     @FXML
+    public void programSettings(ActionEvent event) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/AlgorithmSettingsFXML.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        AlgorithmSettingsFXMLController algorithmSettings = fxmlLoader.<AlgorithmSettingsFXMLController>getController();
+        Stage stage = new Stage();
+        stage.setTitle("Edit algorithm settings");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(DataAccessor.getPrimaryStage());
+        stage.setScene(new Scene(root1));
+        stage.show();
+    }
+    
+    @FXML
     public void editExamples(ActionEvent event) throws IOException {
-        if (DataAccessor.loadedData) {
-
+        if (DataAccessor.isLoadedData()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/EditExamplesFXML.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             EditExamplesController eec = fxmlLoader.<EditExamplesController>getController();
             Stage stage = new Stage();
             stage.setTitle("Edit examples");
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(DataAccessor.primaryStage);
+            stage.initOwner(DataAccessor.getPrimaryStage());
             stage.setScene(new Scene(root1));
             stage.show();
         } else {
@@ -156,14 +177,15 @@ public class FXMLDocumentController implements Initializable {
         solver.getChildren().clear();
         labels = new ArrayList<>();
         lines = new ArrayList<>();
+        edgeLines = new HashMap<>();
+        verticeLabels = new HashMap<>();
         double middleX = solver.getWidth() / 2;
         double middleY = solver.getHeight() / 2;
-        double degreesIncrement = 360 / (DataAccessor.getAllAttributes().size() - 1);
-        for (int i = 0; i < DataAccessor.getAllAttributes().size(); i++) {
-            if (i != DataAccessor.getDecisionMaker()) {
+        double degreesIncrement = 360 / (DataAccessor.getGraph().getVertices().size());
+        for (int i = 0; i < DataAccessor.getGraph().getVertices().size(); i++) {
                 double cosinus = Math.cos(Math.toRadians(i * degreesIncrement));
                 double sinus = Math.sin(Math.toRadians(i * degreesIncrement));
-                Label label = new Label(DataAccessor.getAllAttributes().get(i).getName());
+                Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
                 label.setMinWidth(100);
                 label.setAlignment(Pos.CENTER);
                 label.setTranslateX(middleX + 150 * sinus);
@@ -174,23 +196,28 @@ public class FXMLDocumentController implements Initializable {
                 label.setOnMousePressed(circleOnMousePressedEventHandler);
                 label.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 labels.add(label);
-            }
+                verticeLabels.put(label, DataAccessor.getGraph().getVertices().get(i));
         }
         for (int i = 0; i < labels.size(); i++) {
             for (int j = i + 1; j < labels.size(); j++) {
                 lines.add(connect(labels.get(i), labels.get(j)));
             }
         }
+        for (int i = 0; i<labels.size(); i++){
+            edgeLines.put(lines.get(i), DataAccessor.getGraph().getEdges().get(i));
+        }
         solver.getChildren().addAll(lines);
         solver.getChildren().addAll(labels);
+        
         labels.forEach((label) -> {
             label.toFront();
         });
+        System.out.println("test " + edgeLines.get(lines.get(0)).getPheromone());
+        
     }
 
     private Line connect(Label c1, Label c2) {
         Line line = new Line();
-
         line.startXProperty().bind(Bindings.createDoubleBinding(() -> {
             Bounds b = c1.getBoundsInParent();
             return b.getMinX() + b.getWidth() / 2;
@@ -207,7 +234,6 @@ public class FXMLDocumentController implements Initializable {
             Bounds b = c2.getBoundsInParent();
             return b.getMinY() + b.getHeight() / 2;
         }, c2.boundsInParentProperty()));
-        
         line.setStrokeWidth(2);
         //line.setStrokeLineCap(StrokeLineCap.BUTT);
         //line.getStrokeDashArray().setAll(1.0, 4.0);

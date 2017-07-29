@@ -31,7 +31,7 @@ public class SetSeparatorFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         separators.getItems().addAll(", (comma)", "; (semicolon)");
-        if (DataAccessor.separator.contains(",")){
+        if (DataAccessor.getSeparator().contains(",")){
             separators.getSelectionModel().select(0);
         }
         else separators.getSelectionModel().select(1);
@@ -46,7 +46,7 @@ public class SetSeparatorFXMLController implements Initializable {
     }
     @FXML 
     public void cancelSet(ActionEvent event){
-        if (DataAccessor.separator.contains(",")){
+        if (DataAccessor.getSeparator().contains(",")){
             separators.getSelectionModel().select(0);
         }
         else separators.getSelectionModel().select(1);

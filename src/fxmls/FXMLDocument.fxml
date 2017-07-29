@@ -22,7 +22,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#programSettings" text="Algorithm settings" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -36,7 +36,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#editExamples" prefHeight="66.0" prefWidth="139.0" text="View examples in a table view" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="128.0" text="Initialize ants (random)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-            <Button layoutX="330.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Setup ant algorithm manually" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="330.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Initialize ants (manually)" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="170.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Step to next edge selection in single iteration" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="490.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Compute single iteration" textAlignment="CENTER" wrapText="true" />
             <Button mnemonicParsing="false" prefHeight="66.0" prefWidth="131.0" text="Compute reduct" textAlignment="CENTER" wrapText="true" />
@@ -49,7 +49,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="800.0">
                      <children>
-                        <TextArea fx:id="examplesToString" layoutX="26.0" layoutY="22.0" prefHeight="450.0" prefWidth="970.0" />
+                        <TextArea fx:id="examplesToString" editable="false" layoutX="26.0" layoutY="22.0" prefHeight="450.0" prefWidth="970.0" />
                      </children>
                   </AnchorPane>
             </content>

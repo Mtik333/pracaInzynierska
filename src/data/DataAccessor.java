@@ -5,6 +5,7 @@
  */
 package data;
 
+import data.graph.Graph;
 import data.roughsets.Attribute;
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,13 +25,19 @@ import java.util.stream.Collector;
  * @author Mateusz
  */
 public class DataAccessor {
-    public static Stage primaryStage;
-    public static String separator=",";
-    public static boolean loadedData=false;
-    public static File file;
-    public static List<DataObject> dataset; //zbior obiektów wczytanych
-    public static List<Attribute> allAttributes;
-    public static int decisionMaker;
+    private static Stage primaryStage;
+    private static String separator=",";
+    private static boolean loadedData=false;
+    private static File file;
+    private static List<DataObject> dataset; //zbior obiektów wczytanych
+    private static List<Attribute> allAttributes;
+    private static int decisionMaker;
+    private static int loopLimit=20;
+    private static double pheromoneRelevance=1;
+    private static double edgeRelevance=0.1;
+    private static int antsNumber;
+    private static int constantForUpdating=1;
+    private static Graph graph;
 
     public static Stage getPrimaryStage() {
         return primaryStage;
@@ -81,22 +88,22 @@ public class DataAccessor {
     }
     
     public static boolean parseFile() throws FileNotFoundException, IOException{
-        BufferedReader br = new BufferedReader(new FileReader(file.getPath()));
-        stringToAttribute(br.readLine().split(separator));
-        if (allAttributes.size()==1){
-            allAttributes=null;
-            file=null;
+        BufferedReader br = new BufferedReader(new FileReader(getFile().getPath()));
+        stringToAttribute(br.readLine().split(getSeparator()));
+        if (getAllAttributes().size()==1){
+            setAllAttributes(null);
+            setFile(null);
             return false;
         }
         int j = 1; //ilosc obiektow
         String line;
-        dataset = new ArrayList<>();
+        setDataset(new ArrayList<>());
         while ((line = br.readLine()) != null) {
-            String oneObject[] = line.split(separator);
+            String oneObject[] = line.split(getSeparator());
             int i = 0; //ktory z kolei atrybut wczytywany
             List<Attribute> singleObjectAttributes = new ArrayList<>();
             for (String x : oneObject) {
-                Attribute attribute = new Attribute(allAttributes.get(i).getName(), x);
+                Attribute attribute = new Attribute(getAllAttributes().get(i).getName(), x);
                 if (i != getDecisionMaker()) {
                     singleObjectAttributes.add(attribute);
                 } else {
@@ -107,20 +114,88 @@ public class DataAccessor {
             }
             DataObject newObject = new DataObject("" + j);
             newObject.setAttributes(singleObjectAttributes);
-            dataset.add(newObject);
+            getDataset().add(newObject);
             j++;
         }
         return true;
     }
     
     private static void stringToAttribute(String[] attributes){
-        allAttributes = new ArrayList<Attribute>();
+        setAllAttributes(new ArrayList<Attribute>());
         setDecisionMaker(attributes.length-1);
         for (String attribute : attributes) {
             Attribute myAttribute = new Attribute(attribute);
-            allAttributes.add(myAttribute);
+            getAllAttributes().add(myAttribute);
         }
-        allAttributes.get(decisionMaker).setDecisionMaking(true);
+        getAllAttributes().get(getDecisionMaker()).setDecisionMaking(true);
+    }
+
+    public static int getLoopLimit() {
+        return loopLimit;
+    }
+
+    public static void setLoopLimit(int aLoopLimit) {
+        loopLimit = aLoopLimit;
+    }
+
+    public static double getPheromoneRelevance() {
+        return pheromoneRelevance;
+    }
+
+    public static void setPheromoneRelevance(double aPheromoneRelevance) {
+        pheromoneRelevance = aPheromoneRelevance;
+    }
+
+    public static double getEdgeRelevance() {
+        return edgeRelevance;
+    }
+
+    public static void setEdgeRelevance(double aEdgeRelevance) {
+        edgeRelevance = aEdgeRelevance;
+    }
+
+    public static int getAntsNumber() {
+        return antsNumber;
+    }
+
+    public static void setAntsNumber(int aAntsNumber) {
+        antsNumber = aAntsNumber;
+    }
+
+    public static int getConstantForUpdating() {
+        return constantForUpdating;
+    }
+
+    public static void setConstantForUpdating(int aConstantForUpdating) {
+        constantForUpdating = aConstantForUpdating;
+    }
+
+    /**
+     * @param aDataset the dataset to set
+     */
+    public static void setDataset(List<DataObject> aDataset) {
+        dataset = aDataset;
+    }
+
+    /**
+     * @param aAllAttributes the allAttributes to set
+     */
+    public static void setAllAttributes(List<Attribute> aAllAttributes) {
+        allAttributes = aAllAttributes;
+    }
+
+    /**
+     * @return the graph
+     */
+    public static Graph getGraph() {
+        return graph;
+    }
+
+    /**
+     * @param aGraph the graph to set
+     */
+    public static void setGraph(Graph aGraph) {
+        graph = aGraph;
     }
     
 }

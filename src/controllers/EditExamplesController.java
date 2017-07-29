@@ -36,8 +36,8 @@ public class EditExamplesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         datasetTable.setEditable(false);
-        for (int i=0; i<DataAccessor.allAttributes.size(); i++){
-            TableColumn<DataObject, String> column = new TableColumn<>(DataAccessor.allAttributes.get(i).getName());
+        for (int i=0; i<DataAccessor.getAllAttributes().size(); i++){
+            TableColumn<DataObject, String> column = new TableColumn<>(DataAccessor.getAllAttributes().get(i).getName());
             column.setCellValueFactory(param -> {
                 int index = param.getTableView().getColumns().indexOf(param.getTableColumn());
                 List<Attribute> attributes = param.getValue().getAttributes();
