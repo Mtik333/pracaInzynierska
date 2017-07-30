@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -203,7 +205,7 @@ public class FXMLDocumentController implements Initializable {
                 lines.add(connect(labels.get(i), labels.get(j)));
             }
         }
-        for (int i = 0; i<labels.size(); i++){
+        for (int i = 0; i<lines.size(); i++){
             edgeLines.put(lines.get(i), DataAccessor.getGraph().getEdges().get(i));
         }
         solver.getChildren().addAll(lines);
@@ -234,7 +236,7 @@ public class FXMLDocumentController implements Initializable {
             Bounds b = c2.getBoundsInParent();
             return b.getMinY() + b.getHeight() / 2;
         }, c2.boundsInParentProperty()));
-        line.setStrokeWidth(2);
+        line.setStrokeWidth(5);
         //line.setStrokeLineCap(StrokeLineCap.BUTT);
         //line.getStrokeDashArray().setAll(1.0, 4.0);
         line.toBack();
@@ -247,11 +249,29 @@ public class FXMLDocumentController implements Initializable {
 
         @Override
         public void handle(MouseEvent t) {
+            if (t.getButton() == MouseButton.SECONDARY){
+                try {
+                    DataAccessor.setAnalyzedVertice(verticeLabels.get((Label)t.getSource()));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/ShowVerticeXML.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    ShowVerticeXMLController eec = fxmlLoader.<ShowVerticeXMLController>getController();
+                    Stage stage = new Stage();
+                    stage.setTitle("Show edge info");
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initOwner(DataAccessor.getPrimaryStage());
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else {
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
             orgTranslateX = ((Label) (t.getSource())).getTranslateX();
             orgTranslateY = ((Label) (t.getSource())).getTranslateY();
             ((Label) (t.getSource())).toFront();
+            }
         }
     };
 
@@ -276,16 +296,20 @@ public class FXMLDocumentController implements Initializable {
         @Override
         public void handle(MouseEvent t) {
             if (t.getButton() == MouseButton.SECONDARY) {
-                ContextMenu contextMenu = new ContextMenu();
-                MenuItem setWeight = new MenuItem("Show weight for edge");
-                contextMenu.getItems().add(setWeight);
-                contextMenu.show(DataAccessor.getPrimaryStage(), t.getScreenX(), t.getScreenY());
-                setWeight.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        System.out.println("Cut...");
-                    }
-                });
+                try {
+                    DataAccessor.setAnalyzedEdge(edgeLines.get((Line)t.getSource()));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/ShowEdgeFXML.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    ShowEdgeFXMLController eec = fxmlLoader.<ShowEdgeFXMLController>getController();
+                    Stage stage = new Stage();
+                    stage.setTitle("Show edge info");
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initOwner(DataAccessor.getPrimaryStage());
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     };

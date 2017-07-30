@@ -15,6 +15,9 @@ public class Edge {
     private Vertice start;
     private Vertice end;
 
+    public Edge() {
+    }
+
     public int getWeight() {
         return weight;
     }

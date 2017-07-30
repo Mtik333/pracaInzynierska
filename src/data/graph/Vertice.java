@@ -18,6 +18,9 @@ public class Vertice {
         this.index=index;
     }
 
+    public Vertice() {
+    }
+
     public String getName() {
         return name;
     }

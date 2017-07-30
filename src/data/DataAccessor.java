@@ -5,7 +5,9 @@
  */
 package data;
 
+import data.graph.Edge;
 import data.graph.Graph;
+import data.graph.Vertice;
 import data.roughsets.Attribute;
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,6 +39,24 @@ public class DataAccessor {
     private static double edgeRelevance=0.1;
     private static int antsNumber;
     private static int constantForUpdating=1;
+    private static Edge analyzedEdge;
+    private static Vertice analyzedVertice;
+
+    public static Edge getAnalyzedEdge() {
+        return analyzedEdge;
+    }
+
+    public static void setAnalyzedEdge(Edge analyzedEdge) {
+        DataAccessor.analyzedEdge = analyzedEdge;
+    }
+
+    public static Vertice getAnalyzedVertice() {
+        return analyzedVertice;
+    }
+
+    public static void setAnalyzedVertice(Vertice analyzedVertice) {
+        DataAccessor.analyzedVertice = analyzedVertice;
+    }
     private static Graph graph;
 
     public static Stage getPrimaryStage() {
