@@ -64,6 +64,7 @@ Removed unused imports in various files, also created file for static Strings
 Quite a bit of changes:
 - initializing ants randomly works (need to add new option in settings)
 - single-step edge selection works (though it's hard to see it in UI now)
+
 To do for next version:
 - a screen that informs about found reduct should appear after finding in during one iteration
 - single iteration execution
