@@ -54,3 +54,7 @@ Minor changes in "view" part of project
 0.2.4 - 30.07.2017
 
 Added very simple GUI for edge and vertice details preview
+
+0.2.5 - 30.07.2017
+
+Removed unused imports in various files, also created file for static Strings

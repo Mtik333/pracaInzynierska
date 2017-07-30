@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package data.roughsets;
-
+import static data.ConstStrings.*;
 /**
  *
  * @author Mateusz
@@ -17,8 +17,8 @@ public class Attribute {
     @Override
     public String toString() {
         if (!decisionMaking)
-            return "Attribute{" + "name=" + name + ", value=" + value + '}';
-        else return "Attribute{" + "name=" + name + ", value=" + value + "decisionMaking=" + decisionMaking + '}';
+            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + '}';
+        else return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + decisionMaking + '}';
     }
     public Attribute(String name){
         this.name=name;

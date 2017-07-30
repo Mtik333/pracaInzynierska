@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import static data.ConstStrings.*;
 import data.DataAccessor;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,7 +31,7 @@ public class SetSeparatorFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        separators.getItems().addAll(", (comma)", "; (semicolon)");
+        separators.getItems().addAll(SEPARATOR_COMMA, SEPARATOR_SEMICOLON);
         if (DataAccessor.getSeparator().contains(",")){
             separators.getSelectionModel().select(0);
         }

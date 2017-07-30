@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import static data.ConstStrings.*;
 import data.DataAccessor;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,7 +36,7 @@ public class AlgorithmSettingsFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        algorithmChoice.getItems().addAll("JSACO (Jensen, Shen: 2003)", "RSFSACO (Chen, Miao, Wang: 2009)");
+        algorithmChoice.getItems().addAll(JSACO, RSFSACO);
         pheromoneImportance.setText(String.valueOf(DataAccessor.getPheromoneRelevance()));
         weightImportance.setText(String.valueOf(DataAccessor.getEdgeRelevance()));
         loopLimit.setText(String.valueOf(DataAccessor.getLoopLimit()));

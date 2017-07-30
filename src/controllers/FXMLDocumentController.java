@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import static data.ConstStrings.*;
 import data.DataAccessor;
 import data.NewLogic;
 import data.graph.Edge;
@@ -21,10 +22,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,34 +31,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextBoundsType;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  *
@@ -81,10 +65,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void loadDataset(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-        fileChooser.setTitle("Choose file");
+        fileChooser.setInitialDirectory(new File(System.getProperty(USERDIR)));
+        fileChooser.setTitle(CHOOSE_FILE);
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV files", "*.csv")
+                new FileChooser.ExtensionFilter(CSV_FILES, CSV_FILTER)
         );
         try {
             DataAccessor.setFile(fileChooser.showOpenDialog(examplesToString.getScene().getWindow()));
@@ -92,8 +76,8 @@ public class FXMLDocumentController implements Initializable {
                 return;
             if (!DataAccessor.parseFile()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Parsing error");
-                alert.setContentText("Wrong separator selected");
+                alert.setTitle(PARSING_ERROR);
+                alert.setContentText(WRONG_SEPARATOR);
                 alert.showAndWait();
             } else {
                 objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
@@ -110,10 +94,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void setSeparator(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/SetSeparatorFXML.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SET_SEPARATOR_FXML_RES));
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
-        stage.setTitle("Set separator");
+        stage.setTitle(SET_SEPARATOR_TITLE);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(DataAccessor.getPrimaryStage());
         stage.setScene(new Scene(root1));
@@ -122,11 +106,11 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void programSettings(ActionEvent event) throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/AlgorithmSettingsFXML.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ALGORITHM_SETTINGS_FXML_RES));
         Parent root1 = (Parent) fxmlLoader.load();
         AlgorithmSettingsFXMLController algorithmSettings = fxmlLoader.<AlgorithmSettingsFXMLController>getController();
         Stage stage = new Stage();
-        stage.setTitle("Edit algorithm settings");
+        stage.setTitle(ALGORITHM_SETTINGS_TITLE);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(DataAccessor.getPrimaryStage());
         stage.setScene(new Scene(root1));
@@ -136,19 +120,19 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void editExamples(ActionEvent event) throws IOException {
         if (DataAccessor.isLoadedData()) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/EditExamplesFXML.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(EDIT_EXAMPLES_FXML_RES));
             Parent root1 = (Parent) fxmlLoader.load();
             EditExamplesController eec = fxmlLoader.<EditExamplesController>getController();
             Stage stage = new Stage();
-            stage.setTitle("Edit examples");
+            stage.setTitle(EDIT_EXAMPLES_TITLE);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(DataAccessor.getPrimaryStage());
             stage.setScene(new Scene(root1));
             stage.show();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Data error");
-            alert.setContentText("No data to load");
+            alert.setTitle(ALERT_ERROR_TITLE_NO_DATA);
+            alert.setContentText(NO_DATA_TO_LOAD);
             alert.showAndWait();
         }
     }
@@ -164,12 +148,12 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void objectsToTextArea(List<Attribute> attributes, List<DataObject> objects) {
-        examplesToString.setText("Parameters: ");
+        examplesToString.setText(TEXTAREA_PARAMETERS);
         for (Attribute attribute : attributes) {
             examplesToString.appendText(attribute.getName() + ", ");
         }
         examplesToString.deleteText(examplesToString.getLength() - 2, examplesToString.getLength());
-        examplesToString.appendText(";\nObjects: \n");
+        examplesToString.appendText(TEXTAREA_APPEND);
         for (DataObject x : objects) {
             examplesToString.appendText(x.toString());
         }
@@ -214,8 +198,6 @@ public class FXMLDocumentController implements Initializable {
         labels.forEach((label) -> {
             label.toFront();
         });
-        System.out.println("test " + edgeLines.get(lines.get(0)).getPheromone());
-        
     }
 
     private Line connect(Label c1, Label c2) {
@@ -252,11 +234,11 @@ public class FXMLDocumentController implements Initializable {
             if (t.getButton() == MouseButton.SECONDARY){
                 try {
                     DataAccessor.setAnalyzedVertice(verticeLabels.get((Label)t.getSource()));
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/ShowVerticeXML.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SHOW_VERTICE_FXML_RES));
                     Parent root1 = (Parent) fxmlLoader.load();
                     ShowVerticeXMLController eec = fxmlLoader.<ShowVerticeXMLController>getController();
                     Stage stage = new Stage();
-                    stage.setTitle("Show edge info");
+                    stage.setTitle(SHOW_VERTICE_TITLE);
                     stage.initModality(Modality.WINDOW_MODAL);
                     stage.initOwner(DataAccessor.getPrimaryStage());
                     stage.setScene(new Scene(root1));
@@ -298,11 +280,11 @@ public class FXMLDocumentController implements Initializable {
             if (t.getButton() == MouseButton.SECONDARY) {
                 try {
                     DataAccessor.setAnalyzedEdge(edgeLines.get((Line)t.getSource()));
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/ShowEdgeFXML.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SHOW_EDGE_FXML_RES));
                     Parent root1 = (Parent) fxmlLoader.load();
                     ShowEdgeFXMLController eec = fxmlLoader.<ShowEdgeFXMLController>getController();
                     Stage stage = new Stage();
-                    stage.setTitle("Show edge info");
+                    stage.setTitle(SHOW_EDGE_TITLE);
                     stage.initModality(Modality.WINDOW_MODAL);
                     stage.initOwner(DataAccessor.getPrimaryStage());
                     stage.setScene(new Scene(root1));
