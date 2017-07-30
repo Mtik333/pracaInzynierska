@@ -50,7 +50,12 @@ public class AlgorithmSettingsFXMLController implements Initializable {
     
     @FXML
     public void setSettings(ActionEvent event){
-        
+        DataAccessor.setPheromoneRelevance(Double.valueOf(pheromoneImportance.getText()));
+        DataAccessor.setEdgeRelevance(Double.valueOf(weightImportance.getText()));
+        DataAccessor.setLoopLimit(Integer.valueOf(loopLimit.getText()));
+        DataAccessor.setAntsNumber(Integer.valueOf(antsNumber.getText()));
+        DataAccessor.setConstantForUpdating(Integer.valueOf(pheromoneConstant.getText()));
+        cancelSettings(null);
     }
     
     @FXML

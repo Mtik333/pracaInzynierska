@@ -35,9 +35,9 @@
       <HBox layoutY="25.0" prefHeight="66.0" prefWidth="1028.0">
          <children>
             <Button mnemonicParsing="false" onAction="#editExamples" prefHeight="66.0" prefWidth="139.0" text="View examples in a table view" textAlignment="CENTER" wrapText="true" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="128.0" text="Initialize ants (random)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#antsRandomButton" prefHeight="66.0" prefWidth="128.0" text="Initialize ants (random)" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
             <Button layoutX="330.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Initialize ants (manually)" textAlignment="CENTER" wrapText="true" />
-            <Button layoutX="170.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Step to next edge selection in single iteration" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="170.0" layoutY="10.0" mnemonicParsing="false" onAction="#antsOneStep" prefHeight="66.0" prefWidth="160.0" text="Step to next edge selection in single iteration" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="490.0" layoutY="10.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="160.0" text="Compute single iteration" textAlignment="CENTER" wrapText="true" />
             <Button mnemonicParsing="false" prefHeight="66.0" prefWidth="131.0" text="Compute reduct" textAlignment="CENTER" wrapText="true" />
             <Button mnemonicParsing="false" prefHeight="66.0" prefWidth="156.0" text="Show statistics" />

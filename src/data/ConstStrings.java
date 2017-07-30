@@ -38,4 +38,7 @@ public class ConstStrings {
             public static final String ATTRIBUTE_TO_STRING_NAME="name=";
             public static final String ATTRIBUTE_TO_STRING_VALUE=", value=";
     public static final String ATTRIBUTE_TO_STRING_DECISIONMAKING="decisionMaking=";
+    public static final String SINGLE_STEP="Single step";
+    public static final String SINGLE_ITERATION="Single iteration";
+    public static final String COMPUTE_REDUCT="Compute reduct";
 }

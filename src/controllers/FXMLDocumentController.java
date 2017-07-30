@@ -200,6 +200,23 @@ public class FXMLDocumentController implements Initializable {
         });
     }
 
+    
+    @FXML
+    private void antsRandomButton(ActionEvent t){
+        if (DataAccessor.isLoadedData())
+            newLogic.initializeAntsRandom();
+    }
+    
+    @FXML
+    private void antsOneStep(ActionEvent t){
+        if (DataAccessor.isLoadedData()){
+            if (DataAccessor.getAllAnts()==null){
+                newLogic.initializeAntsRandom();
+            }
+            newLogic.stepToNextVertice();
+        }
+    }
+    
     private Line connect(Label c1, Label c2) {
         Line line = new Line();
         line.startXProperty().bind(Bindings.createDoubleBinding(() -> {

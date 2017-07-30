@@ -5,19 +5,21 @@
  */
 package data;
 
+import static data.ConstStrings.*;
 import data.graph.Edge;
 import data.graph.Graph;
+import data.graph.NewAnt;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
+import data.roughsets.DataObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.List;
-import javafx.stage.Stage;
-import data.roughsets.DataObject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import javafx.stage.Stage;
 
 /**
  *
@@ -38,6 +40,28 @@ public class DataAccessor {
     private static int constantForUpdating=1;
     private static Edge analyzedEdge;
     private static Vertice analyzedVertice;
+    private static List<NewAnt> allAnts;
+    private static int currentIter=0;
+    private static List<Attribute> currentReduct;
+    private static String[][] indiscMatrix; //macierz rozróznialności
+    private static String calculationMode=COMPUTE_REDUCT;
+    private static int maxList;
+    private static double pheromoneEvaporation = 0.5;
+
+    public static double getPheromoneEvaporation() {
+        return pheromoneEvaporation;
+    }
+
+    public static void setPheromoneEvaporation(double pheromoneEvaporation) {
+        DataAccessor.pheromoneEvaporation = pheromoneEvaporation;
+    }
+    public static String getCalculationMode() {
+        return calculationMode;
+    }
+
+    public static void setCalculationMode(String calculationMode) {
+        DataAccessor.calculationMode = calculationMode;
+    }
 
     public static Edge getAnalyzedEdge() {
         return analyzedEdge;
@@ -213,6 +237,46 @@ public class DataAccessor {
      */
     public static void setGraph(Graph aGraph) {
         graph = aGraph;
+    }
+
+    public static List<NewAnt> getAllAnts() {
+        return allAnts;
+    }
+
+    public static void setAllAnts(List<NewAnt> aAllAnts) {
+        allAnts = aAllAnts;
+    }
+
+    public static int getCurrentIter() {
+        return currentIter;
+    }
+
+    public static void setCurrentIter(int aCurrentIter) {
+        currentIter = aCurrentIter;
+    }
+
+    public static List<Attribute> getCurrentReduct() {
+        return currentReduct;
+    }
+
+    public static void setCurrentReduct(List<Attribute> aCurrentReduct) {
+        currentReduct = aCurrentReduct;
+    }
+
+    public static String[][] getIndiscMatrix() {
+        return indiscMatrix;
+    }
+
+    public static void setIndiscMatrix(String[][] aIndiscMatrix) {
+        indiscMatrix = aIndiscMatrix;
+    }
+
+    public static int getMaxList() {
+        return maxList;
+    }
+
+    public static void setMaxList(int aMaxList) {
+        maxList = aMaxList;
     }
     
 }
