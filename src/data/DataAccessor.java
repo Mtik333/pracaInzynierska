@@ -45,6 +45,33 @@ public class DataAccessor {
     private static List<Attribute> currentReduct;
     private static String[][] indiscMatrix; //macierz rozróznialności
     private static String calculationMode=COMPUTE_REDUCT;
+    private static List<List<Attribute>> listOfReducts;
+    private static int performedIterations=0;
+    private static boolean calculatedReductInIteration=false;
+
+    public static boolean isCalculatedReductInIteration() {
+        return calculatedReductInIteration;
+    }
+
+    public static void setCalculatedReductInIteration(boolean calculatedReductInIteration) {
+        DataAccessor.calculatedReductInIteration = calculatedReductInIteration;
+    }
+
+    public static int getPerformedIterations() {
+        return performedIterations;
+    }
+
+    public static void setPerformedIterations(int performedIterations) {
+        DataAccessor.performedIterations = performedIterations;
+    }
+
+    public static List<List<Attribute>> getListOfReducts() {
+        return listOfReducts;
+    }
+
+    public static void setListOfReducts(List<List<Attribute>> listOfReducts) {
+        DataAccessor.listOfReducts = listOfReducts;
+    }
     private static int maxList;
     private static double pheromoneEvaporation = 0.5;
 

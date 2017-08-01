@@ -43,7 +43,8 @@ public class NewLogic {
     }
     
     public void generateAntsPheromone(){
-        generateBasicPheromone(); 
+        if (DataAccessor.getCurrentReduct()==null)
+            generateBasicPheromone(); 
         List<NewAnt> newAnts = new ArrayList<>();
         for (int i=0; i<DataAccessor.getAntsNumber(); i++){
             NewAnt ant = new NewAnt(i);
@@ -54,27 +55,61 @@ public class NewLogic {
     }
     
     public void initializeAntsRandom(){
+        DataAccessor.setCalculatedReductInIteration(false);
         generateAntsPheromone();
-        ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAntsNumber()); 
         Random random = new Random();
         for (NewAnt ant : DataAccessor.getAllAnts()){
             int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
             ant.pickVertice(ant.getUnpickedAttributes().get(j));
             ant.setDiscMatrix(DataAccessor.getIndiscMatrix());
         }
+        DataAccessor.setCurrentIter(1);
     }
     
-    public void stepToNextVertice(){
-        DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
-        boolean foundSolution=false;
+    public void findReduct(){
+        while(DataAccessor.getPerformedIterations()<DataAccessor.getLoopLimit()){
+            initializeAntsRandom();
+            performOneIteration();
+        }
+    }
+    
+    public void performOneIteration(){
+        DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
+        ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAntsNumber());
+        if (DataAccessor.getCurrentIter()==0)
+            DataAccessor.setCurrentIter(1);
+        for (NewAnt ant : DataAccessor.getAllAnts()){
+            executor.execute(ant);
+        }
+        executor.shutdown();
+        while (!executor.isTerminated()) {}
+        DataAccessor.setCalculatedReductInIteration(true);
+        DataAccessor.setCurrentIter(0);
+        DataAccessor.setPerformedIterations(DataAccessor.getPerformedIterations()+1);
         List<NewAnt> ants = DataAccessor.getAllAnts();
         for (NewAnt ant : ants){
             if (ant.isFoundSolution()){
-                foundSolution=true; //znaleziony redukt
-                DataAccessor.setCurrentIter(DataAccessor.getCurrentIter()-1);
+                //DataAccessor.setCurrentIter(DataAccessor.getCurrentIter()-1);
                 evaluateSubsets();
                 updatePheromone();
-                return;
+                break;
+            }
+        }
+        System.out.println(DataAccessor.getCurrentReduct().size());
+    }
+    
+    public boolean stepToNextVertice(){
+        DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
+        List<NewAnt> ants = DataAccessor.getAllAnts();
+        for (NewAnt ant : ants){
+            if (ant.isFoundSolution()){
+                DataAccessor.setCurrentIter(0);
+                evaluateSubsets();
+                updatePheromone();
+                DataAccessor.setCalculatedReductInIteration(true);
+                DataAccessor.setMaxList(DataAccessor.getCurrentReduct().size());
+                DataAccessor.setPerformedIterations(DataAccessor.getPerformedIterations()+1);
+                return true;
             }
         }
         ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAntsNumber());
@@ -85,7 +120,7 @@ public class NewLogic {
         executor.shutdown();
         while (!executor.isTerminated()) {}
         System.out.println(DataAccessor.getAllAnts().toString());
-        
+        return false;
     }
     
     public void generateBasicPheromone() {
@@ -143,17 +178,20 @@ public class NewLogic {
         }
         if (DataAccessor.getCurrentReduct() == null) {
             DataAccessor.setCurrentReduct(new ArrayList<Attribute>(DataAccessor.getDataset().get(0).getAttributes()));
+            DataAccessor.setListOfReducts(new ArrayList<>());
             DataAccessor.getCurrentReduct().remove(DataAccessor.getCurrentReduct().size()-1);
         }
         for (NewAnt ant : DataAccessor.getAllAnts()) {
-            if (ant.getPickedAttributes().size() < DataAccessor.getLoopLimit()) {
-                DataAccessor.setLoopLimit(ant.getPickedAttributes().size());
+            if (ant.getPickedAttributes().size() < DataAccessor.getMaxList()) {
+                DataAccessor.setMaxList(ant.getPickedAttributes().size());
                 DataAccessor.getCurrentReduct().clear();
                 for (Vertice vertice : ant.getPickedAttributes()) {
                     DataAccessor.getCurrentReduct().add(DataAccessor.getAllAttributes().get(vertice.getIndex()));
                 }
             }
         }
+        
+        DataAccessor.getListOfReducts().add(DataAccessor.getCurrentReduct());
     }
 
     public void updatePheromone() {
@@ -161,10 +199,14 @@ public class NewLogic {
             x.setPheromone(x.getPheromone() * (1 - DataAccessor.getPheromoneEvaporation()));
         }
         for (NewAnt y : DataAccessor.getAllAnts()) {
-            double contribution = DataAccessor.getConstantForUpdating() / y.getChosenEdges().size();
-            for (Edge x : y.getChosenEdges()) {
-                x.setPheromone(x.getPheromone() + contribution);
+            if (y.isFoundSolution()){
+                double contribution = ((double)DataAccessor.getConstantForUpdating() / (double)y.getChosenEdges().size());
+                for (Edge x : y.getChosenEdges()) {
+                    x.setPheromone(x.getPheromone() + contribution);
+                }
             }
         }
+        List<Edge> edges = DataAccessor.getGraph().getEdges();
+        System.out.println("xd");
     }
 }

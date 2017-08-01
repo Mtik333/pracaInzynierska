@@ -208,12 +208,36 @@ public class FXMLDocumentController implements Initializable {
     }
     
     @FXML
+    private void antsOneIteration(ActionEvent t){
+        if (DataAccessor.isLoadedData()){
+            System.out.println(DataAccessor.getCurrentIter());
+            if (DataAccessor.getCurrentIter()==0 || DataAccessor.isCalculatedReductInIteration())
+                newLogic.initializeAntsRandom();
+            newLogic.performOneIteration();
+        }
+        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        System.out.println("xd");
+    }
+    
+    @FXML
+    private void antsFindReduct(ActionEvent t){
+        if (DataAccessor.isLoadedData()){
+            newLogic.findReduct();
+        }
+        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        System.out.println("xd");
+    }
+    
+    @FXML
     private void antsOneStep(ActionEvent t){
         if (DataAccessor.isLoadedData()){
-            if (DataAccessor.getAllAnts()==null){
+            if (DataAccessor.getAllAnts()==null || DataAccessor.isCalculatedReductInIteration()){
                 newLogic.initializeAntsRandom();
             }
-            newLogic.stepToNextVertice();
+            if (newLogic.stepToNextVertice()){
+                List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+                System.out.println("xd");
+            }
         }
     }
     

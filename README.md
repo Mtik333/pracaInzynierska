@@ -69,3 +69,9 @@ To do for next version:
 - a screen that informs about found reduct should appear after finding in during one iteration
 - single iteration execution
 - a screen or anything that shows attributes already picked by ants and statement if it's a solution
+
+0.3.1 - 01.08.2017
+
+Worked on proper "flow" between single step, single iteration and full reduct computation
+- fixed minor bugs in the algorithm with wrong iterations performed.
+- next version - gonna work on showing results of single step/single iteration/reduct computation

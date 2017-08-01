@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class NewAnt implements Runnable{
     private int index;
+    private int currentIter;
     private List<Vertice> pickedAttributes; //wybrane węzły
     private List<Vertice> unpickedAttributes; //pozostałe węzły
     private Map<Vertice, Double> probabilities; //mapa z prawdopodobieństwami
@@ -37,8 +38,9 @@ public class NewAnt implements Runnable{
     
     @Override
     public void run() {
+        currentIter = 0;
         boolean reducedMatrix=reduceMatrix();
-        while (DataAccessor.getCurrentIter()<DataAccessor.getMaxList() && !reducedMatrix){
+        while (currentIter<DataAccessor.getMaxList()-1 && !reducedMatrix){
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
                 probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
@@ -48,7 +50,7 @@ public class NewAnt implements Runnable{
             //System.out.println(probabilities.values().stream().mapToDouble(Number::doubleValue).sum());
             pickedAttributes.add(pickVerticeByProbability());
             reducedMatrix=reduceMatrix();
-            //currentIter++;
+            currentIter++;
             addEdgeToSolution();
             if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)){
                 return;
@@ -117,8 +119,8 @@ public class NewAnt implements Runnable{
     
     private void addEdgeToSolution(){
         for (Edge x : allEdges){
-            if (x.getStart().getName().equals(pickedAttributes.get(DataAccessor.getCurrentIter()-1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(DataAccessor.getCurrentIter()-1).getName())){
-                if (x.getStart().getName().equals(pickedAttributes.get(DataAccessor.getCurrentIter()).getName()) || x.getEnd().getName().equals(pickedAttributes.get(DataAccessor.getCurrentIter()).getName())){
+            if (x.getStart().getName().equals(pickedAttributes.get(currentIter-1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter-1).getName())){
+                if (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName())){
                     chosenEdges.add(x);
                 }
             }
@@ -130,11 +132,11 @@ public class NewAnt implements Runnable{
         this.probabilities = new HashMap<>();
         Vertice v = null;
         for (Edge x : allEdges) {
-            if (x.getStart().equals(pickedAttributes.get(DataAccessor.getCurrentIter()-1)) || x.getEnd().equals(pickedAttributes.get(DataAccessor.getCurrentIter()-1))) {
-                if (x.getStart().equals(pickedAttributes.get(DataAccessor.getCurrentIter()-1))) {
+            if (x.getStart().equals(pickedAttributes.get(currentIter)) || x.getEnd().equals(pickedAttributes.get(currentIter))) {
+                if (x.getStart().equals(pickedAttributes.get(currentIter))) {
                     v = x.getEnd(); //bierzemy ten drugi węzeł
                 }
-                if (x.getEnd().equals(pickedAttributes.get(DataAccessor.getCurrentIter()-1))) {
+                if (x.getEnd().equals(pickedAttributes.get(currentIter))) {
                     v = x.getStart();
                 }
                 if (v != null) {
