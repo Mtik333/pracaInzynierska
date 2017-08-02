@@ -238,7 +238,24 @@ public class FXMLDocumentController implements Initializable {
                 List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
                 System.out.println("xd");
             }
+            showStepStats();
         }
+    }
+    
+    private void showStepStats(){
+        try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneStepFXML.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    OneStepFXMLController eec = fxmlLoader.<OneStepFXMLController>getController();
+                    Stage stage = new Stage();
+                    stage.setTitle(SHOW_EDGE_TITLE);
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initOwner(DataAccessor.getPrimaryStage());
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
     
     private Line connect(Label c1, Label c2) {

@@ -75,3 +75,9 @@ To do for next version:
 Worked on proper "flow" between single step, single iteration and full reduct computation
 - fixed minor bugs in the algorithm with wrong iterations performed.
 - next version - gonna work on showing results of single step/single iteration/reduct computation
+
+0.3.2 - 02.08.2017
+
+Added screen for one-step operations - after each operation, it shows which attribute ant picked and its current list of attributes
+- also it shows if ant already found solution
+- if one ant found solution, then basically you cannot do a step again because the iteration has ended and ants are being moved to start
