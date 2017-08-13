@@ -24,14 +24,19 @@ import javafx.scene.control.TableView;
  */
 public class EditExamplesController implements Initializable {
 
-    @FXML private TableView datasetTable = new TableView();
+    @FXML
+    private final TableView datasetTable = new TableView();
+
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         datasetTable.setEditable(false);
-        for (int i=0; i<DataAccessor.getAllAttributes().size(); i++){
+        for (int i = 0; i < DataAccessor.getAllAttributes().size(); i++) {
             TableColumn<DataObject, String> column = new TableColumn<>(DataAccessor.getAllAttributes().get(i).getName());
             column.setCellValueFactory(param -> {
                 int index = param.getTableView().getColumns().indexOf(param.getTableColumn());
@@ -51,6 +56,6 @@ public class EditExamplesController implements Initializable {
 //        datasetTable.getColumns().addAll(tableColumns);
 //        ObservableList data = FXCollections.observableArrayList(DataAccessor.dataset);
 //        datasetTable.getItems().setAll(data);
-    }    
+    }
 
 }

@@ -10,12 +10,13 @@ package data.graph;
  * @author Mateusz
  */
 public class Vertice {
-    private String name;
-    private int index;
+
+    private String name; //nazwa cechy
+    private int index; //indeks
 
     public Vertice(String name, int index) {
         this.name = name;
-        this.index=index;
+        this.index = index;
     }
 
     public Vertice() {
@@ -28,8 +29,9 @@ public class Vertice {
     public void setName(String name) {
         this.name = name;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 

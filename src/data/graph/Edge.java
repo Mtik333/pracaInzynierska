@@ -10,10 +10,11 @@ package data.graph;
  * @author Mateusz
  */
 public class Edge {
+
     private double pheromone; //feromon na sciezce
     private int weight; //waga sciezki
-    private Vertice start;
-    private Vertice end;
+    private Vertice start; //wierzcholek startowy (umownie)
+    private Vertice end; //wierzcholek koncowy (umownie)
 
     public Edge() {
     }
@@ -25,7 +26,7 @@ public class Edge {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-    
+
     public double getPheromone() {
         return pheromone;
     }
@@ -53,12 +54,13 @@ public class Edge {
     public Edge(Vertice start, Vertice end) {
         this.start = start;
         this.end = end;
-        this.pheromone=0;
-        this.weight=1;
+        this.pheromone = 0;
+        this.weight = 1;
     }
+
     @Override
-    public String toString(){
-        return start+","+end+";"+pheromone;
+    public String toString() {
+        return start + "," + end + ";" + pheromone;
     }
-    
+
 }

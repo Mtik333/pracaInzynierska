@@ -22,16 +22,25 @@ import javafx.stage.Stage;
  * @author Mateusz
  */
 public class AlgorithmSettingsFXMLController implements Initializable {
-    
-    @FXML public ChoiceBox algorithmChoice;
-    @FXML public TextField pheromoneImportance;
-    @FXML public TextField weightImportance;
-    @FXML public TextField loopLimit;
-    @FXML public TextField antsNumber;
-    @FXML public TextField pheromoneConstant;
-    
+
+    @FXML
+    public ChoiceBox algorithmChoice;
+    @FXML
+    public TextField pheromoneImportance;
+    @FXML
+    public TextField weightImportance;
+    @FXML
+    public TextField loopLimit;
+    @FXML
+    public TextField antsNumber;
+    @FXML
+    public TextField pheromoneConstant;
+
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,15 +50,15 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         weightImportance.setText(String.valueOf(DataAccessor.getEdgeRelevance()));
         loopLimit.setText(String.valueOf(DataAccessor.getLoopLimit()));
         antsNumber.setText(String.valueOf(DataAccessor.getAntsNumber()));
-        if (DataAccessor.getDataset()==null){
+        if (DataAccessor.getDataset() == null) {
             antsNumber.setEditable(false);
         }
         pheromoneConstant.setText(String.valueOf(DataAccessor.getConstantForUpdating()));
         algorithmChoice.getSelectionModel().select(0);
-    }    
-    
+    }
+
     @FXML
-    public void setSettings(ActionEvent event){
+    public void setSettings(ActionEvent event) {
         DataAccessor.setPheromoneRelevance(Double.valueOf(pheromoneImportance.getText()));
         DataAccessor.setEdgeRelevance(Double.valueOf(weightImportance.getText()));
         DataAccessor.setLoopLimit(Integer.valueOf(loopLimit.getText()));
@@ -57,9 +66,9 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         DataAccessor.setConstantForUpdating(Integer.valueOf(pheromoneConstant.getText()));
         cancelSettings(null);
     }
-    
+
     @FXML
-    public void cancelSettings(ActionEvent event){
+    public void cancelSettings(ActionEvent event) {
         Stage stage = (Stage) algorithmChoice.getScene().getWindow();
         stage.close();
     }

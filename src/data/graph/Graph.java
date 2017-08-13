@@ -13,13 +13,13 @@ import java.util.List;
  * @author Mateusz
  */
 public class Graph {
-    
-    private List<Vertice> vertices;
-    private List<Edge> edges;
+
+    private List<Vertice> vertices; //lista wierzcholkow
+    private List<Edge> edges; //lista krawedzi
 
     public Graph(List<Vertice> vertices, List<Edge> edges) {
-        this.vertices = new ArrayList<Vertice>();
-        this.edges = new ArrayList<Edge>();
+        this.vertices = new ArrayList<>();
+        this.edges = new ArrayList<>();
         this.vertices = vertices;
         this.edges = edges;
     }
@@ -39,16 +39,16 @@ public class Graph {
     public void setEdges(List<Edge> edges) {
         this.edges = edges;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder s = new StringBuilder();
-        for (Vertice x : vertices){
+        vertices.forEach((x) -> {
             s.append(x.toString()).append("\n");
-        }
-        for (Edge y : edges){
+        });
+        edges.forEach((y) -> {
             s.append(y.toString()).append("\n");
-        }
+        });
         return s.toString();
     }
 }

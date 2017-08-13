@@ -16,31 +16,32 @@ import java.util.Map;
  *
  * @author Mateusz
  */
-public class NewAnt implements Runnable{
-    private int index;
-    private int currentIter;
+public class NewAnt implements Runnable {
+
+    private int index; //indeks mrówki
+    private int currentIter; //obecny numer kroku w iteracji
     private List<Vertice> pickedAttributes; //wybrane węzły
     private List<Vertice> unpickedAttributes; //pozostałe węzły
     private Map<Vertice, Double> probabilities; //mapa z prawdopodobieństwami
-    private List<Edge> allEdges;
-    private List<Edge> chosenEdges;
-    private String[][] discMatrix;
-    private boolean foundSolution=false;
-    
+    private List<Edge> allEdges; //lista krawedzi (wszystkich)
+    private List<Edge> chosenEdges; //lista krawedzi (wybranych)
+    private String[][] discMatrix; //macierz rozroznialnosci (prywatna)
+    private boolean foundSolution = false; //czy znaleziono rozwiazanie)
+
     public NewAnt(int index) {
         this.index = index;
-        this.pickedAttributes = new ArrayList<Vertice>();
-        this.unpickedAttributes = new ArrayList<Vertice>();
+        this.pickedAttributes = new ArrayList<>();
+        this.unpickedAttributes = new ArrayList<>();
         this.discMatrix = DataAccessor.getIndiscMatrix();
         this.allEdges = DataAccessor.getGraph().getEdges();
         this.chosenEdges = new ArrayList<>();
     }
-    
+
     @Override
     public void run() {
         currentIter = 0;
-        boolean reducedMatrix=reduceMatrix();
-        while (currentIter<DataAccessor.getMaxList()-1 && !reducedMatrix){
+        boolean reducedMatrix = reduceMatrix();
+        while (currentIter < DataAccessor.getMaxList() - 1 && !reducedMatrix) {
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
                 probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
@@ -49,16 +50,14 @@ public class NewAnt implements Runnable{
             }
             //System.out.println(probabilities.values().stream().mapToDouble(Number::doubleValue).sum());
             pickedAttributes.add(pickVerticeByProbability());
-            reducedMatrix=reduceMatrix();
+            reducedMatrix = reduceMatrix();
             currentIter++;
             addEdgeToSolution();
-            if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)){
+            if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)) {
                 return;
             }
         }
-        if (empty_matrix(discMatrix))
-            foundSolution=true;
-        else foundSolution=false;
+        foundSolution = empty_matrix(discMatrix);
     }
 
     public int getIndex() {
@@ -104,29 +103,26 @@ public class NewAnt implements Runnable{
     public void setFoundSolution(boolean foundSolution) {
         this.foundSolution = foundSolution;
     }
-    
+
     public void pickVertice(Vertice v) {
         pickedAttributes.add(v);
         unpickedAttributes.remove(v);
     }
+
     public void initLists(List<Vertice> unpicked) {
-        this.unpickedAttributes = new ArrayList<Vertice>();
-        for (Vertice x : unpicked) {
+        this.unpickedAttributes = new ArrayList<>();
+        unpicked.forEach((x) -> {
             unpickedAttributes.add(x);
-        }
-        this.pickedAttributes = new ArrayList<Vertice>();
+        });
+        this.pickedAttributes = new ArrayList<>();
     }
-    
-    private void addEdgeToSolution(){
-        for (Edge x : allEdges){
-            if (x.getStart().getName().equals(pickedAttributes.get(currentIter-1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter-1).getName())){
-                if (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName())){
-                    chosenEdges.add(x);
-                }
-            }
-        }
+
+    private void addEdgeToSolution() {
+        allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - 1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - 1).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
+            chosenEdges.add(x);
+        });
     }
-    
+
     private double calculateSum() {
         double sumPheromone = 0;
         this.probabilities = new HashMap<>();
@@ -141,7 +137,7 @@ public class NewAnt implements Runnable{
                 }
                 if (v != null) {
                     if (!pickedAttributes.contains(v)) {
-                        sumPheromone += Math.pow(x.getPheromone(), DataAccessor.getPheromoneRelevance())*Math.pow(x.getWeight(),DataAccessor.getEdgeRelevance());
+                        sumPheromone += Math.pow(x.getPheromone(), DataAccessor.getPheromoneRelevance()) * Math.pow(x.getWeight(), DataAccessor.getEdgeRelevance());
                         probabilities.put(v, x.getPheromone());
                     }
                 }
@@ -149,7 +145,7 @@ public class NewAnt implements Runnable{
         }
         return sumPheromone;
     }
-    
+
     public void setDiscMatrix(String[][] matrix) {
         this.discMatrix = new String[matrix.length][matrix.length];
         StringBuilder myString = new StringBuilder();
@@ -165,7 +161,7 @@ public class NewAnt implements Runnable{
             }
         }
     }
-    
+
     public Vertice pickVerticeByProbability() {
         double p = Math.random();
         double cumulativeProbability = 0.0;
@@ -178,28 +174,27 @@ public class NewAnt implements Runnable{
         }
         return null;
     }
-    
+
     public boolean reduceMatrix() {
         StringBuilder stringCompare = new StringBuilder();
         for (int i = 0; i < discMatrix.length; i++) {
-            for (int j = i+1; j < discMatrix.length; j++) {
-                if (discMatrix[i][j]!=null){
-                    stringCompare.append(",").append(pickedAttributes.get(pickedAttributes.size()-1).getIndex()).append(",");
-                    if (discMatrix[i][j].contains(stringCompare.toString()))
-                        discMatrix[i][j]=null;
+            for (int j = i + 1; j < discMatrix.length; j++) {
+                if (discMatrix[i][j] != null) {
+                    stringCompare.append(",").append(pickedAttributes.get(pickedAttributes.size() - 1).getIndex()).append(",");
+                    if (discMatrix[i][j].contains(stringCompare.toString())) {
+                        discMatrix[i][j] = null;
+                    }
                     stringCompare.setLength(0);
                 }
             }
         }
-        if (empty_matrix(discMatrix))
-            return true;
-        else return false;
+        return empty_matrix(discMatrix);
     }
-    
+
     public boolean empty_matrix(String matrix[][]) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = i; j < matrix.length; j++) {
-                if (matrix[i][j]!=null) {
+                if (matrix[i][j] != null) {
                     return false;
                 }
             }

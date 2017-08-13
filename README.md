@@ -81,3 +81,7 @@ Worked on proper "flow" between single step, single iteration and full reduct co
 Added screen for one-step operations - after each operation, it shows which attribute ant picked and its current list of attributes
 - also it shows if ant already found solution
 - if one ant found solution, then basically you cannot do a step again because the iteration has ended and ants are being moved to start
+
+0.3.5 - 12.08.2017
+
+Refactoring the code (used functional operations in most of cases NetBeans hinted), also formatted the code a bit.

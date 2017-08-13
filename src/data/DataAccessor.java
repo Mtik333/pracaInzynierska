@@ -26,28 +26,38 @@ import javafx.stage.Stage;
  * @author Mateusz
  */
 public class DataAccessor {
-    private static Stage primaryStage;
-    private static String separator=",";
-    private static boolean loadedData=false;
-    private static File file;
+
+    private static Stage primaryStage; //widok UI
+    private static String separator = ","; //separator do wczytywania obiektów
+    private static boolean loadedData = false; //czy dane wczytane
+    private static File file; //obiekt pliku
     private static List<DataObject> dataset; //zbior obiektów wczytanych
-    private static List<Attribute> allAttributes;
-    private static int decisionMaker;
-    private static int loopLimit=20;
-    private static double pheromoneRelevance=1;
-    private static double edgeRelevance=0.1;
-    private static int antsNumber;
-    private static int constantForUpdating=1;
-    private static Edge analyzedEdge;
-    private static Vertice analyzedVertice;
-    private static List<NewAnt> allAnts;
-    private static int currentIter=0;
-    private static List<Attribute> currentReduct;
+    private static List<Attribute> allAttributes; //zbior wszystkich atrybutów
+    private static int decisionMaker; //atrybut decyzyjny
+    private static int loopLimit = 20; //maksymalna ilosc wykonan algorytmu
+    private static double pheromoneRelevance = 1; //waznosc feromonu na sciezce
+    private static double edgeRelevance = 0.1; //waznosc wagi krawedzi
+    private static int antsNumber; //liczba mrowek w algorytmie
+    private static int constantForUpdating = 1; //stala do aktualizacji feromonow na ścieżkach
+    private static Edge analyzedEdge; //analizowana krawędź (UI)
+    private static Vertice analyzedVertice; //analizowany wierzchołek (UI)
+    private static List<NewAnt> allAnts; //lista wszystkich mrówek (wątków)
+    private static int currentIter = 0; //obecny krok (wewnątrz iteracji algorytmu)
+    private static List<Attribute> currentReduct; //obecny redukt
     private static String[][] indiscMatrix; //macierz rozróznialności
-    private static String calculationMode=COMPUTE_REDUCT;
-    private static List<List<Attribute>> listOfReducts;
-    private static int performedIterations=0;
-    private static boolean calculatedReductInIteration=false;
+    private static String calculationMode = COMPUTE_REDUCT; //tryb obliczania (znajdowania reduktu, jednej iteracji, jednego kroku)
+    private static List<List<Attribute>> listOfReducts; //lista reduktów
+    private static int performedIterations = 0; //ile razy wykonano algorytmu
+    private static boolean calculatedReductInIteration = false; //czy w iteracji znaleziono juz redukt
+    private static List<String> decisionValues; //wartosci decyzyjne
+
+    public static List<String> getDecisionValues() {
+        return decisionValues;
+    }
+
+    public static void setDecisionValues(List<String> decisionValues) {
+        DataAccessor.decisionValues = decisionValues;
+    }
 
     public static boolean isCalculatedReductInIteration() {
         return calculatedReductInIteration;
@@ -82,6 +92,7 @@ public class DataAccessor {
     public static void setPheromoneEvaporation(double pheromoneEvaporation) {
         DataAccessor.pheromoneEvaporation = pheromoneEvaporation;
     }
+
     public static String getCalculationMode() {
         return calculationMode;
     }
@@ -138,7 +149,7 @@ public class DataAccessor {
     public static void setDecisionMaker(int decisionMaker) {
         DataAccessor.decisionMaker = decisionMaker;
     }
-    
+
     public static void setLoadedData(boolean loadedData) {
         DataAccessor.loadedData = loadedData;
     }
@@ -150,15 +161,15 @@ public class DataAccessor {
     public static void setPrimaryStage(Stage primaryStage) {
         DataAccessor.primaryStage = primaryStage;
     }
-    
-    public static void setFile(File file){
+
+    public static void setFile(File file) {
         DataAccessor.file = file;
     }
-    
-    public static boolean parseFile() throws FileNotFoundException, IOException{
+
+    public static boolean parseFile() throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(getFile().getPath()));
         stringToAttribute(br.readLine().split(getSeparator()));
-        if (getAllAttributes().size()==1){
+        if (getAllAttributes().size() == 1) {
             setAllAttributes(null);
             setFile(null);
             return false;
@@ -187,10 +198,10 @@ public class DataAccessor {
         }
         return true;
     }
-    
-    private static void stringToAttribute(String[] attributes){
-        setAllAttributes(new ArrayList<Attribute>());
-        setDecisionMaker(attributes.length-1);
+
+    private static void stringToAttribute(String[] attributes) {
+        setAllAttributes(new ArrayList<>());
+        setDecisionMaker(attributes.length - 1);
         for (String attribute : attributes) {
             Attribute myAttribute = new Attribute(attribute);
             getAllAttributes().add(myAttribute);
@@ -305,5 +316,5 @@ public class DataAccessor {
     public static void setMaxList(int aMaxList) {
         maxList = aMaxList;
     }
-    
+
 }

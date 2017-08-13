@@ -4,26 +4,32 @@
  * and open the template in the editor.
  */
 package data.roughsets;
+
 import static data.ConstStrings.*;
+
 /**
  *
  * @author Mateusz
  */
 public class Attribute {
-    private String name;
-    private String value;
-    private boolean decisionMaking;
-    
+
+    private String name; //nazwa atrybutu
+    private String value; //wartosc atrybutu
+    private boolean decisionMaking; //czy decyzyjny
+
     @Override
     public String toString() {
-        if (!decisionMaking)
+        if (!decisionMaking) {
             return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + '}';
-        else return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + decisionMaking + '}';
+        } else {
+            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + decisionMaking + '}';
+        }
     }
-    public Attribute(String name){
-        this.name=name;
+
+    public Attribute(String name) {
+        this.name = name;
     }
-    
+
     public Attribute(String name, String value) {
         this.name = name;
         this.value = value;

@@ -12,24 +12,25 @@ import java.util.List;
  * @author Mateusz
  */
 public class DataObject {
-    private String name;
-    private List<Attribute> attributes;
-    
+
+    private String name; //nazwa obiektu (z reguly indeks jako ciag znakow)
+    private List<Attribute> attributes; //lista atrybutow
+
     @Override
     public String toString() {
-        StringBuilder returnString=new StringBuilder();
-        for (Attribute x : attributes){
+        StringBuilder returnString = new StringBuilder();
+        attributes.forEach((x) -> {
             returnString.append(x.getValue()).append(", ");
-        }
-        returnString.delete(returnString.length()-2, returnString.length());
+        });
+        returnString.delete(returnString.length() - 2, returnString.length());
         returnString.append(';');
-        return ""+name+": "+returnString.toString()+"\n";
+        return "" + name + ": " + returnString.toString() + "\n";
     }
 
     public DataObject(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }

@@ -32,26 +32,35 @@ public class ShowVerticeXMLController implements Initializable {
     public void setVertice(Vertice vertice) {
         this.vertice = vertice;
     }
-    @FXML public TextField verticeName;
-    @FXML public TextField antsAmount;
-    @FXML public TextField isInReduct;
+    @FXML
+    public TextField verticeName;
+    @FXML
+    public TextField antsAmount;
+    @FXML
+    public TextField isInReduct;
+
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setVertice(DataAccessor.getAnalyzedVertice());
         verticeName.setText(vertice.getName());
-        if (DataAccessor.isLoadedData())
+        if (DataAccessor.isLoadedData()) {
             antsAmount.setText(String.valueOf(NewLogic.returnAntsNumberOnVertice(vertice)));
-        else antsAmount.setText(String.valueOf(0));
+        } else {
+            antsAmount.setText(String.valueOf(0));
+        }
         isInReduct.setText(String.valueOf(true));
-    }    
-    
+    }
+
     @FXML
-    public void dismiss(ActionEvent event){
+    public void dismiss(ActionEvent event) {
         Stage stage = (Stage) verticeName.getScene().getWindow();
-        this.vertice=null;
+        this.vertice = null;
         stage.close();
     }
 }

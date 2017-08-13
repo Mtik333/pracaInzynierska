@@ -52,16 +52,28 @@ import javafx.stage.Stage;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private TextArea examplesToString;
+    private TextArea examplesToString; //pole tekstowe na obiekty
     @FXML
-    private AnchorPane solver;
-    private List<Label> labels;
-    private List<Line> lines;
-    private Map<Line, Edge> edgeLines;
-    private Map<Label, Vertice> verticeLabels;
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
-    private NewLogic newLogic = new NewLogic();
+    private AnchorPane solver; //widok grafu
+    private List<Label> labels; //lista wierzcholkow (grafika)
+    private List<Line> lines; //lista krawedzi (grafika)
+    private Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
+    private Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
+    double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
+    double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
+    private final NewLogic newLogic = new NewLogic(); //cała logika aplikacji
+
+    @FXML
+    public void exitApp(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }
+
+    //wczytuje zestaw danych
     @FXML
     public void loadDataset(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -72,8 +84,9 @@ public class FXMLDocumentController implements Initializable {
         );
         try {
             DataAccessor.setFile(fileChooser.showOpenDialog(examplesToString.getScene().getWindow()));
-            if (DataAccessor.getFile()==null)
+            if (DataAccessor.getFile() == null) {
                 return;
+            }
             if (!DataAccessor.parseFile()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(PARSING_ERROR);
@@ -85,13 +98,63 @@ public class FXMLDocumentController implements Initializable {
             newLogic.generateGraph();
             drawGraph();
 //            logic.fillIndiscMatrix();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace(System.out);
         }
         DataAccessor.setLoadedData(true);
 
     }
 
+    //ustawienie mrówek losowo
+    @FXML
+    private void antsRandomButton(ActionEvent t) {
+        if (DataAccessor.isLoadedData()) {
+            newLogic.initializeAntsRandom();
+        }
+    }
+
+    //wykonanie jednego wyboru kolejnej krawędzi przez mrówkę
+    @FXML
+    private void antsOneStep(ActionEvent t) {
+        if (DataAccessor.isLoadedData()) {
+            if (DataAccessor.getAllAnts() == null || DataAccessor.isCalculatedReductInIteration()) {
+                newLogic.initializeAntsRandom();
+            }
+            if (newLogic.stepToNextVertice()) {
+                List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+                System.out.println("xd");
+            }
+            showStepStats();
+        }
+    }
+
+    //wykonanie jednej iteracji algorytmu
+    @FXML
+    private void antsOneIteration(ActionEvent t) {
+        if (DataAccessor.isLoadedData()) {
+            System.out.println(DataAccessor.getCurrentIter());
+            if (DataAccessor.getCurrentIter() == 0 || DataAccessor.isCalculatedReductInIteration()) {
+                newLogic.initializeAntsRandom();
+            }
+            newLogic.performOneIteration();
+        }
+        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        showIterationStats();
+        System.out.println("xd");
+    }
+
+    //znalezienie reduktu przez wykonanie określonej liczby iteracji algorytmu
+    @FXML
+    private void antsFindReduct(ActionEvent t) {
+        if (DataAccessor.isLoadedData()) {
+            newLogic.findReduct();
+        }
+        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        System.out.println("xd");
+    }
+
+    //FUNKCJE WCZYTYWANIA INNYCH WIDOKÓW
+    //ustawia separator danych (średnik albo przecinek)
     @FXML
     public void setSeparator(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SET_SEPARATOR_FXML_RES));
@@ -104,8 +167,9 @@ public class FXMLDocumentController implements Initializable {
         stage.show();
     }
 
+    //przechodzi do widoku ustawień algorytmu
     @FXML
-    public void programSettings(ActionEvent event) throws IOException{
+    public void programSettings(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ALGORITHM_SETTINGS_FXML_RES));
         Parent root1 = (Parent) fxmlLoader.load();
         AlgorithmSettingsFXMLController algorithmSettings = fxmlLoader.<AlgorithmSettingsFXMLController>getController();
@@ -116,7 +180,8 @@ public class FXMLDocumentController implements Initializable {
         stage.setScene(new Scene(root1));
         stage.show();
     }
-    
+
+    //przechodzi do widoku edycji przykładów
     @FXML
     public void editExamples(ActionEvent event) throws IOException {
         if (DataAccessor.isLoadedData()) {
@@ -137,28 +202,42 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
-    public void exitApp(ActionEvent event) {
-        Platform.exit();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
-
-    private void objectsToTextArea(List<Attribute> attributes, List<DataObject> objects) {
-        examplesToString.setText(TEXTAREA_PARAMETERS);
-        for (Attribute attribute : attributes) {
-            examplesToString.appendText(attribute.getName() + ", ");
-        }
-        examplesToString.deleteText(examplesToString.getLength() - 2, examplesToString.getLength());
-        examplesToString.appendText(TEXTAREA_APPEND);
-        for (DataObject x : objects) {
-            examplesToString.appendText(x.toString());
+    //pokazanie statystyk pojedynczego kroku mrówek w iteracji
+    private void showStepStats() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneStepFXML.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            OneStepFXMLController eec = fxmlLoader.<OneStepFXMLController>getController();
+            Stage stage = new Stage();
+            stage.setTitle(SHOW_EDGE_TITLE);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(DataAccessor.getPrimaryStage());
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    //pokazanie statystyk jednej iteracji algorytmu
+    private void showIterationStats() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneIterationFXML.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            OneIterationFXMLController eec = fxmlLoader.<OneIterationFXMLController>getController();
+            Stage stage = new Stage();
+            stage.setTitle(SHOW_EDGE_TITLE);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(DataAccessor.getPrimaryStage());
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //FUNKCJE RYSOWANIA GRAFU I GŁÓWNEGO WIDOKU
+    //rysuje graf w widoku
     public void drawGraph() {
         solver.getChildren().clear();
         labels = new ArrayList<>();
@@ -169,95 +248,51 @@ public class FXMLDocumentController implements Initializable {
         double middleY = solver.getHeight() / 2;
         double degreesIncrement = 360 / (DataAccessor.getGraph().getVertices().size());
         for (int i = 0; i < DataAccessor.getGraph().getVertices().size(); i++) {
-                double cosinus = Math.cos(Math.toRadians(i * degreesIncrement));
-                double sinus = Math.sin(Math.toRadians(i * degreesIncrement));
-                Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
-                label.setMinWidth(100);
-                label.setAlignment(Pos.CENTER);
-                label.setTranslateX(middleX + 150 * sinus);
-                label.setTranslateY(middleY + 150 * cosinus);
-                label.setStyle("-fx-border-color:red;-fx-background-color:white");
-                label.setFont(javafx.scene.text.Font.font(18));
-                label.setTextAlignment(TextAlignment.CENTER);
-                label.setOnMousePressed(circleOnMousePressedEventHandler);
-                label.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-                labels.add(label);
-                verticeLabels.put(label, DataAccessor.getGraph().getVertices().get(i));
+            double cosinus = Math.cos(Math.toRadians(i * degreesIncrement));
+            double sinus = Math.sin(Math.toRadians(i * degreesIncrement));
+            Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
+            label.setMinWidth(100);
+            label.setAlignment(Pos.CENTER);
+            label.setTranslateX(middleX + 150 * sinus);
+            label.setTranslateY(middleY + 150 * cosinus);
+            label.setStyle("-fx-border-color:red;-fx-background-color:white");
+            label.setFont(javafx.scene.text.Font.font(18));
+            label.setTextAlignment(TextAlignment.CENTER);
+            label.setOnMousePressed(circleOnMousePressedEventHandler);
+            label.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+            labels.add(label);
+            verticeLabels.put(label, DataAccessor.getGraph().getVertices().get(i));
         }
         for (int i = 0; i < labels.size(); i++) {
             for (int j = i + 1; j < labels.size(); j++) {
                 lines.add(connect(labels.get(i), labels.get(j)));
             }
         }
-        for (int i = 0; i<lines.size(); i++){
+        for (int i = 0; i < lines.size(); i++) {
             edgeLines.put(lines.get(i), DataAccessor.getGraph().getEdges().get(i));
         }
         solver.getChildren().addAll(lines);
         solver.getChildren().addAll(labels);
-        
+
         labels.forEach((label) -> {
             label.toFront();
         });
     }
 
-    
-    @FXML
-    private void antsRandomButton(ActionEvent t){
-        if (DataAccessor.isLoadedData())
-            newLogic.initializeAntsRandom();
+    //wpisuje przykłady do okna tekstowego
+    private void objectsToTextArea(List<Attribute> attributes, List<DataObject> objects) {
+        examplesToString.setText(TEXTAREA_PARAMETERS);
+        attributes.forEach((attribute) -> {
+            examplesToString.appendText(attribute.getName() + ", ");
+        });
+        examplesToString.deleteText(examplesToString.getLength() - 2, examplesToString.getLength());
+        examplesToString.appendText(TEXTAREA_APPEND);
+        objects.forEach((x) -> {
+            examplesToString.appendText(x.toString());
+        });
     }
-    
-    @FXML
-    private void antsOneIteration(ActionEvent t){
-        if (DataAccessor.isLoadedData()){
-            System.out.println(DataAccessor.getCurrentIter());
-            if (DataAccessor.getCurrentIter()==0 || DataAccessor.isCalculatedReductInIteration())
-                newLogic.initializeAntsRandom();
-            newLogic.performOneIteration();
-        }
-        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
-        System.out.println("xd");
-    }
-    
-    @FXML
-    private void antsFindReduct(ActionEvent t){
-        if (DataAccessor.isLoadedData()){
-            newLogic.findReduct();
-        }
-        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
-        System.out.println("xd");
-    }
-    
-    @FXML
-    private void antsOneStep(ActionEvent t){
-        if (DataAccessor.isLoadedData()){
-            if (DataAccessor.getAllAnts()==null || DataAccessor.isCalculatedReductInIteration()){
-                newLogic.initializeAntsRandom();
-            }
-            if (newLogic.stepToNextVertice()){
-                List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
-                System.out.println("xd");
-            }
-            showStepStats();
-        }
-    }
-    
-    private void showStepStats(){
-        try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneStepFXML.fxml"));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    OneStepFXMLController eec = fxmlLoader.<OneStepFXMLController>getController();
-                    Stage stage = new Stage();
-                    stage.setTitle(SHOW_EDGE_TITLE);
-                    stage.initModality(Modality.WINDOW_MODAL);
-                    stage.initOwner(DataAccessor.getPrimaryStage());
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-    }
-    
+
+    //połączenie między wierzchołkami (grafika)
     private Line connect(Label c1, Label c2) {
         Line line = new Line();
         line.startXProperty().bind(Bindings.createDoubleBinding(() -> {
@@ -284,14 +319,16 @@ public class FXMLDocumentController implements Initializable {
         return line;
     }
 
+    //FUNKCJE OBSŁUGUJĄCE MYSZKĘ
+    //obsługa kliknięcia na wierzchołek
     EventHandler<MouseEvent> circleOnMousePressedEventHandler
             = new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent t) {
-            if (t.getButton() == MouseButton.SECONDARY){
+            if (t.getButton() == MouseButton.SECONDARY) {
                 try {
-                    DataAccessor.setAnalyzedVertice(verticeLabels.get((Label)t.getSource()));
+                    DataAccessor.setAnalyzedVertice(verticeLabels.get((Label) t.getSource()));
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SHOW_VERTICE_FXML_RES));
                     Parent root1 = (Parent) fxmlLoader.load();
                     ShowVerticeXMLController eec = fxmlLoader.<ShowVerticeXMLController>getController();
@@ -304,17 +341,17 @@ public class FXMLDocumentController implements Initializable {
                 } catch (IOException ex) {
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            else {
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-            orgTranslateX = ((Label) (t.getSource())).getTranslateX();
-            orgTranslateY = ((Label) (t.getSource())).getTranslateY();
-            ((Label) (t.getSource())).toFront();
+            } else {
+                orgSceneX = t.getSceneX();
+                orgSceneY = t.getSceneY();
+                orgTranslateX = ((Label) (t.getSource())).getTranslateX();
+                orgTranslateY = ((Label) (t.getSource())).getTranslateY();
+                ((Label) (t.getSource())).toFront();
             }
         }
     };
 
+    //obsługa przesuwania wierzchołków poprzez myszkę
     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler
             = new EventHandler<MouseEvent>() {
 
@@ -330,6 +367,7 @@ public class FXMLDocumentController implements Initializable {
         }
     };
 
+    //obsługa kliknięcia na krawędź
     EventHandler<MouseEvent> lineOnMouseEventHandler
             = new EventHandler<MouseEvent>() {
 
@@ -337,7 +375,7 @@ public class FXMLDocumentController implements Initializable {
         public void handle(MouseEvent t) {
             if (t.getButton() == MouseButton.SECONDARY) {
                 try {
-                    DataAccessor.setAnalyzedEdge(edgeLines.get((Line)t.getSource()));
+                    DataAccessor.setAnalyzedEdge(edgeLines.get((Line) t.getSource()));
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SHOW_EDGE_FXML_RES));
                     Parent root1 = (Parent) fxmlLoader.load();
                     ShowEdgeFXMLController eec = fxmlLoader.<ShowEdgeFXMLController>getController();
