@@ -85,3 +85,9 @@ Added screen for one-step operations - after each operation, it shows which attr
 0.3.5 - 12.08.2017
 
 Refactoring the code (used functional operations in most of cases NetBeans hinted), also formatted the code a bit.
+
+0.3.6 - 13.08.2017
+
+Added screen for full algorithm calculation - not many informations but you can preview the reduct of each performed iteration
+
+My next task is either to make second algorithm or change edges colors each iteration so it can be shown which edges are the most "occupied" by ants

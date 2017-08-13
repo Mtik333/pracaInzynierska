@@ -149,7 +149,8 @@ public class FXMLDocumentController implements Initializable {
         if (DataAccessor.isLoadedData()) {
             newLogic.findReduct();
         }
-        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        //List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        showAlgorithmStats();
         System.out.println("xd");
     }
 
@@ -236,6 +237,24 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    //pokazanie statystyk całego algorytmu
+    private void showAlgorithmStats() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneReductFXML.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            OneReductFXMLController eec = fxmlLoader.<OneReductFXMLController>getController();
+            Stage stage = new Stage();
+            stage.setTitle(SHOW_EDGE_TITLE);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(DataAccessor.getPrimaryStage());
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     //FUNKCJE RYSOWANIA GRAFU I GŁÓWNEGO WIDOKU
     //rysuje graf w widoku
     public void drawGraph() {
