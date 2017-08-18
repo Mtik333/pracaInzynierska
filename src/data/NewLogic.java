@@ -5,6 +5,7 @@
  */
 package data;
 
+import controllers.FXMLDocumentController;
 import data.graph.Edge;
 import data.graph.Graph;
 import data.graph.NewAnt;
@@ -84,6 +85,7 @@ public class NewLogic {
         while (DataAccessor.getPerformedIterations() < DataAccessor.getLoopLimit()) {
             initializeAntsRandom();
             performOneIteration();
+            FXMLDocumentController.colorEdges();
         }
     }
 
@@ -192,11 +194,11 @@ public class NewLogic {
     public void evaluateSubsets() {
         DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).map((ant) -> {
             ant.getPickedAttributes().forEach((vertice) -> {
-                System.out.print(vertice.getName() + ",");
+                //System.out.print(vertice.getName() + ",");
             });
             return ant;
         }).forEachOrdered((_item) -> {
-            System.out.println();
+            //System.out.println();
         });
         if (DataAccessor.getCurrentReduct() == null) {
             DataAccessor.setCurrentReduct(new ArrayList<>(DataAccessor.getDataset().get(0).getAttributes()));

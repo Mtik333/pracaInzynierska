@@ -326,4 +326,24 @@ public class DataAccessor {
         maxList = aMaxList;
     }
 
+    public static void resetValues(){
+        setLoadedData(false);
+        setFile(null);
+        setDataset(null);
+        setAllAttributes(null);
+        setDecisionMaker(0);
+        setAntsNumber(0);
+        setAnalyzedEdge(null);
+        setAnalyzedVertice(null);
+        setAllAnts(null);
+        setCurrentIter(0);
+        setCurrentReduct(null);
+        setIndiscMatrix(null);
+        setListOfReducts(null);
+        setPerformedIterations(0);
+        setCalculatedReductInIteration(false);
+        setDecisionValues(null);
+        setCoreAttributes(null);
+        System.gc();
+    }
 }

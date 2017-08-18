@@ -98,3 +98,8 @@ Fixed few glitches:
 - pheromone's not being updated when no solution is found
 - step-by-step ended when first ant found solution - instead should check if iteration exceedes max number
 - minor glitches with displaying single step pick
+
+0.4.0 - 18.08.2017
+
+Added simple "dynamic color change" for edges in UI
+- works quite good when doing single iterations or full reduct computation

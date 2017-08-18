@@ -16,14 +16,19 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,6 +44,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -57,11 +63,11 @@ public class FXMLDocumentController implements Initializable {
     private AnchorPane solver; //widok grafu
     private List<Label> labels; //lista wierzcholkow (grafika)
     private List<Line> lines; //lista krawedzi (grafika)
-    private Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
+    private static Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
     private Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
     double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
-    private final NewLogic newLogic = new NewLogic(); //cała logika aplikacji
+    private NewLogic newLogic = new NewLogic(); //cała logika aplikacji
 
     @FXML
     public void exitApp(ActionEvent event) {
@@ -76,6 +82,7 @@ public class FXMLDocumentController implements Initializable {
     //wczytuje zestaw danych
     @FXML
     public void loadDataset(ActionEvent event) {
+        DataAccessor.resetValues();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty(USERDIR)));
         fileChooser.setTitle(CHOOSE_FILE);
@@ -88,6 +95,7 @@ public class FXMLDocumentController implements Initializable {
                 return;
             }
             if (!DataAccessor.parseFile()) {
+                newLogic = new NewLogic();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(PARSING_ERROR);
                 alert.setContentText(WRONG_SEPARATOR);
@@ -119,15 +127,15 @@ public class FXMLDocumentController implements Initializable {
         if (DataAccessor.isLoadedData()) {
             if (DataAccessor.getAllAnts() == null || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
-                //showStepStats();
-            }
-            else if (newLogic.stepToNextVertice()) {
+                showStepStats();
+            } else if (newLogic.stepToNextVertice()) {
                 List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
                 System.out.println("xd");
                 newLogic.initializeAntsRandom();
-                //showStepStats();
+                colorEdges();
+                showStepStats();
             }
-            //else showStepStats();
+            else showStepStats();
         }
     }
 
@@ -142,6 +150,7 @@ public class FXMLDocumentController implements Initializable {
             newLogic.performOneIteration();
         }
         List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
+        colorEdges();
         showIterationStats();
         System.out.println("xd");
     }
@@ -150,10 +159,39 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void antsFindReduct(ActionEvent t) {
         if (DataAccessor.isLoadedData()) {
-            newLogic.findReduct();
+            Service<Void> service = new Service<Void>() {
+                @Override
+                protected Task<Void> createTask() {
+                    return new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            newLogic.findReduct();
+                            //Background work                       
+                            final CountDownLatch latch = new CountDownLatch(1);
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        showAlgorithmStats();
+                                        //FX Stuff done here
+                                    } finally {
+                                        latch.countDown();
+                                    }
+                                }
+                            });
+                            latch.await();
+                            //Keep with the background work
+                            return null;
+                        }
+                    };
+                }
+            };
+            service.start();
+
+            //newLogic.findReduct();
         }
         //List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
-        showAlgorithmStats();
+        //showAlgorithmStats();
         System.out.println("xd");
     }
 
@@ -256,8 +294,7 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     //FUNKCJE RYSOWANIA GRAFU I GŁÓWNEGO WIDOKU
     //rysuje graf w widoku
     public void drawGraph() {
@@ -339,6 +376,29 @@ public class FXMLDocumentController implements Initializable {
         line.toBack();
         line.setOnMouseClicked(lineOnMouseEventHandler);
         return line;
+    }
+
+    public static void colorEdges() {
+        //double min=0.0;
+        //double max=Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
+        double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
+        edgeLines.forEach((k, v) -> {
+            double value = ((max - v.getPheromone()) / (max)) * 255;
+            k.setStroke(Color.rgb((int) value, 255, (int) value));
+            //z czerwonym kolorem
+//            if (v.getPheromone()<max){
+//                double value = (v.getPheromone()/(max))*255;
+//                k.setStroke(Color.rgb(255,(int)value,(int)value));
+//                //k.setStroke(Color.rgb((int)value, 0, 0));
+//            }
+//            else if (v.getPheromone()>max){
+//                double value = ((v.getPheromone()-(max))/(max))*255;
+//                k.setStroke(Color.rgb((int)value,255,(int)value));
+//                //k.setStroke(Color.rgb(0,(int)value,0));
+//            }
+//            else k.setStroke(Color.WHITE);
+        });
+
     }
 
     //FUNKCJE OBSŁUGUJĄCE MYSZKĘ
