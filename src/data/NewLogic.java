@@ -11,10 +11,9 @@ import data.graph.NewAnt;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
-import data.roughsets.DataObjectComparator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -43,6 +42,11 @@ public class NewLogic {
         DataAccessor.setAntsNumber(vertices.size());
         DataAccessor.setMaxList(vertices.size());
         fillIndiscMatrix();
+        String[][] indiscMatrix = DataAccessor.getIndiscMatrix();
+        //test
+//        ChineseLogic chineseLogic = new ChineseLogic();
+//        chineseLogic.generateGraph();
+        
         //System.out.println(graph.toString());
     }
 
@@ -104,30 +108,28 @@ public class NewLogic {
             if (ant.isFoundSolution()) {
                 //DataAccessor.setCurrentIter(DataAccessor.getCurrentIter()-1);
                 evaluateSubsets();
-                updatePheromone();
                 break;
             }
         }
+        updatePheromone();
         if (DataAccessor.getListOfReducts().size() != DataAccessor.getPerformedIterations()) {
             addPreviousReduct();
         }
-        System.out.println(DataAccessor.getCurrentReduct().size());
+        //System.out.println(DataAccessor.getCurrentReduct().size());
     }
 
     //tryb wykonania jednego kroku w iteracji
     public boolean stepToNextVertice() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
         List<NewAnt> ants = DataAccessor.getAllAnts();
-        for (NewAnt ant : ants) {
-            if (ant.isFoundSolution()) {
-                DataAccessor.setCurrentIter(0);
-                evaluateSubsets();
-                updatePheromone();
-                DataAccessor.setCalculatedReductInIteration(true);
-                DataAccessor.setMaxList(DataAccessor.getCurrentReduct().size());
-                DataAccessor.setPerformedIterations(DataAccessor.getPerformedIterations() + 1);
-                return true;
-            }
+        if (DataAccessor.getCurrentIter()==DataAccessor.getMaxList()){
+            evaluateSubsets();
+            updatePheromone();
+            DataAccessor.setCurrentIter(0);
+            DataAccessor.setCalculatedReductInIteration(false);
+            DataAccessor.setMaxList(DataAccessor.getCurrentReduct().size());
+            DataAccessor.setPerformedIterations(DataAccessor.getPerformedIterations() + 1);
+            return true;
         }
         ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAntsNumber());
         DataAccessor.setCurrentIter(DataAccessor.getCurrentIter() + 1);
@@ -137,7 +139,7 @@ public class NewLogic {
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
-        System.out.println(DataAccessor.getAllAnts().toString());
+        //System.out.println(DataAccessor.getAllAnts().toString());
         return false;
     }
 
@@ -243,102 +245,7 @@ public class NewLogic {
             });
         });
         List<Edge> edges = DataAccessor.getGraph().getEdges();
-        System.out.println("xd");
+        Edge d = Collections.max(edges, Comparator.comparing(c -> c.getPheromone()));
+        //System.out.println("xd");
     }
-
-    //funkcje do algorytmu CORE-CT
-    //zlicza ilosc klas decyzyjnych
-    public int countDecisionClasses() {
-        DataAccessor.setDecisionValues(new ArrayList<>());
-        DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> {
-            DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue());
-        });
-        return DataAccessor.getDecisionValues().size();
-    }
-
-    //zlicza ilosc konfliktow (w klasie)
-    public int countConflictsRow(int[] ctRow) {
-        double initialValue = Math.pow(Arrays.stream(ctRow).sum(), 2);
-        for (int value : ctRow) {
-            initialValue = initialValue - Math.pow(value, 2);
-        }
-        initialValue = initialValue * 0.5;
-        return (int) initialValue;
-    }
-
-    //zlicza ilosc konfliktow ogolem
-    public int countConflictsTotal(int[] ctTotal) {
-        double finalValue = Math.pow(Arrays.stream(ctTotal).sum(), 2);
-        for (int value : ctTotal) {
-            finalValue = finalValue - Math.pow(value, 2);
-        }
-        finalValue = finalValue * 0.5;
-        return (int) finalValue;
-    }
-
-//    public void coreDDM() {
-//        List<String> foundCore = new ArrayList<>();
-//        for (int i = 0; i < indiscMatrix.length; i++) {
-//            for (int j = i; j < indiscMatrix[i].length; j++) {
-//                if (indiscMatrix[i][j] != null) {
-//                    if (indiscMatrix[i][j].chars().filter(ch -> ch == ',').count() == 2) {
-//                        int singleton = (int)indiscMatrix[i][j].replace(",", "").charAt(0)-'0';
-//                        if (!foundCore.contains(attributesAll.get(singleton).getName())){
-//                            foundCore.add(attributesAll.get(singleton).getName());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        for (String x : foundCore) {
-//            System.out.print(x + ",");
-//        }
-//    }
-    //caly algorytm CT
-    public void coreCT2() {
-        List<Attribute> foundCore = new ArrayList<>();
-        int decisionClasses = countDecisionClasses();
-        System.out.println(decisionClasses);
-        for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {
-            int[] ctRow = new int[decisionClasses];
-            int[] ctTotal = new int[decisionClasses];
-            int confs = 0;
-            DataObject prev = null;
-            boolean difference = false;
-            Collections.sort(DataAccessor.getDataset(), new DataObjectComparator(i));
-            for (int k = 0; k < DataAccessor.getDataset().size(); k++) {
-                for (int j = 0; j < DataAccessor.getDataset().get(0).getAttributes().size() - 1; j++) {
-                    if (j != i) {
-                        if (prev != null) {
-                            if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(k).getAttributes().get(j).getValue())) {
-                                difference = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (difference == false) {
-                    ctTotal[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(k).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                    ctRow[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(k).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                    prev = DataAccessor.getDataset().get(k);
-                } else {
-                    int confsRow = countConflictsRow(ctRow);
-                    confs = confs + confsRow;
-                    Arrays.fill(ctRow, 0);
-                    difference = false;
-                    prev = null;
-                    k--;
-                }
-            }
-            int discdA = countConflictsTotal(ctTotal);
-            int discdAminus = discdA - confs;
-            if (discdAminus < discdA) {
-                foundCore.add(DataAccessor.getAllAttributes().get(i));
-            }
-        }
-        foundCore.forEach((a) -> {
-            System.out.print(a.getName() + ",");
-        });
-    }
-
 }

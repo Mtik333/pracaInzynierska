@@ -54,6 +54,7 @@ public class NewAnt implements Runnable {
             currentIter++;
             addEdgeToSolution();
             if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)) {
+                foundSolution = empty_matrix(discMatrix);
                 return;
             }
         }

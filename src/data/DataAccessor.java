@@ -50,6 +50,15 @@ public class DataAccessor {
     private static int performedIterations = 0; //ile razy wykonano algorytmu
     private static boolean calculatedReductInIteration = false; //czy w iteracji znaleziono juz redukt
     private static List<String> decisionValues; //wartosci decyzyjne
+    private static List<Attribute> coreAttributes; //atrybuty należące do rdzenia
+
+    public static List<Attribute> getCoreAttributes() {
+        return coreAttributes;
+    }
+
+    public static void setCoreAttributes(List<Attribute> coreAttributes) {
+        DataAccessor.coreAttributes = coreAttributes;
+    }
 
     public static List<String> getDecisionValues() {
         return decisionValues;

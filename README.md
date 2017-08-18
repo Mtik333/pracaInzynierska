@@ -91,3 +91,10 @@ Refactoring the code (used functional operations in most of cases NetBeans hinte
 Added screen for full algorithm calculation - not many informations but you can preview the reduct of each performed iteration
 
 My next task is either to make second algorithm or change edges colors each iteration so it can be shown which edges are the most "occupied" by ants
+
+0.3.7 - 18.08.2017
+
+Fixed few glitches:
+- pheromone's not being updated when no solution is found
+- step-by-step ended when first ant found solution - instead should check if iteration exceedes max number
+- minor glitches with displaying single step pick

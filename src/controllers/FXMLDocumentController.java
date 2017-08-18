@@ -119,12 +119,15 @@ public class FXMLDocumentController implements Initializable {
         if (DataAccessor.isLoadedData()) {
             if (DataAccessor.getAllAnts() == null || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
+                //showStepStats();
             }
-            if (newLogic.stepToNextVertice()) {
+            else if (newLogic.stepToNextVertice()) {
                 List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
                 System.out.println("xd");
+                newLogic.initializeAntsRandom();
+                //showStepStats();
             }
-            showStepStats();
+            //else showStepStats();
         }
     }
 
