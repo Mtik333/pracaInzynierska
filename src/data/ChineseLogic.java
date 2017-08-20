@@ -26,6 +26,8 @@ public class ChineseLogic {
     //generuje graf (wierzchołki i krawędzi)
     public void generateGraph() {
         coreCT2();
+        List<Attribute> test = DataAccessor.getAllAttributes();
+        calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < DataAccessor.getAllAttributes().size()-1; i++){
@@ -40,9 +42,7 @@ public class ChineseLogic {
         DataAccessor.setGraph(new Graph(vertices, edges));
         DataAccessor.setAntsNumber(vertices.size());
         DataAccessor.setMaxList(vertices.size());
-        fillIndiscMatrix();
-        String[][] indiscMatrix = DataAccessor.getIndiscMatrix();
-        System.out.println();
+        //System.out.println();
     }
     
     //funkcje do algorytmu CORE-CT
@@ -141,33 +141,87 @@ public class ChineseLogic {
         DataAccessor.setCoreAttributes(foundCore);
     }
     
-     //wypelnienie macierzy rozroznialnosci
-    public void fillIndiscMatrix() {
-        DataObject dat1, dat2;
-        StringBuilder cellString = new StringBuilder();
-        DataAccessor.setIndiscMatrix(new String[DataAccessor.getDataset().size()][DataAccessor.getDataset().size()]);
-        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
-            for (int j = (i + 1); j < DataAccessor.getDataset().size(); j++) {
-                if (!DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(DataAccessor.getDataset().get(j).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())) {
-                    dat1 = DataAccessor.getDataset().get(i);
-                    dat2 = DataAccessor.getDataset().get(j);
-                    cellString.setLength(0);
-                    cellString.append(",");
-                    for (int k = 0; k < DataAccessor.getAllAttributes().size() - 1; k++) { //problem gdy decisionmaker nie na końcu
-                        
-                            if (!dat1.getAttributes().get(k).getValue().equals(dat2.getAttributes().get(k).getValue())) {
-                                cellString.append(k).append(",");
-                            }
-                        
+    private void calculateMutualInformation(){
+        double mutualInformation=informationEntropyD()-conditionalEntropyC();
+        System.out.println(mutualInformation);
+    }
+    
+    private double informationEntropyD(){
+        double value=0;
+        for (String decision : DataAccessor.getDecisionValues()){
+            int instances=0;
+            for (DataObject dataObject : DataAccessor.getDataset()){
+                if (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision)){
+                    instances++;
+                }
+            }
+            double probability = ((double)instances)/((double)DataAccessor.getDataset().size());
+            double logarithm = (Math.log(probability)/Math.log(2));
+            value+=(-1)*probability*logarithm;
+        }
+        return value;
+    }
+    
+    private double conditionalEntropyC(){
+//        for (DataObject x : DataAccessor.getDataset())
+//            System.out.println(x.toString());
+        double finalValue=0;
+        double singleAttrValue=0;
+        int numberOfClassInstances=0;
+        int[] decisionsInstances=new int[DataAccessor.getDecisionValues().size()];
+        DataObject prev=null;
+        for (int i=0; i<DataAccessor.getDataset().size(); i++){
+            if (prev==null){
+                Arrays.fill(decisionsInstances, 0);
+                prev=DataAccessor.getDataset().get(i);
+                numberOfClassInstances++;
+                decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+            }
+            else{
+                boolean theSame=true;
+                for (int j=0; j<prev.getAttributes().size()-1; j++){
+                    if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())){
+                        theSame=false;
+                        break;
                     }
-                    if (cellString.length() > 2) {
-                        DataAccessor.getIndiscMatrix()[i][j] = cellString.toString();
-                    }
-                    /*if (cellString.length() > 0) {
-                        cellString.deleteCharAt(cellString.length() - 1);
-                    }*/
+                }
+                if (theSame){
+                    numberOfClassInstances++;
+                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+                }
+                else{
+                    singleAttrValue=directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+                    singleAttrValue*=(-1)*((double)numberOfClassInstances)/((double)DataAccessor.getDataset().size());
+                    numberOfClassInstances=0;
+                    finalValue+=singleAttrValue;
+                    singleAttrValue=0;
+                    i--;
+                    theSame=true;
+                    prev=null;
                 }
             }
         }
+        //obliczanie ostatniego zbioru
+        if (numberOfClassInstances>1){
+            singleAttrValue=directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+            finalValue+=singleAttrValue;
+            prev=null;
+        }
+        return finalValue;
+    }
+    
+    private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances){
+        double singleAttrValue=0; 
+        for (int k=0; k<decisionsInstances.length; k++){
+                        double probability = ((double)decisionsInstances[k])/((double)numberOfClassInstances);
+                        if (probability==0){
+                            singleAttrValue+=0;
+                        }
+                        else {
+                            double logarithm = (Math.log(probability)/Math.log(2));
+                            singleAttrValue=singleAttrValue+(probability*logarithm);
+                        }
+                    }
+        return singleAttrValue;
     }
 }

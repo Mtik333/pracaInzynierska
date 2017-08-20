@@ -44,10 +44,6 @@ public class NewLogic {
         DataAccessor.setMaxList(vertices.size());
         fillIndiscMatrix();
         String[][] indiscMatrix = DataAccessor.getIndiscMatrix();
-        //test
-//        ChineseLogic chineseLogic = new ChineseLogic();
-//        chineseLogic.generateGraph();
-        
         //System.out.println(graph.toString());
     }
 

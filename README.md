@@ -103,3 +103,9 @@ Fixed few glitches:
 
 Added simple "dynamic color change" for edges in UI
 - works quite good when doing single iterations or full reduct computation
+
+0.4.1 - 20.08.2017
+
+Added mutual information calculation (step 2 in RSFSACO) for all attributes
+- in next version function should be able to calculate it for chosen attributes
+- there might be problem with threads, when sorting dataset by chosen attributes
