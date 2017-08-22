@@ -109,3 +109,8 @@ Added simple "dynamic color change" for edges in UI
 Added mutual information calculation (step 2 in RSFSACO) for all attributes
 - in next version function should be able to calculate it for chosen attributes
 - there might be problem with threads, when sorting dataset by chosen attributes
+
+0.4.2 - 22.08.2017
+
+Added comparator that sorts by specified attributes - it's required for RSFSACO algorithm.
+- also fixed bug when the core contains all attributes so dataset can't be reduced

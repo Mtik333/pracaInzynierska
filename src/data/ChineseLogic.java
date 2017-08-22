@@ -42,8 +42,21 @@ public class ChineseLogic {
         DataAccessor.setGraph(new Graph(vertices, edges));
         DataAccessor.setAntsNumber(vertices.size());
         DataAccessor.setMaxList(vertices.size());
-        //System.out.println();
+//        DataObjectMultipleComparator dbmp = new DataObjectMultipleComparator();
+//        List<Integer> test5 = new ArrayList<Integer>();
+//        test5.add(1);
+//        test5.add(2);
+//        test5.add(DataAccessor.getAllAttributes().get(1));
+//        test5.add(DataAccessor.getAllAttributes().get(2));
+//        dbmp.setSortingBy(test5);
+//        Collections.sort(DataAccessor.getDataset(), dbmp);
+//        for (DataObject db : DataAccessor.getDataset()){
+//            System.out.println(db.toString());
+//        }
+//        System.out.println();
     }
+    
+    
     
     //funkcje do algorytmu CORE-CT
     //zlicza ilosc klas decyzyjnych
@@ -138,7 +151,9 @@ public class ChineseLogic {
         foundCore.forEach((a) -> {
             System.out.print(a.getName() + ",");
         });
-        DataAccessor.setCoreAttributes(foundCore);
+        if (foundCore.size()==DataAccessor.getAllAttributes().size()-1)
+            DataAccessor.setCoreAttributes(new ArrayList<Attribute>());
+        else DataAccessor.setCoreAttributes(foundCore);
     }
     
     private void calculateMutualInformation(){
