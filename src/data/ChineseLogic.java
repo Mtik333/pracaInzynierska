@@ -5,8 +5,10 @@
  */
 package data;
 
+import data.graph.ChineseAnt;
 import data.graph.Edge;
 import data.graph.Graph;
+import data.graph.InterfaceAnt;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -56,6 +59,27 @@ public class ChineseLogic {
 //        System.out.println();
     }
     
+    //generuje feromony na ścieżkach
+    public void generateAntsPheromone() {
+        if (DataAccessor.getCurrentReduct() == null) {
+            generateBasicPheromone();
+        }
+        List<InterfaceAnt> newAnts = new ArrayList<>();
+        for (int i = 0; i < DataAccessor.getAntsNumber(); i++) {
+            ChineseAnt ant = new ChineseAnt(i);
+            ant.initLists(DataAccessor.getGraph().getVertices());
+            newAnts.add(ant);
+        }
+        DataAccessor.setAllAnts(newAnts);
+    }
+    
+    //generowanie bazowego feromonu
+    public void generateBasicPheromone() {
+        Random random = new Random();
+        DataAccessor.getGraph().getEdges().forEach((x) -> {
+            x.setPheromone(random.nextDouble() * 0.1 + 0.5);
+        });
+    }
     
     
     //funkcje do algorytmu CORE-CT
@@ -88,24 +112,6 @@ public class ChineseLogic {
         return (int) finalValue;
     }
 
-//    public void coreDDM() {
-//        List<String> foundCore = new ArrayList<>();
-//        for (int i = 0; i < indiscMatrix.length; i++) {
-//            for (int j = i; j < indiscMatrix[i].length; j++) {
-//                if (indiscMatrix[i][j] != null) {
-//                    if (indiscMatrix[i][j].chars().filter(ch -> ch == ',').count() == 2) {
-//                        int singleton = (int)indiscMatrix[i][j].replace(",", "").charAt(0)-'0';
-//                        if (!foundCore.contains(attributesAll.get(singleton).getName())){
-//                            foundCore.add(attributesAll.get(singleton).getName());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        for (String x : foundCore) {
-//            System.out.print(x + ",");
-//        }
-//    }
     //caly algorytm CT
     public void coreCT2() {
         List<Attribute> foundCore = new ArrayList<>();
@@ -155,6 +161,8 @@ public class ChineseLogic {
             DataAccessor.setCoreAttributes(new ArrayList<Attribute>());
         else DataAccessor.setCoreAttributes(foundCore);
     }
+    
+    //FUNKCJE DO LICZENIA ENTROPII
     
     private void calculateMutualInformation(){
         double mutualInformation=informationEntropyD()-conditionalEntropyC();
@@ -239,4 +247,23 @@ public class ChineseLogic {
                     }
         return singleAttrValue;
     }
+    
+//    public void coreDDM() {
+//        List<String> foundCore = new ArrayList<>();
+//        for (int i = 0; i < indiscMatrix.length; i++) {
+//            for (int j = i; j < indiscMatrix[i].length; j++) {
+//                if (indiscMatrix[i][j] != null) {
+//                    if (indiscMatrix[i][j].chars().filter(ch -> ch == ',').count() == 2) {
+//                        int singleton = (int)indiscMatrix[i][j].replace(",", "").charAt(0)-'0';
+//                        if (!foundCore.contains(attributesAll.get(singleton).getName())){
+//                            foundCore.add(attributesAll.get(singleton).getName());
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        for (String x : foundCore) {
+//            System.out.print(x + ",");
+//        }
+//    }
 }

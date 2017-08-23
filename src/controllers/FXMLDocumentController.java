@@ -106,8 +106,8 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
-            chineseLogic.generateGraph();
-            //newLogic.generateGraph();
+            //chineseLogic.generateGraph();
+            newLogic.generateGraph();
             drawGraph();
         } catch (IOException ioException) {
             ioException.printStackTrace(System.out);

@@ -114,3 +114,8 @@ Added mutual information calculation (step 2 in RSFSACO) for all attributes
 
 Added comparator that sorts by specified attributes - it's required for RSFSACO algorithm.
 - also fixed bug when the core contains all attributes so dataset can't be reduced
+
+0.4.3 - 23.08.2017
+
+Exported functionality of both types of ants to the abstract class so it can be easily switched during execution of program
+- the same will happen with the logic classes, but first I need to fully implement the second algorithm

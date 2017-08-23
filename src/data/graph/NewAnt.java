@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Mateusz
  */
-public class NewAnt implements Runnable {
+public class NewAnt extends InterfaceAnt {
 
     private int index; //indeks mrówki
     private int currentIter; //obecny numer kroku w iteracji
@@ -118,13 +118,13 @@ public class NewAnt implements Runnable {
         this.pickedAttributes = new ArrayList<>();
     }
 
-    private void addEdgeToSolution() {
+    public void addEdgeToSolution() {
         allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - 1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - 1).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
             chosenEdges.add(x);
         });
     }
 
-    private double calculateSum() {
+    public double calculateSum() {
         double sumPheromone = 0;
         this.probabilities = new HashMap<>();
         Vertice v = null;

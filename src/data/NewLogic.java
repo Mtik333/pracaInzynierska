@@ -8,6 +8,7 @@ package data;
 import controllers.FXMLDocumentController;
 import data.graph.Edge;
 import data.graph.Graph;
+import data.graph.InterfaceAnt;
 import data.graph.NewAnt;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
@@ -52,7 +53,7 @@ public class NewLogic {
         if (DataAccessor.getCurrentReduct() == null) {
             generateBasicPheromone();
         }
-        List<NewAnt> newAnts = new ArrayList<>();
+        List<InterfaceAnt> newAnts = new ArrayList<>();
         for (int i = 0; i < DataAccessor.getAntsNumber(); i++) {
             NewAnt ant = new NewAnt(i);
             ant.initLists(DataAccessor.getGraph().getVertices());
@@ -101,8 +102,8 @@ public class NewLogic {
         DataAccessor.setCalculatedReductInIteration(true);
         DataAccessor.setCurrentIter(0);
         DataAccessor.setPerformedIterations(DataAccessor.getPerformedIterations() + 1);
-        List<NewAnt> ants = DataAccessor.getAllAnts();
-        for (NewAnt ant : ants) {
+        List<InterfaceAnt> ants = DataAccessor.getAllAnts();
+        for (InterfaceAnt ant : ants) {
             if (ant.isFoundSolution()) {
                 //DataAccessor.setCurrentIter(DataAccessor.getCurrentIter()-1);
                 evaluateSubsets();
@@ -119,7 +120,7 @@ public class NewLogic {
     //tryb wykonania jednego kroku w iteracji
     public boolean stepToNextVertice() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
-        List<NewAnt> ants = DataAccessor.getAllAnts();
+        List<InterfaceAnt> ants = DataAccessor.getAllAnts();
         if (DataAccessor.getCurrentIter()==DataAccessor.getMaxList()){
             evaluateSubsets();
             updatePheromone();
