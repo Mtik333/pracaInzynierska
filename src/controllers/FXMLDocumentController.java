@@ -8,7 +8,6 @@ package controllers;
 import data.ChineseLogic;
 import static data.ConstStrings.*;
 import data.DataAccessor;
-import data.NewLogic;
 import data.graph.Edge;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
@@ -68,8 +67,8 @@ public class FXMLDocumentController implements Initializable {
     private Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
     double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
-    private NewLogic newLogic = new NewLogic(); //cała logika aplikacji
-    private ChineseLogic chineseLogic = new ChineseLogic(); //logika algorytmu chinskiego
+    //private NewLogic newLogic = new NewLogic(); //cała logika aplikacji
+    private ChineseLogic newLogic = new ChineseLogic(); //logika algorytmu chinskiego
 
     @FXML
     public void exitApp(ActionEvent event) {
@@ -84,7 +83,7 @@ public class FXMLDocumentController implements Initializable {
     //wczytuje zestaw danych
     @FXML
     public void loadDataset(ActionEvent event) {
-        DataAccessor.resetValues();
+        //DataAccessor.resetValues();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty(USERDIR)));
         fileChooser.setTitle(CHOOSE_FILE);
@@ -97,14 +96,15 @@ public class FXMLDocumentController implements Initializable {
                 return;
             }
             if (!DataAccessor.parseFile()) {
-                chineseLogic = new ChineseLogic();
-                newLogic = new NewLogic();
+                //chineseLogic = new ChineseLogic();
+                //newLogic = new NewLogic();
+                //newLogic = new ChineseLogic();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(PARSING_ERROR);
                 alert.setContentText(WRONG_SEPARATOR);
                 alert.showAndWait();
             } else {
-                objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
+                //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
             //chineseLogic.generateGraph();
             newLogic.generateGraph();

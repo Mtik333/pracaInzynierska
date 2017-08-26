@@ -61,55 +61,68 @@ public class NewAnt extends InterfaceAnt {
         foundSolution = empty_matrix(discMatrix);
     }
 
+    @Override
     public int getIndex() {
         return index;
     }
 
+    @Override
     public void setIndex(int index) {
         this.index = index;
     }
 
+    @Override
     public List<Vertice> getPickedAttributes() {
         return pickedAttributes;
     }
 
+    @Override
     public void setPickedAttributes(List<Vertice> pickedAttributes) {
         this.pickedAttributes = pickedAttributes;
     }
 
+    @Override
     public List<Vertice> getUnpickedAttributes() {
         return unpickedAttributes;
     }
 
+    @Override
     public void setUnpickedAttributes(List<Vertice> unpickedAttributes) {
         this.unpickedAttributes = unpickedAttributes;
     }
 
+    @Override
     public Map<Vertice, Double> getProbabilities() {
         return probabilities;
     }
 
+    @Override
     public void setProbabilities(Map<Vertice, Double> probabilities) {
         this.probabilities = probabilities;
     }
 
+    @Override
     public String[][] getDiscMatrix() {
         return discMatrix;
     }
 
+    @Override
     public boolean isFoundSolution() {
         return foundSolution;
     }
 
+    @Override
     public void setFoundSolution(boolean foundSolution) {
         this.foundSolution = foundSolution;
     }
 
+    @Override
     public void pickVertice(Vertice v) {
         pickedAttributes.add(v);
         unpickedAttributes.remove(v);
     }
 
+    @Override
     public void initLists(List<Vertice> unpicked) {
         this.unpickedAttributes = new ArrayList<>();
         unpicked.forEach((x) -> {
@@ -118,12 +131,14 @@ public class NewAnt extends InterfaceAnt {
         this.pickedAttributes = new ArrayList<>();
     }
 
+    @Override
     public void addEdgeToSolution() {
         allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - 1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - 1).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
             chosenEdges.add(x);
         });
     }
 
+    @Override
     public double calculateSum() {
         double sumPheromone = 0;
         this.probabilities = new HashMap<>();
@@ -147,6 +162,7 @@ public class NewAnt extends InterfaceAnt {
         return sumPheromone;
     }
 
+    @Override
     public void setDiscMatrix(String[][] matrix) {
         this.discMatrix = new String[matrix.length][matrix.length];
         StringBuilder myString = new StringBuilder();
@@ -163,6 +179,7 @@ public class NewAnt extends InterfaceAnt {
         }
     }
 
+    @Override
     public Vertice pickVerticeByProbability() {
         double p = Math.random();
         double cumulativeProbability = 0.0;
@@ -176,6 +193,7 @@ public class NewAnt extends InterfaceAnt {
         return null;
     }
 
+    @Override
     public boolean reduceMatrix() {
         StringBuilder stringCompare = new StringBuilder();
         for (int i = 0; i < discMatrix.length; i++) {
@@ -192,6 +210,7 @@ public class NewAnt extends InterfaceAnt {
         return empty_matrix(discMatrix);
     }
 
+    @Override
     public boolean empty_matrix(String matrix[][]) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = i; j < matrix.length; j++) {
@@ -203,18 +222,22 @@ public class NewAnt extends InterfaceAnt {
         return true;
     }
 
+    @Override
     public List<Edge> getAllEdges() {
         return allEdges;
     }
 
+    @Override
     public void setAllEdges(List<Edge> allEdges) {
         this.allEdges = allEdges;
     }
 
+    @Override
     public List<Edge> getChosenEdges() {
         return chosenEdges;
     }
 
+    @Override
     public void setChosenEdges(List<Edge> chosenEdges) {
         this.chosenEdges = chosenEdges;
     }

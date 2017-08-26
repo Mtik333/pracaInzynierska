@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Mateusz
  */
-public class DataObject {
+public class DataObject implements Comparable<DataObject> {
 
     private String name; //nazwa obiektu (z reguly indeks jako ciag znakow)
     private List<Attribute> attributes; //lista atrybutow
@@ -47,4 +47,9 @@ public class DataObject {
         this.attributes = attributes;
     }
 
+    public int compareTo(DataObject other) {
+        Integer myName=Integer.parseInt(name);
+        Integer otherName=Integer.parseInt(other.name);
+        return myName.compareTo(otherName);
+    }
 }

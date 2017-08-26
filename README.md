@@ -119,3 +119,10 @@ Added comparator that sorts by specified attributes - it's required for RSFSACO 
 
 Exported functionality of both types of ants to the abstract class so it can be easily switched during execution of program
 - the same will happen with the logic classes, but first I need to fully implement the second algorithm
+
+0.5.0 - 26.08.2017
+
+Added second algorithm - Mushroom dataset works much smoother than with the first one
+- some issues with NaN double values to be investigated
+- significance of heuristic is too high (should be like that or no?) or pheromones are too weak
+- proper tests should be performed with more datasets

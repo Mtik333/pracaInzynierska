@@ -51,6 +51,24 @@ public class DataAccessor {
     private static boolean calculatedReductInIteration = false; //czy w iteracji znaleziono juz redukt
     private static List<String> decisionValues; //wartosci decyzyjne
     private static List<Attribute> coreAttributes; //atrybuty należące do rdzenia
+    private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
+    private static double decisionEntropy; //entropia decyzji w zbiorze
+
+    public static double getDecisionEntropy() {
+        return decisionEntropy;
+    }
+
+    public static void setDecisionEntropy(double decisionEntropy) {
+        DataAccessor.decisionEntropy = decisionEntropy;
+    }
+
+    public static double getDatasetMutualInformation() {
+        return datasetMutualInformation;
+    }
+
+    public static void setDatasetMutualInformation(double datasetMutualInformation) {
+        DataAccessor.datasetMutualInformation = datasetMutualInformation;
+    }
 
     public static List<Attribute> getCoreAttributes() {
         return coreAttributes;
@@ -326,6 +344,14 @@ public class DataAccessor {
         maxList = aMaxList;
     }
 
+    public static Attribute verticeToAttribute(Vertice vertice){
+        for (Attribute attribute : getAllAttributes()){
+            if (attribute.getName().equals(vertice.getName()))
+                return attribute;
+        }
+        return null;
+    }
+    
     public static void resetValues(){
         setLoadedData(false);
         setFile(null);
