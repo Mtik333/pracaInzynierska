@@ -6,7 +6,7 @@
 package controllers;
 
 import data.DataAccessor;
-import data.NewLogic;
+import data.JensenLogic;
 import data.graph.Vertice;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,7 +50,7 @@ public class ShowVerticeXMLController implements Initializable {
         setVertice(DataAccessor.getAnalyzedVertice());
         verticeName.setText(vertice.getName());
         if (DataAccessor.isLoadedData()) {
-            antsAmount.setText(String.valueOf(NewLogic.returnAntsNumberOnVertice(vertice)));
+            antsAmount.setText(String.valueOf(JensenLogic.returnAntsNumberOnVertice(vertice)));
         } else {
             antsAmount.setText(String.valueOf(0));
         }

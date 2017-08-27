@@ -8,7 +8,7 @@ package data;
 import static data.ConstStrings.*;
 import data.graph.Edge;
 import data.graph.Graph;
-import data.graph.InterfaceAnt;
+import data.graph.Ant;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
@@ -41,7 +41,7 @@ public class DataAccessor {
     private static double constantForUpdating = 1; //stala do aktualizacji feromonow na ścieżkach
     private static Edge analyzedEdge; //analizowana krawędź (UI)
     private static Vertice analyzedVertice; //analizowany wierzchołek (UI)
-    private static List<InterfaceAnt> allAnts; //lista wszystkich mrówek (wątków)
+    private static List<Ant> allAnts; //lista wszystkich mrówek (wątków)
     private static int currentIter = 0; //obecny krok (wewnątrz iteracji algorytmu)
     private static List<Attribute> currentReduct; //obecny redukt
     private static String[][] indiscMatrix; //macierz rozróznialności
@@ -313,11 +313,11 @@ public class DataAccessor {
         graph = aGraph;
     }
 
-    public static List<InterfaceAnt> getAllAnts() {
+    public static List<Ant> getAllAnts() {
         return allAnts;
     }
 
-    public static void setAllAnts(List<InterfaceAnt> aAllAnts) {
+    public static void setAllAnts(List<Ant> aAllAnts) {
         allAnts = aAllAnts;
     }
 

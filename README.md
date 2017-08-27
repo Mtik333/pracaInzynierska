@@ -135,3 +135,15 @@ Refactored ant classes a bit
 
 The same should be done to logic classes - similar abstract class and proper two extending it
 - need to find out why previewing examples doesn't work (textarea with objects is disabled right now)
+
+0.5.2 - 27.08.2017
+
+Cleaned logic classes - abstract Logic class and two extending - JensenLogic and ChineseLogic.
+
+Things to do within next weeks:
+- fix the first algorithm memory leaks (different way for checking if features are a reduct)
+- setting JSACO or RSFSACO in options should really modify the chosen algorithm
+- show the core attributes on the "canvas"
+- add core attributes to reduct results when previewing after iteration or full reduct computation
+- add time estimation?
+- add modification in subset evaluation to limit ants that affect on pheromone trails (to be considered)

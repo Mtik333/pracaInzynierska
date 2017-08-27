@@ -8,6 +8,7 @@ package controllers;
 import data.ChineseLogic;
 import static data.ConstStrings.*;
 import data.DataAccessor;
+import data.Logic;
 import data.graph.Edge;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
@@ -67,8 +68,8 @@ public class FXMLDocumentController implements Initializable {
     private Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
     double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
-    //private NewLogic newLogic = new NewLogic(); //cała logika aplikacji
-    private ChineseLogic newLogic = new ChineseLogic(); //logika algorytmu chinskiego
+    //private Logic newLogic = new NewLogic(); //cała logika aplikacji
+    private Logic newLogic = new ChineseLogic(); //logika algorytmu chinskiego
 
     @FXML
     public void exitApp(ActionEvent event) {

@@ -6,13 +6,10 @@
 package data;
 
 import controllers.FXMLDocumentController;
+import data.graph.Ant;
 import data.graph.Edge;
-import data.graph.Graph;
-import data.graph.InterfaceAnt;
-import data.graph.NewAnt;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
-import data.roughsets.DataObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,56 +22,23 @@ import java.util.concurrent.Executors;
  *
  * @author Mateusz
  */
-public class NewLogic {
+public abstract class Logic {
 
     //generuje graf (wierzchołki i krawędzi)
-    public void generateGraph() {
-        List<Vertice> vertices = new ArrayList<>();
-        List<Edge> edges = new ArrayList<>();
-        for (int i = 0; i < DataAccessor.getAllAttributes().size(); i++) {
-            vertices.add(new Vertice(DataAccessor.getAllAttributes().get(i).getName(), i));
-        }
-        vertices.remove(DataAccessor.getDecisionMaker()); //usuwamy wierzcholek decyzyjny
-        for (int i = 0; i < vertices.size(); i++) {
-            for (int j = i + 1; j < vertices.size(); j++) {
-                edges.add(new Edge(vertices.get(i), vertices.get(j))); //graf pelny, wiec krawdzie miedzy kazdymi wierzcholkami
-            }
-        }
-        DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size());
-        DataAccessor.setMaxList(vertices.size());
-        fillIndiscMatrix();
-        String[][] indiscMatrix = DataAccessor.getIndiscMatrix();
-        //System.out.println(graph.toString());
-    }
+    public abstract void generateGraph();
 
     //generuje feromony na ścieżkach
-    public void generateAntsPheromone() {
-        if (DataAccessor.getCurrentReduct() == null) {
-            generateBasicPheromone();
-        }
-        List<InterfaceAnt> newAnts = new ArrayList<>();
-        for (int i = 0; i < DataAccessor.getAntsNumber(); i++) {
-            NewAnt ant = new NewAnt(i);
-            ant.initLists(DataAccessor.getGraph().getVertices());
-            newAnts.add(ant);
-        }
-        DataAccessor.setAllAnts(newAnts);
-    }
+    public abstract void generateAntsPheromone();
 
     //inicjalizacja mrowek na losowych pozycjach
-    public void initializeAntsRandom() {
-        DataAccessor.setCalculatedReductInIteration(false);
-        generateAntsPheromone();
+    public abstract void initializeAntsRandom();
+
+    //generowanie bazowego feromonu
+    public void generateBasicPheromone() {
         Random random = new Random();
-        DataAccessor.getAllAnts().stream().map((ant) -> {
-            int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
-            ant.pickVertice(ant.getUnpickedAttributes().get(j));
-            return ant;
-        }).forEachOrdered((ant) -> {
-            ((NewAnt) ant).setDiscMatrix(DataAccessor.getIndiscMatrix());
+        DataAccessor.getGraph().getEdges().forEach((x) -> {
+            x.setPheromone(random.nextDouble() * 0.1 + 0.5);
         });
-        DataAccessor.setCurrentIter(1);
     }
 
     //tryb znajdowania reduktu
@@ -102,8 +66,8 @@ public class NewLogic {
         DataAccessor.setCalculatedReductInIteration(true);
         DataAccessor.setCurrentIter(0);
         DataAccessor.setPerformedIterations(DataAccessor.getPerformedIterations() + 1);
-        List<InterfaceAnt> ants = DataAccessor.getAllAnts();
-        for (InterfaceAnt ant : ants) {
+        List<Ant> ants = DataAccessor.getAllAnts();
+        for (Ant ant : ants) {
             if (ant.isFoundSolution()) {
                 //DataAccessor.setCurrentIter(DataAccessor.getCurrentIter()-1);
                 evaluateSubsets();
@@ -120,7 +84,7 @@ public class NewLogic {
     //tryb wykonania jednego kroku w iteracji
     public boolean stepToNextVertice() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
-        List<InterfaceAnt> ants = DataAccessor.getAllAnts();
+        List<Ant> ants = DataAccessor.getAllAnts();
         if (DataAccessor.getCurrentIter() == DataAccessor.getMaxList()) {
             evaluateSubsets();
             updatePheromone();
@@ -140,42 +104,6 @@ public class NewLogic {
         }
         //System.out.println(DataAccessor.getAllAnts().toString());
         return false;
-    }
-
-    //generowanie bazowego feromonu
-    public void generateBasicPheromone() {
-        Random random = new Random();
-        DataAccessor.getGraph().getEdges().forEach((x) -> {
-            x.setPheromone(random.nextDouble() * 0.1 + 0.5);
-        });
-    }
-
-    //wypelnienie macierzy rozroznialnosci
-    public void fillIndiscMatrix() {
-        DataObject dat1, dat2;
-        StringBuilder cellString = new StringBuilder();
-        DataAccessor.setIndiscMatrix(new String[DataAccessor.getDataset().size()][DataAccessor.getDataset().size()]);
-        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
-            for (int j = (i + 1); j < DataAccessor.getDataset().size(); j++) {
-                if (!DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(DataAccessor.getDataset().get(j).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())) {
-                    dat1 = DataAccessor.getDataset().get(i);
-                    dat2 = DataAccessor.getDataset().get(j);
-                    cellString.setLength(0);
-                    cellString.append(",");
-                    for (int k = 0; k < DataAccessor.getAllAttributes().size() - 1; k++) { //problem gdy decisionmaker nie na końcu
-                        if (!dat1.getAttributes().get(k).getValue().equals(dat2.getAttributes().get(k).getValue())) {
-                            cellString.append(k).append(",");
-                        }
-                    }
-                    if (cellString.length() > 2) {
-                        DataAccessor.getIndiscMatrix()[i][j] = cellString.toString();
-                    }
-                    /*if (cellString.length() > 0) {
-                        cellString.deleteCharAt(cellString.length() - 1);
-                    }*/
-                }
-            }
-        }
     }
 
     //zwraca ile mrowek znajduje sie w danym wierzcholku w danym kroku (tryb pojedynczych krokow)
@@ -238,7 +166,7 @@ public class NewLogic {
             x.setPheromone(x.getPheromone() * (1 - DataAccessor.getPheromoneEvaporation()));
         });
         DataAccessor.getAllAnts().stream().filter((y) -> (y.isFoundSolution())).forEachOrdered((y) -> {
-            double contribution = ((double) DataAccessor.getConstantForUpdating() / (double) y.getChosenEdges().size());
+            double contribution = (DataAccessor.getConstantForUpdating() / (double) y.getChosenEdges().size());
             y.getChosenEdges().forEach((x) -> {
                 x.setPheromone(x.getPheromone() + contribution);
             });

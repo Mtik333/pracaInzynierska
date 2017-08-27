@@ -14,7 +14,7 @@ import java.util.HashMap;
  *
  * @author Mateusz
  */
-public class NewAnt extends InterfaceAnt {
+public class NewAnt extends Ant {
 
     private String[][] discMatrix; //macierz rozroznialnosci (prywatna)
 

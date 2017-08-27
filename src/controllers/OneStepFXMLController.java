@@ -6,7 +6,7 @@
 package controllers;
 
 import data.DataAccessor;
-import data.graph.InterfaceAnt;
+import data.graph.Ant;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -25,13 +25,13 @@ import javafx.stage.Stage;
  */
 public class OneStepFXMLController implements Initializable {
 
-    private InterfaceAnt ant;
+    private Ant ant;
 
-    public InterfaceAnt getAnt() {
+    public Ant getAnt() {
         return ant;
     }
 
-    public void setAnt(InterfaceAnt ant) {
+    public void setAnt(Ant ant) {
         this.ant = ant;
     }
 
@@ -61,7 +61,7 @@ public class OneStepFXMLController implements Initializable {
 //        if (ant.isFoundSolution())
 //            isSolutionFound.setText(String.valueOf(true));
 //        else isSolutionFound.setText(String.valueOf(false));
-        DataAccessor.getAllAnts().forEach((InterfaceAnt newAnt) -> {
+        DataAccessor.getAllAnts().forEach((Ant newAnt) -> {
             chosenAnt.getItems().add("Ant " + newAnt.getIndex());
         });
         chosenAnt.valueProperty().addListener(new ChangeListener<String>() {

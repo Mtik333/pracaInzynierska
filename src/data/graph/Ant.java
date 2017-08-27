@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Mateusz
  */
-public abstract class InterfaceAnt implements Runnable {
+public abstract class Ant implements Runnable {
 
     protected int index; //indeks mrówki
     protected int currentIter; //obecny numer kroku w iteracji

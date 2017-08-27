@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author Mateusz
  */
-public class ChineseAnt extends InterfaceAnt {
+public class ChineseAnt extends Ant {
 
     private List<DataObject> sortedDataset; //dane posortowane
     private Map<Vertice, Double> heuristicValues; //informacja heurystyczna
