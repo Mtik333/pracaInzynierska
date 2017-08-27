@@ -9,8 +9,6 @@ import static data.ConstStrings.*;
 import data.DataAccessor;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -18,15 +16,7 @@ import java.util.Map;
  */
 public class NewAnt extends InterfaceAnt {
 
-    private int index; //indeks mrówki
-    private int currentIter; //obecny numer kroku w iteracji
-    private List<Vertice> pickedAttributes; //wybrane węzły
-    private List<Vertice> unpickedAttributes; //pozostałe węzły
-    private Map<Vertice, Double> probabilities; //mapa z prawdopodobieństwami
-    private List<Edge> allEdges; //lista krawedzi (wszystkich)
-    private List<Edge> chosenEdges; //lista krawedzi (wybranych)
     private String[][] discMatrix; //macierz rozroznialnosci (prywatna)
-    private boolean foundSolution = false; //czy znaleziono rozwiazanie)
 
     public NewAnt(int index) {
         this.index = index;
@@ -61,81 +51,8 @@ public class NewAnt extends InterfaceAnt {
         foundSolution = empty_matrix(discMatrix);
     }
 
-    @Override
-    public int getIndex() {
-        return index;
-    }
-
-    @Override
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    @Override
-    public List<Vertice> getPickedAttributes() {
-        return pickedAttributes;
-    }
-
-    @Override
-    public void setPickedAttributes(List<Vertice> pickedAttributes) {
-        this.pickedAttributes = pickedAttributes;
-    }
-
-    @Override
-    public List<Vertice> getUnpickedAttributes() {
-        return unpickedAttributes;
-    }
-
-    @Override
-    public void setUnpickedAttributes(List<Vertice> unpickedAttributes) {
-        this.unpickedAttributes = unpickedAttributes;
-    }
-
-    @Override
-    public Map<Vertice, Double> getProbabilities() {
-        return probabilities;
-    }
-
-    @Override
-    public void setProbabilities(Map<Vertice, Double> probabilities) {
-        this.probabilities = probabilities;
-    }
-
-    @Override
     public String[][] getDiscMatrix() {
         return discMatrix;
-    }
-
-    @Override
-    public boolean isFoundSolution() {
-        return foundSolution;
-    }
-
-    @Override
-    public void setFoundSolution(boolean foundSolution) {
-        this.foundSolution = foundSolution;
-    }
-
-    @Override
-    public void pickVertice(Vertice v) {
-        pickedAttributes.add(v);
-        unpickedAttributes.remove(v);
-    }
-
-    @Override
-    public void initLists(List<Vertice> unpicked) {
-        this.unpickedAttributes = new ArrayList<>();
-        unpicked.forEach((x) -> {
-            unpickedAttributes.add(x);
-        });
-        this.pickedAttributes = new ArrayList<>();
-    }
-
-    @Override
-    public void addEdgeToSolution() {
-        allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - 1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - 1).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
-            chosenEdges.add(x);
-        });
     }
 
     @Override
@@ -162,7 +79,6 @@ public class NewAnt extends InterfaceAnt {
         return sumPheromone;
     }
 
-    @Override
     public void setDiscMatrix(String[][] matrix) {
         this.discMatrix = new String[matrix.length][matrix.length];
         StringBuilder myString = new StringBuilder();
@@ -179,21 +95,6 @@ public class NewAnt extends InterfaceAnt {
         }
     }
 
-    @Override
-    public Vertice pickVerticeByProbability() {
-        double p = Math.random();
-        double cumulativeProbability = 0.0;
-        for (Map.Entry<Vertice, Double> x : probabilities.entrySet()) {
-            cumulativeProbability += x.getValue();
-            if (p <= cumulativeProbability) {
-                unpickedAttributes.remove(x.getKey());
-                return x.getKey();
-            }
-        }
-        return null;
-    }
-
-    @Override
     public boolean reduceMatrix() {
         StringBuilder stringCompare = new StringBuilder();
         for (int i = 0; i < discMatrix.length; i++) {
@@ -210,7 +111,6 @@ public class NewAnt extends InterfaceAnt {
         return empty_matrix(discMatrix);
     }
 
-    @Override
     public boolean empty_matrix(String matrix[][]) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = i; j < matrix.length; j++) {
@@ -222,23 +122,4 @@ public class NewAnt extends InterfaceAnt {
         return true;
     }
 
-    @Override
-    public List<Edge> getAllEdges() {
-        return allEdges;
-    }
-
-    @Override
-    public void setAllEdges(List<Edge> allEdges) {
-        this.allEdges = allEdges;
-    }
-
-    @Override
-    public List<Edge> getChosenEdges() {
-        return chosenEdges;
-    }
-
-    @Override
-    public void setChosenEdges(List<Edge> chosenEdges) {
-        this.chosenEdges = chosenEdges;
-    }
 }

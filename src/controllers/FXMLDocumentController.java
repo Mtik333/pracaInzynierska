@@ -137,8 +137,9 @@ public class FXMLDocumentController implements Initializable {
                 newLogic.initializeAntsRandom();
                 colorEdges();
                 showStepStats();
+            } else {
+                showStepStats();
             }
-            else showStepStats();
         }
     }
 

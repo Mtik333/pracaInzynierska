@@ -48,8 +48,8 @@ public class DataObject implements Comparable<DataObject> {
     }
 
     public int compareTo(DataObject other) {
-        Integer myName=Integer.parseInt(name);
-        Integer otherName=Integer.parseInt(other.name);
+        Integer myName = Integer.parseInt(name);
+        Integer otherName = Integer.parseInt(other.name);
         return myName.compareTo(otherName);
     }
 }

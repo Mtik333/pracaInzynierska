@@ -34,15 +34,17 @@ public class OneReductFXMLController implements Initializable {
     public TextField elapsedTime;
     @FXML
     public TextField attributesInIteration;
+
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        for (int i=0; i<DataAccessor.getListOfReducts().size(); i++){
-            chosenIteration.getItems().add("Iteration "+i);
+        for (int i = 0; i < DataAccessor.getListOfReducts().size(); i++) {
+            chosenIteration.getItems().add("Iteration " + i);
         }
         chosenIteration.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -52,23 +54,23 @@ public class OneReductFXMLController implements Initializable {
         });
         chosenIteration.getSelectionModel().select(0);
         DataAccessor.getCurrentReduct().forEach((attribute) -> {
-            finalReduct.appendText(attribute.getName()+", ");
-        }); 
-        
-    }    
+            finalReduct.appendText(attribute.getName() + ", ");
+        });
+
+    }
 
     @FXML
     public void dismiss(ActionEvent event) {
         Stage stage = (Stage) finalReduct.getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     public void setNewValues() {
         attributesInIteration.clear();
         List<Attribute> list = DataAccessor.getListOfReducts().get(chosenIteration.getSelectionModel().getSelectedIndex());
         list.forEach((attribute) -> {
-            attributesInIteration.appendText(attribute.getName()+", ");
-        }); 
+            attributesInIteration.appendText(attribute.getName() + ", ");
+        });
     }
 }

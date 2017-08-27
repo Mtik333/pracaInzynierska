@@ -28,8 +28,7 @@ import java.util.concurrent.Executors;
  * @author Mateusz
  */
 public class ChineseLogic {
-    
-    
+
     //generuje graf (wierzchołki i krawędzi)
     public void generateGraph() {
         coreCT2();
@@ -37,9 +36,10 @@ public class ChineseLogic {
         calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
-        for (int i = 0; i < DataAccessor.getAllAttributes().size()-1; i++){
-            if (!DataAccessor.getCoreAttributes().contains(DataAccessor.getAllAttributes().get(i)))
+        for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {
+            if (!DataAccessor.getCoreAttributes().contains(DataAccessor.getAllAttributes().get(i))) {
                 vertices.add(new Vertice(DataAccessor.getAllAttributes().get(i).getName(), i));
+            }
         }
         for (int i = 0; i < vertices.size(); i++) {
             for (int j = i + 1; j < vertices.size(); j++) {
@@ -62,7 +62,7 @@ public class ChineseLogic {
 //        }
 //        System.out.println();
     }
-    
+
     //generuje feromony na ścieżkach
     public void generateAntsPheromone() {
         if (DataAccessor.getCurrentReduct() == null) {
@@ -76,7 +76,7 @@ public class ChineseLogic {
         }
         DataAccessor.setAllAnts(newAnts);
     }
-    
+
     //generowanie bazowego feromonu
     public void generateBasicPheromone() {
         Random random = new Random();
@@ -84,20 +84,19 @@ public class ChineseLogic {
             x.setPheromone(random.nextDouble() * 0.1 + 0.5);
         });
     }
-    
+
     //inicjalizacja mrowek na losowych pozycjach
     public void initializeAntsRandom() {
         DataAccessor.setCalculatedReductInIteration(false);
         generateAntsPheromone();
         Random random = new Random();
-        for (InterfaceAnt ant : DataAccessor.getAllAnts()){
+        for (InterfaceAnt ant : DataAccessor.getAllAnts()) {
             int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
             ant.pickVertice(ant.getUnpickedAttributes().get(j));
-            System.out.println("xd");
         }
         DataAccessor.setCurrentIter(1);
     }
-    
+
     //tryb znajdowania reduktu
     public void findReduct() {
         while (DataAccessor.getPerformedIterations() < DataAccessor.getLoopLimit()) {
@@ -106,7 +105,7 @@ public class ChineseLogic {
             FXMLDocumentController.colorEdges();
         }
     }
-    
+
     //tryb wykonania jednej iteracji algorytmu
     public void performOneIteration() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
@@ -137,12 +136,12 @@ public class ChineseLogic {
         }
         //System.out.println(DataAccessor.getCurrentReduct().size());
     }
-    
+
     //tryb wykonania jednego kroku w iteracji
     public boolean stepToNextVertice() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
         List<InterfaceAnt> ants = DataAccessor.getAllAnts();
-        if (DataAccessor.getCurrentIter()==DataAccessor.getMaxList()){
+        if (DataAccessor.getCurrentIter() == DataAccessor.getMaxList()) {
             evaluateSubsets();
             updatePheromone();
             DataAccessor.setCurrentIter(0);
@@ -162,7 +161,7 @@ public class ChineseLogic {
         //System.out.println(DataAccessor.getAllAnts().toString());
         return false;
     }
-    
+
     //zwraca ile mrowek znajduje sie w danym wierzcholku w danym kroku (tryb pojedynczych krokow)
     public static int returnAntsNumberOnVertice(Vertice vertice) {
         int i = 0;
@@ -171,7 +170,7 @@ public class ChineseLogic {
         }
         return i;
     }
-    
+
     //weryfikacja otrzymanych rozwiazan
     public void evaluateSubsets() {
         DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).map((ant) -> {
@@ -207,7 +206,7 @@ public class ChineseLogic {
             DataAccessor.getListOfReducts().add(newReduct);
         }
     }
-    
+
     //dodanie do listy reduktów w kolejnych iteracji reduktu z poprzedniej pętli (rozwiazanie z poprzedniej iteracji bylo lepsze)
     public void addPreviousReduct() {
         List<Attribute> newReduct = new ArrayList<>();
@@ -216,14 +215,14 @@ public class ChineseLogic {
         });
         DataAccessor.getListOfReducts().add(newReduct);
     }
-    
+
     //aktualizuj feromony na ścieżkach
     public void updatePheromone() {
         DataAccessor.getGraph().getEdges().forEach((x) -> {
             x.setPheromone(x.getPheromone() * (1 - DataAccessor.getPheromoneEvaporation()));
         });
         DataAccessor.getAllAnts().stream().filter((y) -> (y.isFoundSolution())).forEachOrdered((y) -> {
-            double contribution = ((double) DataAccessor.getConstantForUpdating() / (double) y.getChosenEdges().size());
+            double contribution = (DataAccessor.getConstantForUpdating() / (double) y.getChosenEdges().size());
             y.getChosenEdges().forEach((x) -> {
                 x.setPheromone(x.getPheromone() + contribution);
             });
@@ -232,7 +231,7 @@ public class ChineseLogic {
         Edge d = Collections.max(edges, Comparator.comparing(c -> c.getPheromone()));
         //System.out.println("xd");
     }
-    
+
     //funkcje do algorytmu CORE-CT
     //zlicza ilosc klas decyzyjnych
     public int countDecisionClasses() {
@@ -308,102 +307,100 @@ public class ChineseLogic {
         foundCore.forEach((a) -> {
             System.out.print(a.getName() + ",");
         });
-        if (foundCore.size()==DataAccessor.getAllAttributes().size()-1)
+        if (foundCore.size() == DataAccessor.getAllAttributes().size() - 1) {
             DataAccessor.setCoreAttributes(new ArrayList<Attribute>());
-        else DataAccessor.setCoreAttributes(foundCore);
+        } else {
+            DataAccessor.setCoreAttributes(foundCore);
+        }
         Collections.sort(DataAccessor.getDataset());
         //DataObjectMultipleComparator domc = new DataObjectMultipleComparator(foundCore);
         //Collections.sort(DataAccessor.getDataset(), domc);
     }
-    
+
     //FUNKCJE DO LICZENIA ENTROPII
-    
-    private void calculateMutualInformation(){
-        double mutualInformation=informationEntropyD()-conditionalEntropyC();
+    private void calculateMutualInformation() {
+        double mutualInformation = informationEntropyD() - conditionalEntropyC();
         DataAccessor.setDatasetMutualInformation(mutualInformation);
         System.out.println(mutualInformation);
     }
-    
-    private double informationEntropyD(){
-        double value=0;
-        for (String decision : DataAccessor.getDecisionValues()){
-            int instances=0;
-            for (DataObject dataObject : DataAccessor.getDataset()){
-                if (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision)){
+
+    private double informationEntropyD() {
+        double value = 0;
+        for (String decision : DataAccessor.getDecisionValues()) {
+            int instances = 0;
+            for (DataObject dataObject : DataAccessor.getDataset()) {
+                if (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision)) {
                     instances++;
                 }
             }
-            double probability = ((double)instances)/((double)DataAccessor.getDataset().size());
-            double logarithm = (Math.log(probability)/Math.log(2));
-            value+=(-1)*probability*logarithm;
+            double probability = ((double) instances) / ((double) DataAccessor.getDataset().size());
+            double logarithm = (Math.log(probability) / Math.log(2));
+            value += (-1) * probability * logarithm;
         }
         DataAccessor.setDecisionEntropy(value);
         return value;
     }
-    
-    private double conditionalEntropyC(){
+
+    private double conditionalEntropyC() {
 //        for (DataObject x : DataAccessor.getDataset())
 //            System.out.println(x.toString());
-        double finalValue=0;
-        double singleAttrValue=0;
-        int numberOfClassInstances=0;
-        int[] decisionsInstances=new int[DataAccessor.getDecisionValues().size()];
-        DataObject prev=null;
-        for (int i=0; i<DataAccessor.getDataset().size(); i++){
-            if (prev==null){
+        double finalValue = 0;
+        double singleAttrValue = 0;
+        int numberOfClassInstances = 0;
+        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
+        DataObject prev = null;
+        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
+            if (prev == null) {
                 Arrays.fill(decisionsInstances, 0);
-                prev=DataAccessor.getDataset().get(i);
+                prev = DataAccessor.getDataset().get(i);
                 numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-            }
-            else{
-                boolean theSame=true;
-                for (int j=0; j<prev.getAttributes().size()-1; j++){
-                    if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())){
-                        theSame=false;
+            } else {
+                boolean theSame = true;
+                for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
+                    if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
+                        theSame = false;
                         break;
                     }
                 }
-                if (theSame){
+                if (theSame) {
                     numberOfClassInstances++;
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                }
-                else{
-                    singleAttrValue=directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-                    singleAttrValue*=(-1)*((double)numberOfClassInstances)/((double)DataAccessor.getDataset().size());
-                    numberOfClassInstances=0;
-                    finalValue+=singleAttrValue;
-                    singleAttrValue=0;
+                } else {
+                    singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+                    singleAttrValue *= (-1) * ((double) numberOfClassInstances) / ((double) DataAccessor.getDataset().size());
+                    numberOfClassInstances = 0;
+                    finalValue += singleAttrValue;
+                    singleAttrValue = 0;
                     i--;
-                    theSame=true;
-                    prev=null;
+                    theSame = true;
+                    prev = null;
                 }
             }
         }
         //obliczanie ostatniego zbioru
-        if (numberOfClassInstances>1){
-            singleAttrValue=directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-            finalValue+=singleAttrValue;
-            prev=null;
+        if (numberOfClassInstances > 1) {
+            singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+            finalValue += singleAttrValue;
+            prev = null;
         }
         return finalValue;
     }
-    
-    private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances){
-        double singleAttrValue=0; 
-        for (int k=0; k<decisionsInstances.length; k++){
-                        double probability = ((double)decisionsInstances[k])/((double)numberOfClassInstances);
-                        if (probability==0){
-                            singleAttrValue+=0;
-                        }
-                        else {
-                            double logarithm = (Math.log(probability)/Math.log(2));
-                            singleAttrValue=singleAttrValue+(probability*logarithm);
-                        }
-                    }
+
+    private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances) {
+        double singleAttrValue = 0;
+        for (int k = 0; k < decisionsInstances.length; k++) {
+            double probability = ((double) decisionsInstances[k]) / ((double) numberOfClassInstances);
+            if (probability == 0) {
+                singleAttrValue += 0;
+            } else {
+                double logarithm = (Math.log(probability) / Math.log(2));
+                singleAttrValue = singleAttrValue + (probability * logarithm);
+            }
+        }
         return singleAttrValue;
     }
-    
+
 //    public void coreDDM() {
 //        List<String> foundCore = new ArrayList<>();
 //        for (int i = 0; i < indiscMatrix.length; i++) {

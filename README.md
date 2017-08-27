@@ -126,3 +126,12 @@ Added second algorithm - Mushroom dataset works much smoother than with the firs
 - some issues with NaN double values to be investigated
 - significance of heuristic is too high (should be like that or no?) or pheromones are too weak
 - proper tests should be performed with more datasets
+
+0.5.1 - 27.08.2017
+
+Refactored ant classes a bit
+- methods similar for both ants are now in abstract class InterfaceAnt
+- same goes with fields that are similar for both ants
+
+The same should be done to logic classes - similar abstract class and proper two extending it
+- need to find out why previewing examples doesn't work (textarea with objects is disabled right now)

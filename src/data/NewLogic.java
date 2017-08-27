@@ -72,7 +72,7 @@ public class NewLogic {
             ant.pickVertice(ant.getUnpickedAttributes().get(j));
             return ant;
         }).forEachOrdered((ant) -> {
-            ant.setDiscMatrix(DataAccessor.getIndiscMatrix());
+            ((NewAnt) ant).setDiscMatrix(DataAccessor.getIndiscMatrix());
         });
         DataAccessor.setCurrentIter(1);
     }
@@ -121,7 +121,7 @@ public class NewLogic {
     public boolean stepToNextVertice() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
         List<InterfaceAnt> ants = DataAccessor.getAllAnts();
-        if (DataAccessor.getCurrentIter()==DataAccessor.getMaxList()){
+        if (DataAccessor.getCurrentIter() == DataAccessor.getMaxList()) {
             evaluateSubsets();
             updatePheromone();
             DataAccessor.setCurrentIter(0);

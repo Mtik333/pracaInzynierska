@@ -40,10 +40,11 @@ public class OneIterationFXMLController implements Initializable {
         DataAccessor.getCurrentReduct().forEach((x) -> {
             reductList.appendText(x.getName() + ", ");
         });
-        if (DataAccessor.getPerformedIterations()==1){
+        if (DataAccessor.getPerformedIterations() == 1) {
             previousReductSize.setText(String.valueOf(DataAccessor.getGraph().getVertices().size()));
+        } else {
+            previousReductSize.setText(String.valueOf(DataAccessor.getListOfReducts().get(DataAccessor.getPerformedIterations() - 1).size()));
         }
-        else previousReductSize.setText(String.valueOf(DataAccessor.getListOfReducts().get(DataAccessor.getPerformedIterations() - 1).size()));
         int i = 0;
         i = DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).map((_item) -> 1).reduce(i, Integer::sum);
         foundSolutions.setText(String.valueOf(i));

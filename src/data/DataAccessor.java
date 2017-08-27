@@ -38,7 +38,7 @@ public class DataAccessor {
     private static double pheromoneRelevance = 1; //waznosc feromonu na sciezce
     private static double edgeRelevance = 0.1; //waznosc wagi krawedzi
     private static int antsNumber; //liczba mrowek w algorytmie
-    private static int constantForUpdating = 1; //stala do aktualizacji feromonow na ścieżkach
+    private static double constantForUpdating = 1; //stala do aktualizacji feromonow na ścieżkach
     private static Edge analyzedEdge; //analizowana krawędź (UI)
     private static Vertice analyzedVertice; //analizowany wierzchołek (UI)
     private static List<InterfaceAnt> allAnts; //lista wszystkich mrówek (wątków)
@@ -53,6 +53,15 @@ public class DataAccessor {
     private static List<Attribute> coreAttributes; //atrybuty należące do rdzenia
     private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
     private static double decisionEntropy; //entropia decyzji w zbiorze
+    private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
+
+    public static double getEpsilonValue() {
+        return epsilonValue;
+    }
+
+    public static void setEpsilonValue(double epsilonValue) {
+        DataAccessor.epsilonValue = epsilonValue;
+    }
 
     public static double getDecisionEntropy() {
         return decisionEntropy;
@@ -268,11 +277,11 @@ public class DataAccessor {
         antsNumber = aAntsNumber;
     }
 
-    public static int getConstantForUpdating() {
+    public static double getConstantForUpdating() {
         return constantForUpdating;
     }
 
-    public static void setConstantForUpdating(int aConstantForUpdating) {
+    public static void setConstantForUpdating(double aConstantForUpdating) {
         constantForUpdating = aConstantForUpdating;
     }
 
@@ -344,15 +353,16 @@ public class DataAccessor {
         maxList = aMaxList;
     }
 
-    public static Attribute verticeToAttribute(Vertice vertice){
-        for (Attribute attribute : getAllAttributes()){
-            if (attribute.getName().equals(vertice.getName()))
+    public static Attribute verticeToAttribute(Vertice vertice) {
+        for (Attribute attribute : getAllAttributes()) {
+            if (attribute.getName().equals(vertice.getName())) {
                 return attribute;
+            }
         }
         return null;
     }
-    
-    public static void resetValues(){
+
+    public static void resetValues() {
         setLoadedData(false);
         setFile(null);
         setDataset(null);

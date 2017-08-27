@@ -35,6 +35,10 @@ public class AlgorithmSettingsFXMLController implements Initializable {
     public TextField antsNumber;
     @FXML
     public TextField pheromoneConstant;
+    @FXML
+    public TextField pheromoneEvaporation;
+    @FXML
+    public TextField epsilonValue;
 
     /**
      * Initializes the controller class.
@@ -54,6 +58,8 @@ public class AlgorithmSettingsFXMLController implements Initializable {
             antsNumber.setEditable(false);
         }
         pheromoneConstant.setText(String.valueOf(DataAccessor.getConstantForUpdating()));
+        pheromoneEvaporation.setText(String.valueOf(DataAccessor.getPheromoneEvaporation()));
+        epsilonValue.setText(String.valueOf(DataAccessor.getEpsilonValue()));
         algorithmChoice.getSelectionModel().select(0);
     }
 
@@ -63,7 +69,9 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         DataAccessor.setEdgeRelevance(Double.valueOf(weightImportance.getText()));
         DataAccessor.setLoopLimit(Integer.valueOf(loopLimit.getText()));
         DataAccessor.setAntsNumber(Integer.valueOf(antsNumber.getText()));
-        DataAccessor.setConstantForUpdating(Integer.valueOf(pheromoneConstant.getText()));
+        DataAccessor.setConstantForUpdating(Double.valueOf(pheromoneConstant.getText()));
+        DataAccessor.setPheromoneEvaporation(Double.valueOf(pheromoneEvaporation.getText()));
+        DataAccessor.setEpsilonValue(Double.valueOf(epsilonValue.getText()));
         cancelSettings(null);
     }
 

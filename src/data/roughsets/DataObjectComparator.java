@@ -26,8 +26,9 @@ public class DataObjectComparator implements Comparator<DataObject> {
     @Override
     public int compare(DataObject t, DataObject t1) {
         int c = 0;
-        if (t.getAttributes().size()==2)
-            unusedAttribute=-1;
+        if (t.getAttributes().size() == 2) {
+            unusedAttribute = -1;
+        }
         for (int i = 0; i < t.getAttributes().size() - 1; i++) {
             if (i != unusedAttribute) {
                 c = ((DataObject) t).getAttributes().get(i).getValue().compareTo(((DataObject) t1).getAttributes().get(i).getValue());
