@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import data.ChineseLogic;
 import static data.ConstStrings.*;
 import data.DataAccessor;
 import data.Logic;
@@ -69,7 +68,7 @@ public class FXMLDocumentController implements Initializable {
     double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
     //private Logic newLogic = new NewLogic(); //cała logika aplikacji
-    private Logic newLogic = new ChineseLogic(); //logika algorytmu chinskiego
+    private Logic newLogic; //logika algorytmu chinskiego
 
     @FXML
     public void exitApp(ActionEvent event) {
@@ -84,7 +83,8 @@ public class FXMLDocumentController implements Initializable {
     //wczytuje zestaw danych
     @FXML
     public void loadDataset(ActionEvent event) {
-        //DataAccessor.resetValues();
+        if (newLogic!=null)
+            DataAccessor.resetValues();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty(USERDIR)));
         fileChooser.setTitle(CHOOSE_FILE);
@@ -97,6 +97,7 @@ public class FXMLDocumentController implements Initializable {
                 return;
             }
             if (!DataAccessor.parseFile()) {
+                newLogic = DataAccessor.createLogic();
                 //chineseLogic = new ChineseLogic();
                 //newLogic = new NewLogic();
                 //newLogic = new ChineseLogic();
@@ -105,6 +106,7 @@ public class FXMLDocumentController implements Initializable {
                 alert.setContentText(WRONG_SEPARATOR);
                 alert.showAndWait();
             } else {
+                newLogic = DataAccessor.createLogic();
                 //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
             //chineseLogic.generateGraph();

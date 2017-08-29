@@ -141,9 +141,13 @@ The same should be done to logic classes - similar abstract class and proper two
 Cleaned logic classes - abstract Logic class and two extending - JensenLogic and ChineseLogic.
 
 Things to do within next weeks:
-- fix the first algorithm memory leaks (different way for checking if features are a reduct)
-- setting JSACO or RSFSACO in options should really modify the chosen algorithm
-- show the core attributes on the "canvas"
-- add core attributes to reduct results when previewing after iteration or full reduct computation
-- add time estimation?
-- add modification in subset evaluation to limit ants that affect on pheromone trails (to be considered)
+1. fix the first algorithm memory leaks (different way for checking if features are a reduct)
+2. setting JSACO or RSFSACO in options should really modify the chosen algorithm
+3. show the core attributes on the "canvas"
+4. add core attributes to reduct results when previewing after iteration or full reduct computation
+5. add time estimation?
+6. add modification in subset evaluation to limit ants that affect on pheromone trails (to be considered)
+
+0.5.3 - 29.08.2017
+
+Done with issue 2.

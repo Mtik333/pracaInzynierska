@@ -6,9 +6,9 @@
 package data;
 
 import static data.ConstStrings.*;
+import data.graph.Ant;
 import data.graph.Edge;
 import data.graph.Graph;
-import data.graph.Ant;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
@@ -54,6 +54,25 @@ public class DataAccessor {
     private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
+    private static String algorithmType = JSACO;
+
+    public static Logic createLogic(){
+        if (getAlgorithmType().equals(JSACO)){
+            return new JensenLogic();
+        }
+        if (getAlgorithmType().equals(RSFSACO)){
+            return new ChineseLogic();
+        }
+        return null;
+    }
+    
+    public static String getAlgorithmType() {
+        return algorithmType;
+    }
+
+    public static void setAlgorithmType(String algorithmType) {
+        DataAccessor.algorithmType = algorithmType;
+    }
 
     public static double getEpsilonValue() {
         return epsilonValue;

@@ -50,6 +50,11 @@ public class AlgorithmSettingsFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         algorithmChoice.getItems().addAll(JSACO, RSFSACO);
+        if (DataAccessor.getAlgorithmType().equals(RSFSACO)){
+            algorithmChoice.getSelectionModel().selectLast();
+            DataAccessor.setAlgorithmType(RSFSACO);
+        }
+        else algorithmChoice.getSelectionModel().selectFirst();
         pheromoneImportance.setText(String.valueOf(DataAccessor.getPheromoneRelevance()));
         weightImportance.setText(String.valueOf(DataAccessor.getEdgeRelevance()));
         loopLimit.setText(String.valueOf(DataAccessor.getLoopLimit()));
@@ -60,11 +65,13 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         pheromoneConstant.setText(String.valueOf(DataAccessor.getConstantForUpdating()));
         pheromoneEvaporation.setText(String.valueOf(DataAccessor.getPheromoneEvaporation()));
         epsilonValue.setText(String.valueOf(DataAccessor.getEpsilonValue()));
-        algorithmChoice.getSelectionModel().select(0);
     }
 
     @FXML
     public void setSettings(ActionEvent event) {
+        if (algorithmChoice.getSelectionModel().getSelectedIndex()==0)
+            DataAccessor.setAlgorithmType(JSACO);
+        else DataAccessor.setAlgorithmType(RSFSACO);
         DataAccessor.setPheromoneRelevance(Double.valueOf(pheromoneImportance.getText()));
         DataAccessor.setEdgeRelevance(Double.valueOf(weightImportance.getText()));
         DataAccessor.setLoopLimit(Integer.valueOf(loopLimit.getText()));
