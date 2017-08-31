@@ -151,3 +151,7 @@ Things to do within next weeks:
 0.5.3 - 29.08.2017
 
 Done with issue 2.
+
+0.5.4 - 31.08.2017
+
+Done with issue 4.
