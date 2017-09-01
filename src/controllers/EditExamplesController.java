@@ -45,7 +45,7 @@ public class EditExamplesController implements Initializable {
             });
             datasetTable.getColumns().add(column);
         }
-        datasetTable.getItems().setAll(DataAccessor.getDataset());
+//        datasetTable.getItems().setAll(DataAccessor.getDataset());
 //        datasetTable.setEditable(false);
 //        List<TableColumn> tableColumns = new ArrayList<>();
 //        for (Attribute attribute : DataAccessor.getAllAttributes()){
@@ -54,7 +54,7 @@ public class EditExamplesController implements Initializable {
 //            tableColumns.add(new TableColumn(attribute.getName()));
 //        }
 //        datasetTable.getColumns().addAll(tableColumns);
-//        ObservableList data = FXCollections.observableArrayList(DataAccessor.dataset);
+//        ObservableList data = FXCollections.observableArrayList(DataAccessor.getDataset());
 //        datasetTable.getItems().setAll(data);
     }
 

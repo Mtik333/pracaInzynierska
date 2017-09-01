@@ -155,3 +155,7 @@ Done with issue 2.
 0.5.4 - 31.08.2017
 
 Done with issue 4.
+
+0.5.5 - 01.09.2017
+
+Done with issue 3. View examples window has to be fixed.

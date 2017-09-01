@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import static data.ConstStrings.*;
 import data.DataAccessor;
 import data.Logic;
@@ -44,6 +45,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.TextAlignment;
@@ -83,8 +85,9 @@ public class FXMLDocumentController implements Initializable {
     //wczytuje zestaw danych
     @FXML
     public void loadDataset(ActionEvent event) {
-        if (newLogic!=null)
+        if (newLogic != null) {
             DataAccessor.resetValues();
+        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty(USERDIR)));
         fileChooser.setTitle(CHOOSE_FILE);
@@ -337,6 +340,32 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 0; i < lines.size(); i++) {
             edgeLines.put(lines.get(i), DataAccessor.getGraph().getEdges().get(i));
         }
+        if (DataAccessor.getAlgorithmType().equals(ConstStrings.RSFSACO)) {
+            VBox stackPane = new VBox();
+            stackPane.setTranslateX(middleX/4);
+            stackPane.setTranslateY(middleY);
+            stackPane.setStyle("-fx-border-color:green;-fx-background-color:red");
+            //stackPane.setSpacing(10);
+            Label core = new Label("Core");
+            core.setMinWidth(100);
+            core.setStyle("-fx-border-color:white;-fx-background-color:white");
+            core.setFont(javafx.scene.text.Font.font(18));
+            core.setTextAlignment(TextAlignment.CENTER);
+            core.setAlignment(Pos.CENTER);
+            stackPane.getChildren().add(core);
+            for (int i = 0; i < DataAccessor.getCoreAttributes().size(); i++) {
+                Label label = new Label(DataAccessor.getCoreAttributes().get(i).getName());
+                label.setMinWidth(100);
+                label.setStyle("-fx-border-color:blue;-fx-background-color:yellow");
+                label.setFont(javafx.scene.text.Font.font(18));
+                label.setTextAlignment(TextAlignment.CENTER);
+                label.setAlignment(Pos.CENTER);
+                stackPane.getChildren().add(label);
+            }
+            stackPane.setOnMouseDragged(coreOnMouseDraggedEventHandler);
+            solver.getChildren().add(stackPane);
+
+        }
         solver.getChildren().addAll(lines);
         solver.getChildren().addAll(labels);
 
@@ -443,7 +472,6 @@ public class FXMLDocumentController implements Initializable {
     //obsługa przesuwania wierzchołków poprzez myszkę
     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler
             = new EventHandler<MouseEvent>() {
-
         @Override
         public void handle(MouseEvent t) {
             double offsetX = t.getSceneX() - orgSceneX;
@@ -456,6 +484,22 @@ public class FXMLDocumentController implements Initializable {
         }
     };
 
+    //obsługa przesuwania rdzenia poprzez myszkę
+    EventHandler<MouseEvent> coreOnMouseDraggedEventHandler
+            = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent t) {
+            double offsetX = t.getSceneX() - orgSceneX;
+            double offsetY = t.getSceneY() - orgSceneY;
+            double newTranslateX = orgTranslateX + offsetX;
+            double newTranslateY = orgTranslateY + offsetY;
+            ((VBox) (t.getSource())).setTranslateX(newTranslateX);
+            ((VBox) (t.getSource())).setTranslateY(newTranslateY);
+
+        }
+    };
+
+    
     //obsługa kliknięcia na krawędź
     EventHandler<MouseEvent> lineOnMouseEventHandler
             = new EventHandler<MouseEvent>() {
