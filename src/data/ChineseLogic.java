@@ -13,6 +13,7 @@ import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectComparator;
+import data.roughsets.DataObjectMultipleComparator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +29,7 @@ public class ChineseLogic extends Logic {
     @Override
     public void generateGraph() {
         coreCT2();
+        checkIfCoreIsReduct();
         List<Attribute> test = DataAccessor.getAllAttributes();
         calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
@@ -78,10 +80,10 @@ public class ChineseLogic extends Logic {
         DataAccessor.setCalculatedReductInIteration(false);
         generateAntsPheromone();
         Random random = new Random();
-        for (Ant ant : DataAccessor.getAllAnts()) {
+        DataAccessor.getAllAnts().forEach((ant) -> {
             int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
             ant.pickVertice(ant.getUnpickedAttributes().get(j));
-        }
+        });
         DataAccessor.setCurrentIter(1);
     }
 
@@ -254,22 +256,59 @@ public class ChineseLogic extends Logic {
         return singleAttrValue;
     }
 
-//    public void coreDDM() {
-//        List<String> foundCore = new ArrayList<>();
-//        for (int i = 0; i < indiscMatrix.length; i++) {
-//            for (int j = i; j < indiscMatrix[i].length; j++) {
-//                if (indiscMatrix[i][j] != null) {
-//                    if (indiscMatrix[i][j].chars().filter(ch -> ch == ',').count() == 2) {
-//                        int singleton = (int)indiscMatrix[i][j].replace(",", "").charAt(0)-'0';
-//                        if (!foundCore.contains(attributesAll.get(singleton).getName())){
-//                            foundCore.add(attributesAll.get(singleton).getName());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        for (String x : foundCore) {
-//            System.out.print(x + ",");
-//        }
-//    }
+    public static boolean checkIfCoreIsReduct(){
+        int numberOfClassInstances = 0;
+        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
+        DataObject prev = null;
+        DataObjectMultipleComparator domc = new DataObjectMultipleComparator(DataAccessor.getCoreAttributes());
+        Collections.sort(DataAccessor.getDataset(), domc);
+        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
+            if (prev == null) {
+                Arrays.fill(decisionsInstances, 0);
+                prev = DataAccessor.getDataset().get(i);
+                numberOfClassInstances++;
+                decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+            } else {
+                boolean theSame = true;
+                for (int j = 0; j < domc.getSortingBy().size(); j++) {
+                    if (!prev.getAttributes().get(domc.getSortingBy().get(j)).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(domc.getSortingBy().get(j)).getValue())) {
+                        theSame = false;
+                        break;
+                    }
+                }
+                if (theSame) {
+                    numberOfClassInstances++;
+                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+                } else {
+                    int variousClasses = 0;
+                    for (int j = 0; j < decisionsInstances.length; j++) {
+                        if (decisionsInstances[j] != 0) {
+                            variousClasses++;
+                        }
+                    }
+                    if (variousClasses != 1) {
+                        return false;
+                    } else {
+                        numberOfClassInstances = 0;
+                        i--;
+                        theSame = true;
+                        prev = null;
+                    }
+                }
+            }
+        }
+        int variousClasses = 0;
+        for (int j = 0; j < decisionsInstances.length; j++) {
+            if (decisionsInstances[j] != 0) {
+                variousClasses++;
+            }
+        }
+        if (variousClasses != 1) {
+            return false;
+        }
+        Collections.sort(DataAccessor.getDataset());
+        DataAccessor.setCalculatedReductInIteration(true);
+        return true;
+    }
+    
 }

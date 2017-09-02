@@ -54,7 +54,25 @@ public class DataAccessor {
     private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
-    private static String algorithmType = JSACO;
+    private static String algorithmType = JSACO; //wybrany typ algorytmu
+    private static long elapsedTime=0; //czas znalezienia reduktu
+    private static int fruitlessSearches=3; //ilosc bezowocnych poszukiwan
+
+    public static long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public static void setElapsedTime(long elapsedTime) {
+        DataAccessor.elapsedTime = elapsedTime;
+    }
+
+    public static int getFruitlessSearches() {
+        return fruitlessSearches;
+    }
+
+    public static void setFruitlessSearches(int fruitlessSearches) {
+        DataAccessor.fruitlessSearches = fruitlessSearches;
+    }
 
     public static Logic createLogic(){
         if (getAlgorithmType().equals(JSACO)){

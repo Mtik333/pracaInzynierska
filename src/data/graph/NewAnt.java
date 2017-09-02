@@ -7,8 +7,14 @@ package data.graph;
 
 import static data.ConstStrings.*;
 import data.DataAccessor;
+import data.roughsets.Attribute;
+import data.roughsets.DataObject;
+import data.roughsets.DataObjectMultipleComparator;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -16,21 +22,25 @@ import java.util.HashMap;
  */
 public class NewAnt extends Ant {
 
-    private String[][] discMatrix; //macierz rozroznialnosci (prywatna)
+    private List<Attribute> sortByAttributes; //posortowane atrybuty
+    private DataObjectMultipleComparator domc; //komparator do zbioru
+    private List<DataObject> sortedDataset; //dane posortowane
 
     public NewAnt(int index) {
         this.index = index;
         this.pickedAttributes = new ArrayList<>();
         this.unpickedAttributes = new ArrayList<>();
-        this.discMatrix = DataAccessor.getIndiscMatrix();
         this.allEdges = DataAccessor.getGraph().getEdges();
         this.chosenEdges = new ArrayList<>();
+        this.sortedDataset = new ArrayList<>();
+        this.sortByAttributes = new ArrayList<>();
+        sortedDataset.addAll(DataAccessor.getDataset());
     }
 
     @Override
     public void run() {
         currentIter = 0;
-        boolean reducedMatrix = reduceMatrix();
+        boolean reducedMatrix = checkIfReduct();
         while (currentIter < DataAccessor.getMaxList() - 1 && !reducedMatrix) {
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
@@ -40,19 +50,15 @@ public class NewAnt extends Ant {
             }
             //System.out.println(probabilities.values().stream().mapToDouble(Number::doubleValue).sum());
             pickedAttributes.add(pickVerticeByProbability());
-            reducedMatrix = reduceMatrix();
+            reducedMatrix = checkIfReduct();
             currentIter++;
             addEdgeToSolution();
             if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)) {
-                foundSolution = empty_matrix(discMatrix);
+                foundSolution = checkIfReduct();
                 return;
             }
         }
-        foundSolution = empty_matrix(discMatrix);
-    }
-
-    public String[][] getDiscMatrix() {
-        return discMatrix;
+        foundSolution = checkIfReduct();
     }
 
     @Override
@@ -79,45 +85,56 @@ public class NewAnt extends Ant {
         return sumPheromone;
     }
 
-    public void setDiscMatrix(String[][] matrix) {
-        this.discMatrix = new String[matrix.length][matrix.length];
-        StringBuilder myString = new StringBuilder();
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[i][j] == null) {
-                    discMatrix[i][j] = null;
-                } else {
-                    myString.append(matrix[i][j]);
-                    discMatrix[i][j] = myString.toString();
-                    myString.setLength(0);
-                }
-            }
-        }
-    }
-
-    public boolean reduceMatrix() {
-        StringBuilder stringCompare = new StringBuilder();
-        for (int i = 0; i < discMatrix.length; i++) {
-            for (int j = i + 1; j < discMatrix.length; j++) {
-                if (discMatrix[i][j] != null) {
-                    stringCompare.append(",").append(pickedAttributes.get(pickedAttributes.size() - 1).getIndex()).append(",");
-                    if (discMatrix[i][j].contains(stringCompare.toString())) {
-                        discMatrix[i][j] = null;
+    public boolean checkIfReduct() {
+        int numberOfClassInstances = 0;
+        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
+        DataObject prev = null;
+        sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - 1)));
+        domc = new DataObjectMultipleComparator(sortByAttributes);
+        Collections.sort(sortedDataset, domc);
+        for (int i = 0; i < sortedDataset.size(); i++) {
+            if (prev == null) {
+                Arrays.fill(decisionsInstances, 0);
+                prev = sortedDataset.get(i);
+                numberOfClassInstances++;
+                decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+            } else {
+                boolean theSame = true;
+                for (int j = 0; j < domc.getSortingBy().size(); j++) {
+                    if (!prev.getAttributes().get(domc.getSortingBy().get(j)).getValue().equals(sortedDataset.get(i).getAttributes().get(domc.getSortingBy().get(j)).getValue())) {
+                        theSame = false;
+                        break;
                     }
-                    stringCompare.setLength(0);
+                }
+                if (theSame) {
+                    numberOfClassInstances++;
+                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+                } else {
+                    int variousClasses = 0;
+                    for (int j = 0; j < decisionsInstances.length; j++) {
+                        if (decisionsInstances[j] != 0) {
+                            variousClasses++;
+                        }
+                    }
+                    if (variousClasses != 1) {
+                        return false;
+                    } else {
+                        numberOfClassInstances = 0;
+                        i--;
+                        theSame = true;
+                        prev = null;
+                    }
                 }
             }
         }
-        return empty_matrix(discMatrix);
-    }
-
-    public boolean empty_matrix(String matrix[][]) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = i; j < matrix.length; j++) {
-                if (matrix[i][j] != null) {
-                    return false;
-                }
+        int variousClasses = 0;
+        for (int j = 0; j < decisionsInstances.length; j++) {
+            if (decisionsInstances[j] != 0) {
+                variousClasses++;
             }
+        }
+        if (variousClasses != 1) {
+            return false;
         }
         return true;
     }

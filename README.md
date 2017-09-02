@@ -159,3 +159,8 @@ Done with issue 4.
 0.5.5 - 01.09.2017
 
 Done with issue 3. View examples window has to be fixed.
+
+0.5.6 - 02.09.2017
+
+Done with issue 1. When using RSFSACO, it should be checked if core is already a reduct.
+- would be cool to show on the graph which vertices belong to reduct in current iteration

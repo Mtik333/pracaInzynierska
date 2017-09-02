@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ChineseLogic;
 import data.ConstStrings;
 import static data.ConstStrings.*;
 import data.DataAccessor;
@@ -101,9 +102,6 @@ public class FXMLDocumentController implements Initializable {
             }
             if (!DataAccessor.parseFile()) {
                 newLogic = DataAccessor.createLogic();
-                //chineseLogic = new ChineseLogic();
-                //newLogic = new NewLogic();
-                //newLogic = new ChineseLogic();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(PARSING_ERROR);
                 alert.setContentText(WRONG_SEPARATOR);
@@ -112,9 +110,13 @@ public class FXMLDocumentController implements Initializable {
                 newLogic = DataAccessor.createLogic();
                 //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
-            //chineseLogic.generateGraph();
             newLogic.generateGraph();
             drawGraph();
+            if (newLogic instanceof ChineseLogic){
+                if (((ChineseLogic)newLogic).checkIfCoreIsReduct()){
+                    //pokaz okienko ze rdzen = redukt
+                }
+            }
         } catch (IOException ioException) {
             ioException.printStackTrace(System.out);
         }
