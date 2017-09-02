@@ -13,6 +13,7 @@ import data.roughsets.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -43,11 +44,17 @@ public abstract class Logic {
 
     //tryb znajdowania reduktu
     public void findReduct() {
+        long timeElapsed=(long)DataAccessor.getElapsedTime();
         while (DataAccessor.getPerformedIterations() < DataAccessor.getLoopLimit()) {
             initializeAntsRandom();
+            long startTime = new Date().getTime();
             performOneIteration();
+            long stopTime = new Date().getTime();
+            timeElapsed=timeElapsed+(stopTime-startTime);
             FXMLDocumentController.colorEdges();
         }
+        DataAccessor.setElapsedTime(((double)timeElapsed/1000));
+        System.out.println(timeElapsed);
     }
 
     //tryb wykonania jednej iteracji algorytmu
@@ -174,5 +181,13 @@ public abstract class Logic {
         List<Edge> edges = DataAccessor.getGraph().getEdges();
         Edge d = Collections.max(edges, Comparator.comparing(c -> c.getPheromone()));
         //System.out.println("xd");
+    }
+    
+    public int countDecisionClasses() {
+        DataAccessor.setDecisionValues(new ArrayList<>());
+        DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> {
+            DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue());
+        });
+        return DataAccessor.getDecisionValues().size();
     }
 }

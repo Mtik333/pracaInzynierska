@@ -55,14 +55,14 @@ public class DataAccessor {
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
     private static String algorithmType = JSACO; //wybrany typ algorytmu
-    private static long elapsedTime=0; //czas znalezienia reduktu
+    private static double elapsedTime=0; //czas znalezienia reduktu
     private static int fruitlessSearches=3; //ilosc bezowocnych poszukiwan
 
-    public static long getElapsedTime() {
+    public static double getElapsedTime() {
         return elapsedTime;
     }
 
-    public static void setElapsedTime(long elapsedTime) {
+    public static void setElapsedTime(double elapsedTime) {
         DataAccessor.elapsedTime = elapsedTime;
     }
 

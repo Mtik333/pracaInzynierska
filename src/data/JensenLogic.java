@@ -66,11 +66,4 @@ public class JensenLogic extends Logic {
         DataAccessor.setCurrentIter(1);
     }
 
-    public int countDecisionClasses() {
-        DataAccessor.setDecisionValues(new ArrayList<>());
-        DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> {
-            DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue());
-        });
-        return DataAccessor.getDecisionValues().size();
-    }
 }

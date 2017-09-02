@@ -164,3 +164,7 @@ Done with issue 3. View examples window has to be fixed.
 
 Done with issue 1. When using RSFSACO, it should be checked if core is already a reduct.
 - would be cool to show on the graph which vertices belong to reduct in current iteration
+
+0.5.7 - 02.09.2017
+
+Added simple time measurement (issue 5). Next step is to convert datasets to CSV and add possibility to load them via GUI (new option in menu).

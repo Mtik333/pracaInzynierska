@@ -17,6 +17,7 @@ import data.roughsets.DataObjectMultipleComparator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -28,8 +29,10 @@ public class ChineseLogic extends Logic {
 
     @Override
     public void generateGraph() {
+        long startTime = new Date().getTime();
         coreCT2();
-        checkIfCoreIsReduct();
+        long stopTime = new Date().getTime();
+        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime()+(stopTime-startTime));
         List<Attribute> test = DataAccessor.getAllAttributes();
         calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
@@ -85,16 +88,6 @@ public class ChineseLogic extends Logic {
             ant.pickVertice(ant.getUnpickedAttributes().get(j));
         });
         DataAccessor.setCurrentIter(1);
-    }
-
-    //funkcje do algorytmu CORE-CT
-    //zlicza ilosc klas decyzyjnych
-    public int countDecisionClasses() {
-        DataAccessor.setDecisionValues(new ArrayList<>());
-        DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> {
-            DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue());
-        });
-        return DataAccessor.getDecisionValues().size();
     }
 
     //zlicza ilosc konfliktow (w klasie)

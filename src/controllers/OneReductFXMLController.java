@@ -64,7 +64,7 @@ public class OneReductFXMLController implements Initializable {
         DataAccessor.getCurrentReduct().forEach((attribute) -> {
             finalReduct.appendText(attribute.getName() + ", ");
         });
-
+        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime())+" s");
     }
 
     @FXML
