@@ -67,7 +67,7 @@ public class FXMLDocumentController implements Initializable {
     private List<Label> labels; //lista wierzcholkow (grafika)
     private List<Line> lines; //lista krawedzi (grafika)
     private static Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
-    private Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
+    private static Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
     double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
     //private Logic newLogic = new NewLogic(); //cała logika aplikacji
@@ -159,6 +159,7 @@ public class FXMLDocumentController implements Initializable {
             if (DataAccessor.getCurrentIter() == 0 || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
             }
+            DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
             newLogic.performOneIteration();
         }
         List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
@@ -171,6 +172,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void antsFindReduct(ActionEvent t) {
         if (DataAccessor.isLoadedData()) {
+            DataAccessor.setCalculationMode(ConstStrings.COMPUTE_REDUCT);
             Service<Void> service = new Service<Void>() {
                 @Override
                 protected Task<Void> createTask() {
@@ -346,10 +348,11 @@ public class FXMLDocumentController implements Initializable {
             VBox stackPane = new VBox();
             stackPane.setTranslateX(middleX/4);
             stackPane.setTranslateY(middleY);
-            stackPane.setStyle("-fx-border-color:green;-fx-background-color:red");
+            stackPane.setAlignment(Pos.CENTER);
+            stackPane.setStyle("-fx-background-color:transparent");
             //stackPane.setSpacing(10);
             Label core = new Label("Core");
-            core.setMinWidth(100);
+            //core.setMinWidth(100);
             core.setStyle("-fx-border-color:white;-fx-background-color:white");
             core.setFont(javafx.scene.text.Font.font(18));
             core.setTextAlignment(TextAlignment.CENTER);
@@ -420,23 +423,23 @@ public class FXMLDocumentController implements Initializable {
         //double min=0.0;
         //double max=Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
         double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
-        edgeLines.forEach((k, v) -> {
+        edgeLines.forEach((Line k, Edge v) -> {
             double value = ((max - v.getPheromone()) / (max)) * 255;
+            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
+                if (value>128){
+                    k.toFront();
+                }
+            }
             k.setStroke(Color.rgb((int) value, 255, (int) value));
-            //z czerwonym kolorem
-//            if (v.getPheromone()<max){
-//                double value = (v.getPheromone()/(max))*255;
-//                k.setStroke(Color.rgb(255,(int)value,(int)value));
-//                //k.setStroke(Color.rgb((int)value, 0, 0));
-//            }
-//            else if (v.getPheromone()>max){
-//                double value = ((v.getPheromone()-(max))/(max))*255;
-//                k.setStroke(Color.rgb((int)value,255,(int)value));
-//                //k.setStroke(Color.rgb(0,(int)value,0));
-//            }
-//            else k.setStroke(Color.WHITE);
         });
-
+        verticeLabels.forEach((t, u) -> {
+            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
+                t.toFront();
+            }
+            if (DataAccessor.ifVerticeInReduct(u))
+                t.setStyle("-fx-background-color:#CCFF99");
+            else t.setStyle("-fx-border-color:red;-fx-background-color:white");
+        });
     }
 
     //FUNKCJE OBSŁUGUJĄCE MYSZKĘ

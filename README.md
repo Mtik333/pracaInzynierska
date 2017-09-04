@@ -168,3 +168,9 @@ Done with issue 1. When using RSFSACO, it should be checked if core is already a
 0.5.7 - 02.09.2017
 
 Added simple time measurement (issue 5). Next step is to convert datasets to CSV and add possibility to load them via GUI (new option in menu).
+
+0.5.8 - 03.09.2017
+
+Added all datasets used in RSFSACO algorithm, found two more problems:
+- first label (Core) should have the width of longest in the stackpane (vote.csv)
+- in case of bigger cores the view is really bad (chess-king.csv)

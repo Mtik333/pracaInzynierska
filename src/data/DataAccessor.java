@@ -399,6 +399,15 @@ public class DataAccessor {
         return null;
     }
 
+    public static boolean ifVerticeInReduct(Vertice vertice){
+        for (Attribute attribute : getCurrentReduct()){
+            if (attribute.getName().equals(vertice.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public static void resetValues() {
         setLoadedData(false);
         setFile(null);

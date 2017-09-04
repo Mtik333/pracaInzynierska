@@ -59,7 +59,6 @@ public abstract class Logic {
 
     //tryb wykonania jednej iteracji algorytmu
     public void performOneIteration() {
-        DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
         ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAntsNumber());
         if (DataAccessor.getCurrentIter() == 0) {
             DataAccessor.setCurrentIter(1);
