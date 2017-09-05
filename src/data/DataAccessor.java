@@ -18,7 +18,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 /**
@@ -407,6 +412,28 @@ public class DataAccessor {
         }
         return false;
     }
+    
+    public static Map<Line, Edge> sortByValue(Map<Line, Edge> unsortMap) {
+        // 1. Convert Map to List of Map
+        List<Map.Entry<Line, Edge>> list =
+                new LinkedList<>(unsortMap.entrySet());
+        // 2. Sort list with Collections.sort(), provide a custom Comparator
+        //    Try switch the o1 o2 position for a different order
+        Collections.sort(list, (Map.Entry<Line, Edge> o1, Map.Entry<Line, Edge> o2) -> {
+            if (o1.getValue().getPheromone()<o2.getValue().getPheromone())
+                return -1;
+            else if (o1.getValue().getPheromone()>o2.getValue().getPheromone())
+                return 1;
+            return 0;
+        });
+        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
+        Map<Line, Edge> sortedMap = new LinkedHashMap<Line, Edge>();
+        for (Map.Entry<Line, Edge> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedMap;
+    }
+    
     
     public static void resetValues() {
         setLoadedData(false);

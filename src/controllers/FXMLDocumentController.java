@@ -186,6 +186,8 @@ public class FXMLDocumentController implements Initializable {
                                 @Override
                                 public void run() {
                                     try {
+                                        DataAccessor.setCalculationMode(SINGLE_ITERATION);
+                                        colorEdges();
                                         showAlgorithmStats();
                                         //FX Stuff done here
                                     } finally {
@@ -422,24 +424,29 @@ public class FXMLDocumentController implements Initializable {
     public static void colorEdges() {
         //double min=0.0;
         //double max=Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
+        
+        //test sortowania
+        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
+            edgeLines = DataAccessor.sortByValue(edgeLines);
+        }
         double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
         edgeLines.forEach((Line k, Edge v) -> {
             double value = ((max - v.getPheromone()) / (max)) * 255;
             if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
-                if (value>128){
+                if (value<128){
                     k.toFront();
                 }
             }
             k.setStroke(Color.rgb((int) value, 255, (int) value));
         });
+        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
         verticeLabels.forEach((t, u) -> {
-            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
-                t.toFront();
-            }
+            t.toFront();
             if (DataAccessor.ifVerticeInReduct(u))
                 t.setStyle("-fx-background-color:#CCFF99");
             else t.setStyle("-fx-border-color:red;-fx-background-color:white");
         });
+        }
     }
 
     //FUNKCJE OBSŁUGUJĄCE MYSZKĘ

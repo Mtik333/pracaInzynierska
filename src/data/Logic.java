@@ -152,6 +152,15 @@ public abstract class Logic {
                 DataAccessor.getCurrentReduct().add(DataAccessor.getAllAttributes().get(vertice.getIndex()));
             });
         });
+        //przy pierwszej iteracji aktualizacja tylko tam gdzie najmniejszy redukt zamiast wszedzie
+        if (DataAccessor.getPerformedIterations()==1){
+            for (Ant ant : DataAccessor.getAllAnts()){
+                if (ant.getPickedAttributes().size()!=DataAccessor.getMaxList()){
+                    ant.setFoundSolution(false);
+                }
+            }
+        }
+        
         if (!newReduct.isEmpty()) {
             DataAccessor.getListOfReducts().add(newReduct);
         }

@@ -174,3 +174,12 @@ Added simple time measurement (issue 5). Next step is to convert datasets to CSV
 Added all datasets used in RSFSACO algorithm, found two more problems:
 - first label (Core) should have the width of longest in the stackpane (vote.csv)
 - in case of bigger cores the view is really bad (chess-king.csv)
+
+0.6.0 - 05.09.2017
+
+Added kind of sorting edges to move the best ones to front of graph
+Also added different evaluation for first iteration (now not every one ant will find solution in first iteration)
+- still need to resolve issue with label width (maybe scrollview, keeping border around VBox now)
+- same with too big core to display (maybe scrollview here)
+- choosing dataset from examples (all placed in examples directory)
+- how to deal with unknown values
