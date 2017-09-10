@@ -83,7 +83,59 @@ public class FXMLDocumentController implements Initializable {
         // TODO
     }
 
-    //wczytuje zestaw danych
+    @FXML
+    public void loadSampleDataset(ActionEvent event){
+        if (newLogic != null) {
+            DataAccessor.resetValues();
+        }
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/SampleDatasetFXML.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            SampleDatasetFXMLController eec = fxmlLoader.<SampleDatasetFXMLController>getController();
+            Stage stage = new Stage();
+            stage.setTitle(SHOW_EDGE_TITLE);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(DataAccessor.getPrimaryStage());
+            stage.setScene(new Scene(root1));
+            stage.showAndWait();
+            if (!DataAccessor.parseFile()) {
+                newLogic = DataAccessor.createLogic();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(PARSING_ERROR);
+                alert.setContentText(WRONG_SEPARATOR);
+                alert.showAndWait();
+            } else {
+                newLogic = DataAccessor.createLogic();
+                //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
+            }
+            newLogic.generateGraph();
+            drawGraph();
+            if (newLogic instanceof ChineseLogic) {
+                if (ChineseLogic.checkIfCoreIsReduct()) {
+                    try {
+                        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/fxmls/CoreIsReductFXML.fxml"));
+                        Parent root2 = (Parent) fxmlLoader2.load();
+                        CoreIsReductFXMLController eec2 = fxmlLoader2.<CoreIsReductFXMLController>getController();
+                        Stage stage2 = new Stage();
+                        stage2.setTitle(SHOW_EDGE_TITLE);
+                        stage2.initModality(Modality.WINDOW_MODAL);
+                        stage2.initOwner(DataAccessor.getPrimaryStage());
+                        stage2.setScene(new Scene(root2));
+                        stage2.show();
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    //pokaz okienko ze rdzen = redukt
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DataAccessor.setLoadedData(true);
+    }
+    
+    
+    //wczytuje zestaw danych z pliku
     @FXML
     public void loadDataset(ActionEvent event) {
         if (newLogic != null) {
@@ -112,8 +164,21 @@ public class FXMLDocumentController implements Initializable {
             }
             newLogic.generateGraph();
             drawGraph();
-            if (newLogic instanceof ChineseLogic){
-                if (((ChineseLogic)newLogic).checkIfCoreIsReduct()){
+            if (newLogic instanceof ChineseLogic) {
+                if (ChineseLogic.checkIfCoreIsReduct()) {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/CoreIsReductFXML.fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        CoreIsReductFXMLController eec = fxmlLoader.<CoreIsReductFXMLController>getController();
+                        Stage stage = new Stage();
+                        stage.setTitle(SHOW_EDGE_TITLE);
+                        stage.initModality(Modality.WINDOW_MODAL);
+                        stage.initOwner(DataAccessor.getPrimaryStage());
+                        stage.setScene(new Scene(root1));
+                        stage.show();
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     //pokaz okienko ze rdzen = redukt
                 }
             }
@@ -173,6 +238,7 @@ public class FXMLDocumentController implements Initializable {
     private void antsFindReduct(ActionEvent t) {
         if (DataAccessor.isLoadedData()) {
             DataAccessor.setCalculationMode(ConstStrings.COMPUTE_REDUCT);
+//            newLogic.findReduct();
             Service<Void> service = new Service<Void>() {
                 @Override
                 protected Task<Void> createTask() {
@@ -182,17 +248,14 @@ public class FXMLDocumentController implements Initializable {
                             newLogic.findReduct();
                             //Background work                       
                             final CountDownLatch latch = new CountDownLatch(1);
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        DataAccessor.setCalculationMode(SINGLE_ITERATION);
-                                        colorEdges();
-                                        showAlgorithmStats();
-                                        //FX Stuff done here
-                                    } finally {
-                                        latch.countDown();
-                                    }
+                            Platform.runLater(() -> {
+                                try {
+                                    DataAccessor.setCalculationMode(SINGLE_ITERATION);
+                                    colorEdges();
+                                    showAlgorithmStats();
+                                    //FX Stuff done here
+                                } finally {
+                                    //latch.countDown();
                                 }
                             });
                             latch.await();
@@ -203,7 +266,6 @@ public class FXMLDocumentController implements Initializable {
                 }
             };
             service.start();
-
             //newLogic.findReduct();
         }
         //List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
@@ -348,10 +410,10 @@ public class FXMLDocumentController implements Initializable {
         }
         if (DataAccessor.getAlgorithmType().equals(ConstStrings.RSFSACO)) {
             VBox stackPane = new VBox();
-            stackPane.setTranslateX(middleX/4);
+            stackPane.setTranslateX(middleX / 4);
             stackPane.setTranslateY(middleY);
             stackPane.setAlignment(Pos.CENTER);
-            stackPane.setStyle("-fx-background-color:transparent");
+            stackPane.setStyle("-fx-border-color:red;-fx-background-color:transparent");
             //stackPane.setSpacing(10);
             Label core = new Label("Core");
             //core.setMinWidth(100);
@@ -424,29 +486,33 @@ public class FXMLDocumentController implements Initializable {
     public static void colorEdges() {
         //double min=0.0;
         //double max=Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
-        
+
         //test sortowania
-        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
+        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
             edgeLines = DataAccessor.sortByValue(edgeLines);
         }
         double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
         edgeLines.forEach((Line k, Edge v) -> {
             double value = ((max - v.getPheromone()) / (max)) * 255;
-            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
-                if (value<128){
+            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
+                if (value < 128) {
                     k.toFront();
                 }
             }
             k.setStroke(Color.rgb((int) value, 255, (int) value));
         });
-        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
+        //if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
         verticeLabels.forEach((t, u) -> {
-            t.toFront();
-            if (DataAccessor.ifVerticeInReduct(u))
+            if (DataAccessor.ifVerticeInReduct(u)) {
                 t.setStyle("-fx-background-color:#CCFF99");
-            else t.setStyle("-fx-border-color:red;-fx-background-color:white");
+            } else {
+                t.setStyle("-fx-border-color:red;-fx-background-color:white");
+            }
+            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
+                t.toFront();
+            }
         });
-        }
+        //}
     }
 
     //FUNKCJE OBSŁUGUJĄCE MYSZKĘ
@@ -511,7 +577,6 @@ public class FXMLDocumentController implements Initializable {
         }
     };
 
-    
     //obsługa kliknięcia na krawędź
     EventHandler<MouseEvent> lineOnMouseEventHandler
             = new EventHandler<MouseEvent>() {

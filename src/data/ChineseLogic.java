@@ -32,7 +32,7 @@ public class ChineseLogic extends Logic {
         long startTime = new Date().getTime();
         coreCT2();
         long stopTime = new Date().getTime();
-        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime()+(stopTime-startTime));
+        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime()+(((double)(stopTime-startTime))/1000));
         List<Attribute> test = DataAccessor.getAllAttributes();
         calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ChineseLogic extends Logic {
             }
         }
         DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size());
+        DataAccessor.setAntsNumber(vertices.size()/2);
         DataAccessor.setMaxList(vertices.size());
 //        DataObjectMultipleComparator dbmp = new DataObjectMultipleComparator();
 //        List<Integer> test5 = new ArrayList<Integer>();
@@ -250,6 +250,8 @@ public class ChineseLogic extends Logic {
     }
 
     public static boolean checkIfCoreIsReduct(){
+        if (DataAccessor.getCoreAttributes().isEmpty())
+            return false;
         int numberOfClassInstances = 0;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;

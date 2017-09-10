@@ -183,3 +183,10 @@ Also added different evaluation for first iteration (now not every one ant will 
 - same with too big core to display (maybe scrollview here)
 - choosing dataset from examples (all placed in examples directory)
 - how to deal with unknown values
+
+0.6.1 - 10.09.2017
+
+- added fruitless searches as mentioned in chinese algorithm
+- added "core is reduct" window that indicates there's no need to compute reduct since core is reduct
+- issue with updating labels that belong at the moment to reduct is fixed
+- added opening sample datasets

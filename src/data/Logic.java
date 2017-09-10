@@ -52,6 +52,9 @@ public abstract class Logic {
             long stopTime = new Date().getTime();
             timeElapsed=timeElapsed+(stopTime-startTime);
             FXMLDocumentController.colorEdges();
+            if (checkFruitlessSearches()){
+                break;
+            }
         }
         DataAccessor.setElapsedTime(((double)timeElapsed/1000));
         System.out.println(timeElapsed);
@@ -197,5 +200,19 @@ public abstract class Logic {
             DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue());
         });
         return DataAccessor.getDecisionValues().size();
+    }
+    
+    public boolean checkFruitlessSearches(){
+        if (DataAccessor.getListOfReducts().size()>DataAccessor.getFruitlessSearches()){
+            List<List<Attribute>> list = DataAccessor.getListOfReducts();
+            int performedIterations = DataAccessor.getPerformedIterations();
+            int size = DataAccessor.getListOfReducts().get(performedIterations-1).size();
+            for (int i=2; i<=DataAccessor.getFruitlessSearches(); i++){
+                if (DataAccessor.getListOfReducts().get(performedIterations-i).size()!=size)
+                    return false;
+            }
+            return true;
+        }
+        else return false;
     }
 }

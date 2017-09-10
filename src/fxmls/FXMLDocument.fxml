@@ -15,7 +15,8 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#loadDataset" text="Load dataset" />
+                        <MenuItem mnemonicParsing="false" onAction="#loadDataset" text="Load dataset from file" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadSampleDataset" text="Load sample dataset" />
                         <MenuItem mnemonicParsing="false" onAction="#setSeparator" text="Set separator" />
                         <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                     </items>

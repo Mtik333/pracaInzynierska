@@ -39,11 +39,11 @@ public class DataAccessor {
     private static List<DataObject> dataset; //zbior obiektów wczytanych
     private static List<Attribute> allAttributes; //zbior wszystkich atrybutów
     private static int decisionMaker; //atrybut decyzyjny
-    private static int loopLimit = 20; //maksymalna ilosc wykonan algorytmu
+    private static int loopLimit = 100; //maksymalna ilosc wykonan algorytmu
     private static double pheromoneRelevance = 1; //waznosc feromonu na sciezce
-    private static double edgeRelevance = 0.1; //waznosc wagi krawedzi
+    private static double edgeRelevance = 0.01; //waznosc wagi krawedzi
     private static int antsNumber; //liczba mrowek w algorytmie
-    private static double constantForUpdating = 1; //stala do aktualizacji feromonow na ścieżkach
+    private static double constantForUpdating = 0.1; //stala do aktualizacji feromonow na ścieżkach
     private static Edge analyzedEdge; //analizowana krawędź (UI)
     private static Vertice analyzedVertice; //analizowany wierzchołek (UI)
     private static List<Ant> allAnts; //lista wszystkich mrówek (wątków)
@@ -59,9 +59,9 @@ public class DataAccessor {
     private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
-    private static String algorithmType = JSACO; //wybrany typ algorytmu
+    private static String algorithmType = RSFSACO; //wybrany typ algorytmu
     private static double elapsedTime=0; //czas znalezienia reduktu
-    private static int fruitlessSearches=3; //ilosc bezowocnych poszukiwan
+    private static int fruitlessSearches=5; //ilosc bezowocnych poszukiwan
 
     public static double getElapsedTime() {
         return elapsedTime;
@@ -161,7 +161,7 @@ public class DataAccessor {
         DataAccessor.listOfReducts = listOfReducts;
     }
     private static int maxList;
-    private static double pheromoneEvaporation = 0.5;
+    private static double pheromoneEvaporation = 0.9;
 
     public static double getPheromoneEvaporation() {
         return pheromoneEvaporation;

@@ -39,6 +39,8 @@ public class AlgorithmSettingsFXMLController implements Initializable {
     public TextField pheromoneEvaporation;
     @FXML
     public TextField epsilonValue;
+    @FXML
+    public TextField fruitlessSearches;
 
     /**
      * Initializes the controller class.
@@ -65,6 +67,7 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         pheromoneConstant.setText(String.valueOf(DataAccessor.getConstantForUpdating()));
         pheromoneEvaporation.setText(String.valueOf(DataAccessor.getPheromoneEvaporation()));
         epsilonValue.setText(String.valueOf(DataAccessor.getEpsilonValue()));
+        fruitlessSearches.setText(String.valueOf(DataAccessor.getFruitlessSearches()));
     }
 
     @FXML
@@ -79,6 +82,7 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         DataAccessor.setConstantForUpdating(Double.valueOf(pheromoneConstant.getText()));
         DataAccessor.setPheromoneEvaporation(Double.valueOf(pheromoneEvaporation.getText()));
         DataAccessor.setEpsilonValue(Double.valueOf(epsilonValue.getText()));
+        DataAccessor.setFruitlessSearches(Integer.valueOf(fruitlessSearches.getText()));
         cancelSettings(null);
     }
 

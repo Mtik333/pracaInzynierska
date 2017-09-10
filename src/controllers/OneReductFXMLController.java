@@ -31,6 +31,8 @@ public class OneReductFXMLController implements Initializable {
     @FXML
     public TextField finalReduct;
     @FXML
+    public TextField reductSize;
+    @FXML
     public TextField elapsedTime;
     @FXML
     public TextField attributesInIteration;
@@ -64,6 +66,7 @@ public class OneReductFXMLController implements Initializable {
         DataAccessor.getCurrentReduct().forEach((attribute) -> {
             finalReduct.appendText(attribute.getName() + ", ");
         });
+        reductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size()+coreSize));
         elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime())+" s");
     }
 
