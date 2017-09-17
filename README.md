@@ -207,3 +207,7 @@ To do:
 - changed perturbation for initial pheromone from 0.1 to 0.01
 - disabled reduct calcuation when it's a core of reduct was found
 - added resetting algorithm button and its fucnctionality
+
+0.6.4 - 17.09.2017
+
+Restored "View dataset" functionality with additional buttons to navigate to prevent from too big memory usage by tableview

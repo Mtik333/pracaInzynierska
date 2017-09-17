@@ -12,8 +12,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -25,7 +27,34 @@ import javafx.scene.control.TableView;
 public class EditExamplesController implements Initializable {
 
     @FXML
-    private final TableView datasetTable = new TableView();
+    private TableView datasetTable;
+    @FXML
+    private Button firstObjects;
+    @FXML
+    private Button previousObjects;
+    @FXML
+    private Button nextObjects;
+    @FXML
+    private Button lastObjects;
+
+    private int page = 0;
+    private int itemsSize = 0;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getItemsSize() {
+        return itemsSize;
+    }
+
+    public void setItemsSize(int itemsSize) {
+        this.itemsSize = itemsSize;
+    }
 
     /**
      * Initializes the controller class.
@@ -45,17 +74,57 @@ public class EditExamplesController implements Initializable {
             });
             datasetTable.getColumns().add(column);
         }
-//        datasetTable.getItems().setAll(DataAccessor.getDataset());
-//        datasetTable.setEditable(false);
-//        List<TableColumn> tableColumns = new ArrayList<>();
-//        for (Attribute attribute : DataAccessor.getAllAttributes()){
-//            TableColumn tableColumn = new TableColumn(attribute.getName());
-//            tableColumn.setCellValueFactory(new PropertyValueFactory<>(attribute.getName()));
-//            tableColumns.add(new TableColumn(attribute.getName()));
-//        }
-//        datasetTable.getColumns().addAll(tableColumns);
-//        ObservableList data = FXCollections.observableArrayList(DataAccessor.getDataset());
-//        datasetTable.getItems().setAll(data);
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+        setItemsSize(DataAccessor.getDataset().size());
     }
 
+    @FXML
+    private void firstObjects(ActionEvent event) {
+        setPage(0);
+        datasetTable.getItems().clear();
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+        firstObjects.setDisable(true);
+        previousObjects.setDisable(true);
+        nextObjects.setDisable(false);
+        lastObjects.setDisable(false);
+    }
+
+    @FXML
+    private void previousObjects(ActionEvent event) {
+        setPage(--page);
+        datasetTable.getItems().clear();
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+        if (getPage() == 0) {
+            firstObjects.setDisable(true);
+            previousObjects.setDisable(true);
+        }
+        nextObjects.setDisable(false);
+        lastObjects.setDisable(false);
+    }
+
+    @FXML
+    private void nextObjects(ActionEvent event) {
+        setPage(++page);
+        datasetTable.getItems().clear();
+        if (getPage() == (itemsSize / 15)) {
+            nextObjects.setDisable(true);
+            lastObjects.setDisable(true);
+            datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, itemsSize - 1));
+        } else {
+            datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+        }
+        firstObjects.setDisable(false);
+        previousObjects.setDisable(false);
+    }
+
+    @FXML
+    private void lastObjects(ActionEvent event) {
+        setPage(itemsSize / 15);
+        datasetTable.getItems().clear();
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, itemsSize - 1));
+        firstObjects.setDisable(false);
+        previousObjects.setDisable(false);
+        nextObjects.setDisable(true);
+        lastObjects.setDisable(true);
+    }
 }
