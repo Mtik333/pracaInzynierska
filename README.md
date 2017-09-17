@@ -200,3 +200,10 @@ Also added different evaluation for first iteration (now not every one ant will 
 To do:
 - disabling reduct calculation when it's a core
 - added button for reseting graph to the state before reduct computation began
+
+0.6.3 - 17.09.2017
+
+- changed graph to take a little more space, though it's still not cool to preview big datasets
+- changed perturbation for initial pheromone from 0.1 to 0.01
+- disabled reduct calcuation when it's a core of reduct was found
+- added resetting algorithm button and its fucnctionality

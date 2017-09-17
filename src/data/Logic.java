@@ -47,7 +47,7 @@ public abstract class Logic {
     public void generateBasicPheromone() {
         Random random = new Random();
         DataAccessor.getGraph().getEdges().forEach((x) -> {
-            x.setPheromone(random.nextDouble() * 0.1 + 0.5);
+            x.setPheromone(random.nextDouble() * 0.01 + 0.5);
         });
     }
 

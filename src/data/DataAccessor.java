@@ -432,7 +432,7 @@ public class DataAccessor {
 
     public static void resetValues() {
         setLoadedData(false);
-        setFile(null);
+        //setFile(null);
         setDataset(null);
         setAllAttributes(null);
         setDecisionMaker(0);

@@ -13,7 +13,6 @@ import data.Logic;
 import data.graph.Edge;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
-import data.roughsets.DataObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -41,8 +40,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -61,7 +60,20 @@ import javafx.stage.Stage;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private TextArea examplesToString; //pole tekstowe na obiekty
+    private Button viewExamples;
+    @FXML
+    private Button manualAnts;
+    @FXML
+    private Button nextEdge;
+    @FXML
+    private Button singleIteration;
+    @FXML
+    private Button singleReduct;
+    @FXML
+    private Button showStatistics;
+    @FXML
+    private Button resetAlgorithm;
+    //@FXML private TextArea examplesToString; //pole tekstowe na obiekty
     @FXML
     private AnchorPane solver; //widok grafu
     private List<Label> labels; //lista wierzcholkow (grafika)
@@ -70,8 +82,7 @@ public class FXMLDocumentController implements Initializable {
     private static Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
     double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
-    //private Logic newLogic = new NewLogic(); //cała logika aplikacji
-    private Logic newLogic; //logika algorytmu chinskiego
+    private Logic newLogic; //logika algorytmu
 
     @FXML
     public void exitApp(ActionEvent event) {
@@ -88,30 +99,8 @@ public class FXMLDocumentController implements Initializable {
         if (newLogic != null) {
             DataAccessor.resetValues();
         }
-        try {
-            showFXML(SAMPLE_DATASET_FXML_RES, SAMPLE_DATASET_TITLE);
-            if (!DataAccessor.parseFile()) {
-                newLogic = DataAccessor.createLogic();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(PARSING_ERROR);
-                alert.setContentText(WRONG_SEPARATOR);
-                alert.showAndWait();
-            } else {
-                newLogic = DataAccessor.createLogic();
-                //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
-            }
-            newLogic.generateGraph();
-            drawGraph();
-            if (newLogic instanceof ChineseLogic) {
-                if (ChineseLogic.checkIfCoreIsReduct()) {
-                    showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
-                    //pokaz okienko ze rdzen = redukt
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        DataAccessor.setLoadedData(true);
+        showFXML(SAMPLE_DATASET_FXML_RES, SAMPLE_DATASET_TITLE);
+        loadingDataset();
     }
 
     //wczytuje zestaw danych z pliku
@@ -126,18 +115,24 @@ public class FXMLDocumentController implements Initializable {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter(CSV_FILES, CSV_FILTER)
         );
+        DataAccessor.setFile(fileChooser.showOpenDialog(solver.getScene().getWindow()));
+        if (DataAccessor.getFile() == null) {
+            return;
+        }
+        loadingDataset();
+    }
+
+    private void loadingDataset() {
         try {
-            DataAccessor.setFile(fileChooser.showOpenDialog(examplesToString.getScene().getWindow()));
-            if (DataAccessor.getFile() == null) {
-                return;
-            }
             if (!DataAccessor.parseFile()) {
+                disableButtons();
                 newLogic = DataAccessor.createLogic();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(PARSING_ERROR);
                 alert.setContentText(WRONG_SEPARATOR);
                 alert.showAndWait();
             } else {
+                enableButtons();
                 newLogic = DataAccessor.createLogic();
                 //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
@@ -146,6 +141,7 @@ public class FXMLDocumentController implements Initializable {
             if (newLogic instanceof ChineseLogic) {
                 if (ChineseLogic.checkIfCoreIsReduct()) {
                     showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
+                    disableButtons();
                     //pokaz okienko ze rdzen = redukt
                 }
             }
@@ -153,7 +149,6 @@ public class FXMLDocumentController implements Initializable {
             ioException.printStackTrace(System.out);
         }
         DataAccessor.setLoadedData(true);
-
     }
 
     //ustawienie mrówek losowo
@@ -220,6 +215,7 @@ public class FXMLDocumentController implements Initializable {
                                     DataAccessor.setCalculationMode(SINGLE_ITERATION);
                                     colorEdges();
                                     showAlgorithmStats();
+                                    disableButtons();
                                     //FX Stuff done here
                                 } finally {
                                     //latch.countDown();
@@ -297,6 +293,41 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    private void disableButtons() {
+        nextEdge.setDisable(true);
+        singleIteration.setDisable(true);
+        singleReduct.setDisable(true);
+    }
+
+    private void enableButtons() {
+        viewExamples.setDisable(false);
+        manualAnts.setDisable(false);
+        showStatistics.setDisable(false);
+        nextEdge.setDisable(false);
+        singleIteration.setDisable(false);
+        singleReduct.setDisable(false);
+        resetAlgorithm.setDisable(false);
+    }
+
+    @FXML
+    private void resetAlgorithm() throws IOException {
+        DataAccessor.resetValues();
+        DataAccessor.parseFile();
+        enableButtons();
+        newLogic = DataAccessor.createLogic();
+        newLogic.generateGraph();
+        drawGraph();
+        if (newLogic instanceof ChineseLogic) {
+            if (ChineseLogic.checkIfCoreIsReduct()) {
+                showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
+                disableButtons();
+                //pokaz okienko ze rdzen = redukt
+            }
+
+        }
+        DataAccessor.setLoadedData(true);
+    }
+
     //FUNKCJE RYSOWANIA GRAFU I GŁÓWNEGO WIDOKU
     //rysuje graf w widoku
     public void drawGraph() {
@@ -314,8 +345,8 @@ public class FXMLDocumentController implements Initializable {
             Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
             label.setMinWidth(100);
             label.setAlignment(Pos.CENTER);
-            label.setTranslateX(middleX + 150 * sinus);
-            label.setTranslateY(middleY + 150 * cosinus);
+            label.setTranslateX(middleX + 200 * sinus);
+            label.setTranslateY(middleY + 200 * cosinus);
             label.setStyle("-fx-border-color:red;-fx-background-color:white");
             label.setFont(javafx.scene.text.Font.font(18));
             label.setTextAlignment(TextAlignment.CENTER);
@@ -335,7 +366,7 @@ public class FXMLDocumentController implements Initializable {
         if (DataAccessor.getAlgorithmType().equals(ConstStrings.RSFSACO)) {
             VBox stackPane = new VBox();
             stackPane.setTranslateX(middleX / 4);
-            stackPane.setTranslateY(middleY);
+            stackPane.setTranslateY(middleY / 4);
             stackPane.setAlignment(Pos.CENTER);
             stackPane.setStyle("-fx-border-color:red;-fx-background-color:transparent");
             //stackPane.setSpacing(10);
@@ -368,21 +399,21 @@ public class FXMLDocumentController implements Initializable {
     }
 
     //wpisuje przykłady do okna tekstowego
-    private void objectsToTextArea(List<Attribute> attributes, List<DataObject> objects) {
-        examplesToString.setText(TEXTAREA_PARAMETERS);
-        attributes.forEach((attribute) -> {
-            examplesToString.appendText(attribute.getName() + ", ");
-        });
-        examplesToString.deleteText(examplesToString.getLength() - 2, examplesToString.getLength());
-        examplesToString.appendText(TEXTAREA_APPEND);
-        objects.forEach((x) -> {
-            examplesToString.appendText(x.toString());
-        });
-    }
-
+//    private void objectsToTextArea(List<Attribute> attributes, List<DataObject> objects) {
+//        examplesToString.setText(TEXTAREA_PARAMETERS);
+//        attributes.forEach((attribute) -> {
+//            examplesToString.appendText(attribute.getName() + ", ");
+//        });
+//        examplesToString.deleteText(examplesToString.getLength() - 2, examplesToString.getLength());
+//        examplesToString.appendText(TEXTAREA_APPEND);
+//        objects.forEach((x) -> {
+//            examplesToString.appendText(x.toString());
+//        });
+//    }
     //połączenie między wierzchołkami (grafika)
     private Line connect(Label c1, Label c2) {
         Line line = new Line();
+        //line.setStyle("-fx-border-color:black");
         line.startXProperty().bind(Bindings.createDoubleBinding(() -> {
             Bounds b = c1.getBoundsInParent();
             return b.getMinX() + b.getWidth() / 2;
