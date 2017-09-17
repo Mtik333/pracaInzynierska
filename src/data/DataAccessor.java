@@ -60,8 +60,8 @@ public class DataAccessor {
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
     private static String algorithmType = RSFSACO; //wybrany typ algorytmu
-    private static double elapsedTime=0; //czas znalezienia reduktu
-    private static int fruitlessSearches=5; //ilosc bezowocnych poszukiwan
+    private static double elapsedTime = 0; //czas znalezienia reduktu
+    private static int fruitlessSearches = 5; //ilosc bezowocnych poszukiwan
 
     public static double getElapsedTime() {
         return elapsedTime;
@@ -79,16 +79,16 @@ public class DataAccessor {
         DataAccessor.fruitlessSearches = fruitlessSearches;
     }
 
-    public static Logic createLogic(){
-        if (getAlgorithmType().equals(JSACO)){
+    public static Logic createLogic() {
+        if (getAlgorithmType().equals(JSACO)) {
             return new JensenLogic();
         }
-        if (getAlgorithmType().equals(RSFSACO)){
+        if (getAlgorithmType().equals(RSFSACO)) {
             return new ChineseLogic();
         }
         return null;
     }
-    
+
     public static String getAlgorithmType() {
         return algorithmType;
     }
@@ -404,37 +404,32 @@ public class DataAccessor {
         return null;
     }
 
-    public static boolean ifVerticeInReduct(Vertice vertice){
-        for (Attribute attribute : getCurrentReduct()){
-            if (attribute.getName().equals(vertice.getName())){
-                return true;
-            }
-        }
-        return false;
+    public static boolean ifVerticeInReduct(Vertice vertice) {
+        return getCurrentReduct().stream().anyMatch((attribute) -> (attribute.getName().equals(vertice.getName())));
     }
-    
+
     public static Map<Line, Edge> sortByValue(Map<Line, Edge> unsortMap) {
         // 1. Convert Map to List of Map
-        List<Map.Entry<Line, Edge>> list =
-                new LinkedList<>(unsortMap.entrySet());
+        List<Map.Entry<Line, Edge>> list
+                = new LinkedList<>(unsortMap.entrySet());
         // 2. Sort list with Collections.sort(), provide a custom Comparator
         //    Try switch the o1 o2 position for a different order
         Collections.sort(list, (Map.Entry<Line, Edge> o1, Map.Entry<Line, Edge> o2) -> {
-            if (o1.getValue().getPheromone()<o2.getValue().getPheromone())
+            if (o1.getValue().getPheromone() < o2.getValue().getPheromone()) {
                 return -1;
-            else if (o1.getValue().getPheromone()>o2.getValue().getPheromone())
+            } else if (o1.getValue().getPheromone() > o2.getValue().getPheromone()) {
                 return 1;
+            }
             return 0;
         });
         // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
-        Map<Line, Edge> sortedMap = new LinkedHashMap<Line, Edge>();
-        for (Map.Entry<Line, Edge> entry : list) {
+        Map<Line, Edge> sortedMap = new LinkedHashMap<>();
+        list.forEach((entry) -> {
             sortedMap.put(entry.getKey(), entry.getValue());
-        }
+        });
         return sortedMap;
     }
-    
-    
+
     public static void resetValues() {
         setLoadedData(false);
         setFile(null);

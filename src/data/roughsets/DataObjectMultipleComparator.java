@@ -17,10 +17,10 @@ import java.util.List;
 public class DataObjectMultipleComparator implements Comparator<DataObject> {
 
     public DataObjectMultipleComparator(List<Attribute> attributes) {
-        sortingBy = new ArrayList<Integer>();
-        for (Attribute attribute : attributes) {
+        sortingBy = new ArrayList<>();
+        attributes.forEach((attribute) -> {
             sortingBy.add(DataAccessor.getAllAttributes().indexOf(attribute));
-        }
+        });
     }
 
     public List<Integer> sortingBy;

@@ -84,20 +84,12 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    public void loadSampleDataset(ActionEvent event){
+    public void loadSampleDataset(ActionEvent event) {
         if (newLogic != null) {
             DataAccessor.resetValues();
         }
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/SampleDatasetFXML.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            SampleDatasetFXMLController eec = fxmlLoader.<SampleDatasetFXMLController>getController();
-            Stage stage = new Stage();
-            stage.setTitle(SHOW_EDGE_TITLE);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(DataAccessor.getPrimaryStage());
-            stage.setScene(new Scene(root1));
-            stage.showAndWait();
+            showFXML(SAMPLE_DATASET_FXML_RES, SAMPLE_DATASET_TITLE);
             if (!DataAccessor.parseFile()) {
                 newLogic = DataAccessor.createLogic();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -112,19 +104,7 @@ public class FXMLDocumentController implements Initializable {
             drawGraph();
             if (newLogic instanceof ChineseLogic) {
                 if (ChineseLogic.checkIfCoreIsReduct()) {
-                    try {
-                        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/fxmls/CoreIsReductFXML.fxml"));
-                        Parent root2 = (Parent) fxmlLoader2.load();
-                        CoreIsReductFXMLController eec2 = fxmlLoader2.<CoreIsReductFXMLController>getController();
-                        Stage stage2 = new Stage();
-                        stage2.setTitle(SHOW_EDGE_TITLE);
-                        stage2.initModality(Modality.WINDOW_MODAL);
-                        stage2.initOwner(DataAccessor.getPrimaryStage());
-                        stage2.setScene(new Scene(root2));
-                        stage2.show();
-                    } catch (IOException ex) {
-                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
                     //pokaz okienko ze rdzen = redukt
                 }
             }
@@ -133,8 +113,7 @@ public class FXMLDocumentController implements Initializable {
         }
         DataAccessor.setLoadedData(true);
     }
-    
-    
+
     //wczytuje zestaw danych z pliku
     @FXML
     public void loadDataset(ActionEvent event) {
@@ -166,19 +145,7 @@ public class FXMLDocumentController implements Initializable {
             drawGraph();
             if (newLogic instanceof ChineseLogic) {
                 if (ChineseLogic.checkIfCoreIsReduct()) {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/CoreIsReductFXML.fxml"));
-                        Parent root1 = (Parent) fxmlLoader.load();
-                        CoreIsReductFXMLController eec = fxmlLoader.<CoreIsReductFXMLController>getController();
-                        Stage stage = new Stage();
-                        stage.setTitle(SHOW_EDGE_TITLE);
-                        stage.initModality(Modality.WINDOW_MODAL);
-                        stage.initOwner(DataAccessor.getPrimaryStage());
-                        stage.setScene(new Scene(root1));
-                        stage.show();
-                    } catch (IOException ex) {
-                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
                     //pokaz okienko ze rdzen = redukt
                 }
             }
@@ -246,7 +213,7 @@ public class FXMLDocumentController implements Initializable {
                         @Override
                         protected Void call() throws Exception {
                             newLogic.findReduct();
-                            //Background work                       
+                            //Background work
                             final CountDownLatch latch = new CountDownLatch(1);
                             Platform.runLater(() -> {
                                 try {
@@ -277,43 +244,20 @@ public class FXMLDocumentController implements Initializable {
     //ustawia separator danych (średnik albo przecinek)
     @FXML
     public void setSeparator(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SET_SEPARATOR_FXML_RES));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setTitle(SET_SEPARATOR_TITLE);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(DataAccessor.getPrimaryStage());
-        stage.setScene(new Scene(root1));
-        stage.show();
+        showFXML(SET_SEPARATOR_FXML_RES, SET_SEPARATOR_TITLE);
     }
 
     //przechodzi do widoku ustawień algorytmu
     @FXML
     public void programSettings(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ALGORITHM_SETTINGS_FXML_RES));
-        Parent root1 = (Parent) fxmlLoader.load();
-        AlgorithmSettingsFXMLController algorithmSettings = fxmlLoader.<AlgorithmSettingsFXMLController>getController();
-        Stage stage = new Stage();
-        stage.setTitle(ALGORITHM_SETTINGS_TITLE);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(DataAccessor.getPrimaryStage());
-        stage.setScene(new Scene(root1));
-        stage.show();
+        showFXML(ALGORITHM_SETTINGS_FXML_RES, ALGORITHM_SETTINGS_TITLE);
     }
 
     //przechodzi do widoku edycji przykładów
     @FXML
     public void editExamples(ActionEvent event) throws IOException {
         if (DataAccessor.isLoadedData()) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(EDIT_EXAMPLES_FXML_RES));
-            Parent root1 = (Parent) fxmlLoader.load();
-            EditExamplesController eec = fxmlLoader.<EditExamplesController>getController();
-            Stage stage = new Stage();
-            stage.setTitle(EDIT_EXAMPLES_TITLE);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(DataAccessor.getPrimaryStage());
-            stage.setScene(new Scene(root1));
-            stage.show();
+            showFXML(EDIT_EXAMPLES_FXML_RES, EDIT_EXAMPLES_TITLE);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(ALERT_ERROR_TITLE_NO_DATA);
@@ -324,50 +268,30 @@ public class FXMLDocumentController implements Initializable {
 
     //pokazanie statystyk pojedynczego kroku mrówek w iteracji
     private void showStepStats() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneStepFXML.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            OneStepFXMLController eec = fxmlLoader.<OneStepFXMLController>getController();
-            Stage stage = new Stage();
-            stage.setTitle(SHOW_EDGE_TITLE);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(DataAccessor.getPrimaryStage());
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        showFXML(ONE_STEP_FXML_RES, ONE_STEP_TITLE);
     }
 
     //pokazanie statystyk jednej iteracji algorytmu
     private void showIterationStats() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneIterationFXML.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            OneIterationFXMLController eec = fxmlLoader.<OneIterationFXMLController>getController();
-            Stage stage = new Stage();
-            stage.setTitle(SHOW_EDGE_TITLE);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(DataAccessor.getPrimaryStage());
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        showFXML(ONE_ITERATION_FXML_RES, ONE_ITERATION_TITLE);
     }
 
     //pokazanie statystyk całego algorytmu
     private void showAlgorithmStats() {
+        showFXML(ONE_REDUCT_FXML_RES, ONE_REDUCT_TITLE);
+    }
+
+    //ŁADOWANIE DOWOLNEGO KONTROLERA
+    private void showFXML(String resource, String title) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/OneReductFXML.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
             Parent root1 = (Parent) fxmlLoader.load();
-            OneReductFXMLController eec = fxmlLoader.<OneReductFXMLController>getController();
             Stage stage = new Stage();
-            stage.setTitle(SHOW_EDGE_TITLE);
+            stage.setTitle(title);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(DataAccessor.getPrimaryStage());
             stage.setScene(new Scene(root1));
-            stage.show();
+            stage.showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -523,20 +447,7 @@ public class FXMLDocumentController implements Initializable {
         @Override
         public void handle(MouseEvent t) {
             if (t.getButton() == MouseButton.SECONDARY) {
-                try {
-                    DataAccessor.setAnalyzedVertice(verticeLabels.get((Label) t.getSource()));
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SHOW_VERTICE_FXML_RES));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    ShowVerticeXMLController eec = fxmlLoader.<ShowVerticeXMLController>getController();
-                    Stage stage = new Stage();
-                    stage.setTitle(SHOW_VERTICE_TITLE);
-                    stage.initModality(Modality.WINDOW_MODAL);
-                    stage.initOwner(DataAccessor.getPrimaryStage());
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                showFXML(SHOW_VERTICE_FXML_RES, SHOW_VERTICE_TITLE);
             } else {
                 orgSceneX = t.getSceneX();
                 orgSceneY = t.getSceneY();
@@ -579,26 +490,9 @@ public class FXMLDocumentController implements Initializable {
 
     //obsługa kliknięcia na krawędź
     EventHandler<MouseEvent> lineOnMouseEventHandler
-            = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent t) {
-            if (t.getButton() == MouseButton.SECONDARY) {
-                try {
-                    DataAccessor.setAnalyzedEdge(edgeLines.get((Line) t.getSource()));
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SHOW_EDGE_FXML_RES));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    ShowEdgeFXMLController eec = fxmlLoader.<ShowEdgeFXMLController>getController();
-                    Stage stage = new Stage();
-                    stage.setTitle(SHOW_EDGE_TITLE);
-                    stage.initModality(Modality.WINDOW_MODAL);
-                    stage.initOwner(DataAccessor.getPrimaryStage());
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            = (MouseEvent t) -> {
+                if (t.getButton() == MouseButton.SECONDARY) {
+                    showFXML(SHOW_EDGE_FXML_RES, SHOW_EDGE_TITLE);
                 }
-            }
-        }
-    };
+            };
 }

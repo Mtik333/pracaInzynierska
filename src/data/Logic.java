@@ -32,7 +32,16 @@ public abstract class Logic {
     public abstract void generateAntsPheromone();
 
     //inicjalizacja mrowek na losowych pozycjach
-    public abstract void initializeAntsRandom();
+    public void initializeAntsRandom() {
+        DataAccessor.setCalculatedReductInIteration(false);
+        generateAntsPheromone();
+        Random random = new Random();
+        DataAccessor.getAllAnts().forEach((ant) -> {
+            int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
+            ant.pickVertice(ant.getUnpickedAttributes().get(j));
+        });
+        DataAccessor.setCurrentIter(1);
+    }
 
     //generowanie bazowego feromonu
     public void generateBasicPheromone() {
@@ -44,19 +53,19 @@ public abstract class Logic {
 
     //tryb znajdowania reduktu
     public void findReduct() {
-        long timeElapsed=(long)DataAccessor.getElapsedTime();
+        long timeElapsed = (long) DataAccessor.getElapsedTime();
         while (DataAccessor.getPerformedIterations() < DataAccessor.getLoopLimit()) {
             initializeAntsRandom();
             long startTime = new Date().getTime();
             performOneIteration();
             long stopTime = new Date().getTime();
-            timeElapsed=timeElapsed+(stopTime-startTime);
+            timeElapsed = timeElapsed + (stopTime - startTime);
             FXMLDocumentController.colorEdges();
-            if (checkFruitlessSearches()){
+            if (checkFruitlessSearches()) {
                 break;
             }
         }
-        DataAccessor.setElapsedTime(((double)timeElapsed/1000));
+        DataAccessor.setElapsedTime(((double) timeElapsed / 1000));
         System.out.println(timeElapsed);
     }
 
@@ -156,14 +165,12 @@ public abstract class Logic {
             });
         });
         //przy pierwszej iteracji aktualizacja tylko tam gdzie najmniejszy redukt zamiast wszedzie
-        if (DataAccessor.getPerformedIterations()==1){
-            for (Ant ant : DataAccessor.getAllAnts()){
-                if (ant.getPickedAttributes().size()!=DataAccessor.getMaxList()){
-                    ant.setFoundSolution(false);
-                }
-            }
+        if (DataAccessor.getPerformedIterations() == 1) {
+            DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().size() != DataAccessor.getMaxList())).forEachOrdered((ant) -> {
+                ant.setFoundSolution(false);
+            });
         }
-        
+
         if (!newReduct.isEmpty()) {
             DataAccessor.getListOfReducts().add(newReduct);
         }
@@ -193,7 +200,7 @@ public abstract class Logic {
         Edge d = Collections.max(edges, Comparator.comparing(c -> c.getPheromone()));
         //System.out.println("xd");
     }
-    
+
     public int countDecisionClasses() {
         DataAccessor.setDecisionValues(new ArrayList<>());
         DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> {
@@ -201,18 +208,20 @@ public abstract class Logic {
         });
         return DataAccessor.getDecisionValues().size();
     }
-    
-    public boolean checkFruitlessSearches(){
-        if (DataAccessor.getListOfReducts().size()>DataAccessor.getFruitlessSearches()){
+
+    public boolean checkFruitlessSearches() {
+        if (DataAccessor.getListOfReducts().size() > DataAccessor.getFruitlessSearches()) {
             List<List<Attribute>> list = DataAccessor.getListOfReducts();
             int performedIterations = DataAccessor.getPerformedIterations();
-            int size = DataAccessor.getListOfReducts().get(performedIterations-1).size();
-            for (int i=2; i<=DataAccessor.getFruitlessSearches(); i++){
-                if (DataAccessor.getListOfReducts().get(performedIterations-i).size()!=size)
+            int size = DataAccessor.getListOfReducts().get(performedIterations - 1).size();
+            for (int i = 2; i <= DataAccessor.getFruitlessSearches(); i++) {
+                if (DataAccessor.getListOfReducts().get(performedIterations - i).size() != size) {
                     return false;
+                }
             }
             return true;
+        } else {
+            return false;
         }
-        else return false;
     }
 }

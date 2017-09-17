@@ -190,3 +190,13 @@ Also added different evaluation for first iteration (now not every one ant will 
 - added "core is reduct" window that indicates there's no need to compute reduct since core is reduct
 - issue with updating labels that belong at the moment to reduct is fixed
 - added opening sample datasets
+
+0.6.2 - 17.09.2017
+
+- refactored code in main controller (one function for FXML loader)
+- refactored code in ~Ant classes (one function was identical in both Jensen and Chinese)
+- fixed titles for every new window
+
+To do:
+- disabling reduct calculation when it's a core
+- added button for reseting graph to the state before reduct computation began

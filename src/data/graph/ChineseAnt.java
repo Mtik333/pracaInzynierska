@@ -7,7 +7,6 @@ package data.graph;
 
 import static data.ConstStrings.SINGLE_STEP;
 import data.DataAccessor;
-import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
 import java.util.ArrayList;
@@ -23,10 +22,7 @@ import java.util.Map;
  */
 public class ChineseAnt extends Ant {
 
-    private List<DataObject> sortedDataset; //dane posortowane
     private Map<Vertice, Double> heuristicValues; //informacja heurystyczna
-    private List<Attribute> sortByAttributes; //posortowane atrybuty
-    private DataObjectMultipleComparator domc; //komparator do zbioru
     private double reducedDataset;
 
     public ChineseAnt(int index) {
@@ -47,9 +43,9 @@ public class ChineseAnt extends Ant {
         currentIter = 0;
         reducedDataset = calculateMutualInformation();
         while (currentIter < DataAccessor.getMaxList() - 1 && DataAccessor.getDatasetMutualInformation() != reducedDataset) {
-            for (Vertice vertice : unpickedAttributes) {
+            unpickedAttributes.forEach((vertice) -> {
                 computeHeuristic(vertice, pickedAttributes.get(pickedAttributes.size() - 1));
-            }
+            });
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
                 probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
@@ -61,19 +57,11 @@ public class ChineseAnt extends Ant {
             currentIter++;
             addEdgeToSolution();
             if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)) {
-                if (DataAccessor.getDatasetMutualInformation() - reducedDataset == 0) {
-                    foundSolution = true;
-                } else {
-                    foundSolution = false;
-                }
+                foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == 0;
                 return;
             }
         }
-        if (DataAccessor.getDatasetMutualInformation() - reducedDataset == 0) {
-            foundSolution = true;
-        } else {
-            foundSolution = false;
-        }
+        foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == 0;
     }
 
     @Override

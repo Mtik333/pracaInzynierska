@@ -12,7 +12,6 @@ import data.graph.NewAnt;
 import data.graph.Vertice;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -35,7 +34,7 @@ public class JensenLogic extends Logic {
             }
         }
         DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size()/2);
+        DataAccessor.setAntsNumber(vertices.size() / 2);
         DataAccessor.setMaxList(vertices.size());
         //System.out.println(graph.toString());
     }
@@ -52,18 +51,6 @@ public class JensenLogic extends Logic {
             newAnts.add(ant);
         }
         DataAccessor.setAllAnts(newAnts);
-    }
-
-    @Override
-    public void initializeAntsRandom() {
-        DataAccessor.setCalculatedReductInIteration(false);
-        generateAntsPheromone();
-        Random random = new Random();
-        DataAccessor.getAllAnts().forEach((ant) -> {
-            int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
-            ant.pickVertice(ant.getUnpickedAttributes().get(j));
-        });
-        DataAccessor.setCurrentIter(1);
     }
 
 }

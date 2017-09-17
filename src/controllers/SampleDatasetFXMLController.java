@@ -31,29 +31,30 @@ public class SampleDatasetFXMLController implements Initializable {
     public TextArea datasetDescription;
     @FXML
     public ComboBox exampleDataset;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //URL fileUrl=getClass().getResource("src/examples");
         File dir = new File("src/examples");
-            File dir_list[]=dir.listFiles();
-            if (dir_list!=null){
-            for (File child: dir_list){
-                    exampleDataset.getItems().add(child.getName());
-                }
+        File dir_list[] = dir.listFiles();
+        if (dir_list != null) {
+            for (File child : dir_list) {
+                exampleDataset.getItems().add(child.getName());
             }
-        
-    }    
+        }
+        exampleDataset.getSelectionModel().selectFirst();
+    }
+
     @FXML
     public void loadFile(ActionEvent event) throws IOException {
         String test = exampleDataset.getSelectionModel().getSelectedItem().toString();
-        File file = new File("src/examples/"+exampleDataset.getSelectionModel().getSelectedItem().toString());
+        File file = new File("src/examples/" + exampleDataset.getSelectionModel().getSelectedItem().toString());
         DataAccessor.setFile(file);
         Stage stage = (Stage) exampleDataset.getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     public void dismiss(ActionEvent event) {
         Stage stage = (Stage) exampleDataset.getScene().getWindow();

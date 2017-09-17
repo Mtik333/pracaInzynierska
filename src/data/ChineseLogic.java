@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -32,7 +31,7 @@ public class ChineseLogic extends Logic {
         long startTime = new Date().getTime();
         coreCT2();
         long stopTime = new Date().getTime();
-        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime()+(((double)(stopTime-startTime))/1000));
+        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / 1000));
         List<Attribute> test = DataAccessor.getAllAttributes();
         calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
@@ -48,20 +47,8 @@ public class ChineseLogic extends Logic {
             }
         }
         DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size()/2);
+        DataAccessor.setAntsNumber(vertices.size() / 2);
         DataAccessor.setMaxList(vertices.size());
-//        DataObjectMultipleComparator dbmp = new DataObjectMultipleComparator();
-//        List<Integer> test5 = new ArrayList<Integer>();
-//        test5.add(1);
-//        test5.add(2);
-//        test5.add(DataAccessor.getAllAttributes().get(1));
-//        test5.add(DataAccessor.getAllAttributes().get(2));
-//        dbmp.setSortingBy(test5);
-//        Collections.sort(DataAccessor.getDataset(), dbmp);
-//        for (DataObject db : DataAccessor.getDataset()){
-//            System.out.println(db.toString());
-//        }
-//        System.out.println();
     }
 
     @Override
@@ -76,18 +63,6 @@ public class ChineseLogic extends Logic {
             newAnts.add(ant);
         }
         DataAccessor.setAllAnts(newAnts);
-    }
-
-    @Override
-    public void initializeAntsRandom() {
-        DataAccessor.setCalculatedReductInIteration(false);
-        generateAntsPheromone();
-        Random random = new Random();
-        DataAccessor.getAllAnts().forEach((ant) -> {
-            int j = random.nextInt(DataAccessor.getGraph().getVertices().size()); //losowy wybór
-            ant.pickVertice(ant.getUnpickedAttributes().get(j));
-        });
-        DataAccessor.setCurrentIter(1);
     }
 
     //zlicza ilosc konfliktow (w klasie)
@@ -156,7 +131,7 @@ public class ChineseLogic extends Logic {
             System.out.print(a.getName() + ",");
         });
         if (foundCore.size() == DataAccessor.getAllAttributes().size() - 1) {
-            DataAccessor.setCoreAttributes(new ArrayList<Attribute>());
+            DataAccessor.setCoreAttributes(new ArrayList<>());
         } else {
             DataAccessor.setCoreAttributes(foundCore);
         }
@@ -176,11 +151,7 @@ public class ChineseLogic extends Logic {
         double value = 0;
         for (String decision : DataAccessor.getDecisionValues()) {
             int instances = 0;
-            for (DataObject dataObject : DataAccessor.getDataset()) {
-                if (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision)) {
-                    instances++;
-                }
-            }
+            instances = DataAccessor.getDataset().stream().filter((dataObject) -> (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision))).map((_item) -> 1).reduce(instances, Integer::sum);
             double probability = ((double) instances) / ((double) DataAccessor.getDataset().size());
             double logarithm = (Math.log(probability) / Math.log(2));
             value += (-1) * probability * logarithm;
@@ -249,9 +220,10 @@ public class ChineseLogic extends Logic {
         return singleAttrValue;
     }
 
-    public static boolean checkIfCoreIsReduct(){
-        if (DataAccessor.getCoreAttributes().isEmpty())
+    public static boolean checkIfCoreIsReduct() {
+        if (DataAccessor.getCoreAttributes().isEmpty()) {
             return false;
+        }
         int numberOfClassInstances = 0;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
@@ -305,5 +277,5 @@ public class ChineseLogic extends Logic {
         DataAccessor.setCalculatedReductInIteration(true);
         return true;
     }
-    
+
 }

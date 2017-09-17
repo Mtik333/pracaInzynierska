@@ -5,6 +5,9 @@
  */
 package data.graph;
 
+import data.roughsets.Attribute;
+import data.roughsets.DataObject;
+import data.roughsets.DataObjectMultipleComparator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,41 @@ public abstract class Ant implements Runnable {
     protected List<Edge> allEdges; //lista krawedzi (wszystkich)
     protected List<Edge> chosenEdges; //lista krawedzi (wybranych)
     protected boolean foundSolution = false; //czy znaleziono rozwiazanie)
+    protected List<Attribute> sortByAttributes; //posortowane atrybuty
+    protected DataObjectMultipleComparator domc; //komparator do zbioru
+    protected List<DataObject> sortedDataset; //dane posortowane
+
+    public int getCurrentIter() {
+        return currentIter;
+    }
+
+    public void setCurrentIter(int currentIter) {
+        this.currentIter = currentIter;
+    }
+
+    public List<Attribute> getSortByAttributes() {
+        return sortByAttributes;
+    }
+
+    public void setSortByAttributes(List<Attribute> sortByAttributes) {
+        this.sortByAttributes = sortByAttributes;
+    }
+
+    public DataObjectMultipleComparator getDomc() {
+        return domc;
+    }
+
+    public void setDomc(DataObjectMultipleComparator domc) {
+        this.domc = domc;
+    }
+
+    public List<DataObject> getSortedDataset() {
+        return sortedDataset;
+    }
+
+    public void setSortedDataset(List<DataObject> sortedDataset) {
+        this.sortedDataset = sortedDataset;
+    }
 
     public int getIndex() {
         return index;

@@ -28,22 +28,23 @@ public class CoreIsReductFXMLController implements Initializable {
     public TextField finalReduct;
     @FXML
     public TextField elapsedTime;
-    
-    private int coreSize=0;
-    
+
+    private int coreSize = 0;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        if (DataAccessor.getCoreAttributes()!=null)
-            coreSize=DataAccessor.getCoreAttributes().size();
-        if (coreSize!=0){
-            DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                    finalReduct.appendText(attribute.getName() + ", ");
-                });
+        if (DataAccessor.getCoreAttributes() != null) {
+            coreSize = DataAccessor.getCoreAttributes().size();
         }
-        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime())+" s");
-    }    
-    
+        if (coreSize != 0) {
+            DataAccessor.getCoreAttributes().forEach((attribute) -> {
+                finalReduct.appendText(attribute.getName() + ", ");
+            });
+        }
+        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + " s");
+    }
+
     @FXML
     public void dismiss(ActionEvent event) {
         Stage stage = (Stage) finalReduct.getScene().getWindow();

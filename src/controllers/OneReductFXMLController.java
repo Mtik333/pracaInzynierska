@@ -37,7 +37,8 @@ public class OneReductFXMLController implements Initializable {
     @FXML
     public TextField attributesInIteration;
 
-    private int coreSize=0;
+    private int coreSize = 0;
+
     /**
      * Initializes the controller class.
      *
@@ -46,8 +47,9 @@ public class OneReductFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (DataAccessor.getCoreAttributes()!=null)
-            coreSize=DataAccessor.getCoreAttributes().size();
+        if (DataAccessor.getCoreAttributes() != null) {
+            coreSize = DataAccessor.getCoreAttributes().size();
+        }
         for (int i = 0; i < DataAccessor.getListOfReducts().size(); i++) {
             chosenIteration.getItems().add("Iteration " + i);
         }
@@ -58,16 +60,16 @@ public class OneReductFXMLController implements Initializable {
             }
         });
         chosenIteration.getSelectionModel().select(0);
-        if (coreSize!=0){
+        if (coreSize != 0) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                    finalReduct.appendText(attribute.getName() + ", ");
-                });
+                finalReduct.appendText(attribute.getName() + ", ");
+            });
         }
         DataAccessor.getCurrentReduct().forEach((attribute) -> {
             finalReduct.appendText(attribute.getName() + ", ");
         });
-        reductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size()+coreSize));
-        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime())+" s");
+        reductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size() + coreSize));
+        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + " s");
     }
 
     @FXML
@@ -80,10 +82,10 @@ public class OneReductFXMLController implements Initializable {
     public void setNewValues() {
         attributesInIteration.clear();
         List<Attribute> list = DataAccessor.getListOfReducts().get(chosenIteration.getSelectionModel().getSelectedIndex());
-        if (coreSize!=0){
+        if (coreSize != 0) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                    attributesInIteration.appendText(attribute.getName() + ", ");
-                });
+                attributesInIteration.appendText(attribute.getName() + ", ");
+            });
         }
         list.forEach((attribute) -> {
             attributesInIteration.appendText(attribute.getName() + ", ");

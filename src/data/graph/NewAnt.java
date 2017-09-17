@@ -7,24 +7,18 @@ package data.graph;
 
 import static data.ConstStrings.*;
 import data.DataAccessor;
-import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  *
  * @author Mateusz
  */
 public class NewAnt extends Ant {
-
-    private List<Attribute> sortByAttributes; //posortowane atrybuty
-    private DataObjectMultipleComparator domc; //komparator do zbioru
-    private List<DataObject> sortedDataset; //dane posortowane
 
     public NewAnt(int index) {
         this.index = index;
@@ -133,10 +127,7 @@ public class NewAnt extends Ant {
                 variousClasses++;
             }
         }
-        if (variousClasses != 1) {
-            return false;
-        }
-        return true;
+        return variousClasses == 1;
     }
 
 }

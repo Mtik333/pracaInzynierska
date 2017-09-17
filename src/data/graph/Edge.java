@@ -9,7 +9,7 @@ package data.graph;
  *
  * @author Mateusz
  */
-public class Edge implements Comparable<Edge>{
+public class Edge implements Comparable<Edge> {
 
     private double pheromone; //feromon na sciezce
     private int weight; //waga sciezki
@@ -70,5 +70,4 @@ public class Edge implements Comparable<Edge>{
         return thisPheromone.compareTo(otherPheromone);
     }
 
-    
 }

@@ -32,27 +32,28 @@ public class OneIterationFXMLController implements Initializable {
     public TextField previousReductSize;
     @FXML
     public TextField foundSolutions;
-    
-    private int coreSize=0;
-    
+
+    private int coreSize = 0;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        if (DataAccessor.getCoreAttributes()!=null)
-            coreSize=DataAccessor.getCoreAttributes().size();
-        newReductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size()+coreSize));
-        if (coreSize!=0){
-                DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                    reductList.appendText(attribute.getName() + ", ");
-                });
-            }
+        if (DataAccessor.getCoreAttributes() != null) {
+            coreSize = DataAccessor.getCoreAttributes().size();
+        }
+        newReductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size() + coreSize));
+        if (coreSize != 0) {
+            DataAccessor.getCoreAttributes().forEach((attribute) -> {
+                reductList.appendText(attribute.getName() + ", ");
+            });
+        }
         DataAccessor.getCurrentReduct().forEach((x) -> {
             reductList.appendText(x.getName() + ", ");
         });
         if (DataAccessor.getPerformedIterations() == 1) {
-            previousReductSize.setText(String.valueOf(DataAccessor.getGraph().getVertices().size()+coreSize));
+            previousReductSize.setText(String.valueOf(DataAccessor.getGraph().getVertices().size() + coreSize));
         } else {
-            previousReductSize.setText(String.valueOf(DataAccessor.getListOfReducts().get(DataAccessor.getPerformedIterations() - 1).size()+coreSize));
+            previousReductSize.setText(String.valueOf(DataAccessor.getListOfReducts().get(DataAccessor.getPerformedIterations() - 1).size() + coreSize));
         }
         int i = 0;
         i = DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).map((_item) -> 1).reduce(i, Integer::sum);
