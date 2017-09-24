@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
@@ -37,8 +38,9 @@ public class EditExamplesController implements Initializable {
     @FXML
     private Button lastObjects;
 
-    private int page = 0;
-    private int itemsSize = 0;
+    private int page = ConstStrings.ZERO;
+    
+    private int itemsSize = ConstStrings.ZERO;
 
     public int getPage() {
         return page;
@@ -74,15 +76,15 @@ public class EditExamplesController implements Initializable {
             });
             datasetTable.getColumns().add(column);
         }
-        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, ((ConstStrings.ONE + getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE - ConstStrings.ONE)));
         setItemsSize(DataAccessor.getDataset().size());
     }
 
     @FXML
     private void firstObjects(ActionEvent event) {
-        setPage(0);
+        setPage(ConstStrings.ZERO);
         datasetTable.getItems().clear();
-        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, ((ConstStrings.ONE + getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE - ConstStrings.ONE)));
         firstObjects.setDisable(true);
         previousObjects.setDisable(true);
         nextObjects.setDisable(false);
@@ -93,8 +95,8 @@ public class EditExamplesController implements Initializable {
     private void previousObjects(ActionEvent event) {
         setPage(--page);
         datasetTable.getItems().clear();
-        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
-        if (getPage() == 0) {
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, ((ConstStrings.ONE + getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE - ConstStrings.ONE)));
+        if (getPage() == ConstStrings.ZERO) {
             firstObjects.setDisable(true);
             previousObjects.setDisable(true);
         }
@@ -106,12 +108,12 @@ public class EditExamplesController implements Initializable {
     private void nextObjects(ActionEvent event) {
         setPage(++page);
         datasetTable.getItems().clear();
-        if (getPage() == (itemsSize / 15)) {
+        if (getPage() == (itemsSize / ConstStrings.EXAMPLES_PAGE_SIZE)) {
             nextObjects.setDisable(true);
             lastObjects.setDisable(true);
-            datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, itemsSize - 1));
+            datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, itemsSize - ConstStrings.ONE));
         } else {
-            datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, ((1 + getPage()) * 15 - 1)));
+            datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, ((ConstStrings.ONE + getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE - ConstStrings.ONE)));
         }
         firstObjects.setDisable(false);
         previousObjects.setDisable(false);
@@ -119,9 +121,9 @@ public class EditExamplesController implements Initializable {
 
     @FXML
     private void lastObjects(ActionEvent event) {
-        setPage(itemsSize / 15);
+        setPage(itemsSize / ConstStrings.EXAMPLES_PAGE_SIZE);
         datasetTable.getItems().clear();
-        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * 15, itemsSize - 1));
+        datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, itemsSize - ConstStrings.ONE));
         firstObjects.setDisable(false);
         previousObjects.setDisable(false);
         nextObjects.setDisable(true);

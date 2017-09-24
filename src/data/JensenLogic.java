@@ -34,9 +34,8 @@ public class JensenLogic extends Logic {
             }
         }
         DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size() / 2);
+        DataAccessor.setAntsNumber(vertices.size() / ConstStrings.TWO);
         DataAccessor.setMaxList(vertices.size());
-        //System.out.println(graph.toString());
     }
 
     @Override

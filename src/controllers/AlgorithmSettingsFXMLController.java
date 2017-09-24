@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import static data.ConstStrings.*;
 import data.DataAccessor;
 import java.net.URL;
@@ -50,7 +51,6 @@ public class AlgorithmSettingsFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         algorithmChoice.getItems().addAll(JSACO, RSFSACO);
         if (DataAccessor.getAlgorithmType().equals(RSFSACO)) {
             algorithmChoice.getSelectionModel().selectLast();
@@ -73,7 +73,7 @@ public class AlgorithmSettingsFXMLController implements Initializable {
 
     @FXML
     public void setSettings(ActionEvent event) {
-        if (algorithmChoice.getSelectionModel().getSelectedIndex() == 0) {
+        if (algorithmChoice.getSelectionModel().getSelectedIndex() == ConstStrings.ALGORITHM_DEFAULT_INDEX) {
             DataAccessor.setAlgorithmType(JSACO);
         } else {
             DataAccessor.setAlgorithmType(RSFSACO);

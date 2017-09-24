@@ -5,6 +5,8 @@
  */
 package data.graph;
 
+import data.ConstStrings;
+
 /**
  *
  * @author Mateusz
@@ -54,13 +56,13 @@ public class Edge implements Comparable<Edge> {
     public Edge(Vertice start, Vertice end) {
         this.start = start;
         this.end = end;
-        this.pheromone = 0;
-        this.weight = 1;
+        this.pheromone = ConstStrings.ZERO;
+        this.weight = ConstStrings.ONE;
     }
 
     @Override
     public String toString() {
-        return start + "," + end + ";" + pheromone;
+        return start + ConstStrings.COMMA_NOSPACE + end + ConstStrings.SEMICOLON_NOSPACE + pheromone;
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package data.graph;
 
+import data.ConstStrings;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
@@ -116,7 +117,7 @@ public abstract class Ant implements Runnable {
     }
 
     public void addEdgeToSolution() {
-        allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - 1).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - 1).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
+        allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - ConstStrings.ONE).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - ConstStrings.ONE).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
             chosenEdges.add(x);
         });
     }
@@ -125,7 +126,7 @@ public abstract class Ant implements Runnable {
 
     public Vertice pickVerticeByProbability() {
         double p = Math.random();
-        double cumulativeProbability = 0.0;
+        double cumulativeProbability = ConstStrings.DOUBLE_ZERO;
         for (Map.Entry<Vertice, Double> x : probabilities.entrySet()) {
             cumulativeProbability += x.getValue();
             if (p <= cumulativeProbability) {

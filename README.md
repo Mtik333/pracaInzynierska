@@ -211,3 +211,7 @@ To do:
 0.6.4 - 17.09.2017
 
 Restored "View dataset" functionality with additional buttons to navigate to prevent from too big memory usage by tableview
+
+0.6.5 - 24.09.2017
+
+Second refactorization of the code, especially removing "commented methods"

@@ -5,6 +5,7 @@
  */
 package data.roughsets;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,13 +36,13 @@ public class DataObjectMultipleComparator implements Comparator<DataObject> {
 
     @Override
     public int compare(DataObject t, DataObject t1) {
-        int c = 0;
-        int i = 0;
+        int c = ConstStrings.ZERO;
+        int i = ConstStrings.ZERO;
         do {
             c = ((DataObject) t).getAttributes().get(sortingBy.get(i)).getValue()
                     .compareTo(((DataObject) t1).getAttributes().get(sortingBy.get(i)).getValue());
             i++;
-        } while (c == 0 && i < sortingBy.size());
+        } while (c == ConstStrings.ZERO && i < sortingBy.size());
         return c;
     }
 

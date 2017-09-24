@@ -31,7 +31,7 @@ public class ChineseLogic extends Logic {
         long startTime = new Date().getTime();
         coreCT2();
         long stopTime = new Date().getTime();
-        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / 1000));
+        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
         List<Attribute> test = DataAccessor.getAllAttributes();
         calculateMutualInformation();
         List<Vertice> vertices = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ChineseLogic extends Logic {
             }
         }
         DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size() / 2);
+        DataAccessor.setAntsNumber(vertices.size() / ConstStrings.TWO);
         DataAccessor.setMaxList(vertices.size());
     }
 
@@ -67,21 +67,21 @@ public class ChineseLogic extends Logic {
 
     //zlicza ilosc konfliktow (w klasie)
     public int countConflictsRow(int[] ctRow) {
-        double initialValue = Math.pow(Arrays.stream(ctRow).sum(), 2);
+        double initialValue = Math.pow(Arrays.stream(ctRow).sum(), ConstStrings.TWO);
         for (int value : ctRow) {
-            initialValue = initialValue - Math.pow(value, 2);
+            initialValue = initialValue - Math.pow(value, ConstStrings.TWO);
         }
-        initialValue = initialValue * 0.5;
+        initialValue = initialValue * ConstStrings.HALF;
         return (int) initialValue;
     }
 
     //zlicza ilosc konfliktow ogolem
     public int countConflictsTotal(int[] ctTotal) {
-        double finalValue = Math.pow(Arrays.stream(ctTotal).sum(), 2);
+        double finalValue = Math.pow(Arrays.stream(ctTotal).sum(), ConstStrings.TWO);
         for (int value : ctTotal) {
-            finalValue = finalValue - Math.pow(value, 2);
+            finalValue = finalValue - Math.pow(value, ConstStrings.TWO);
         }
-        finalValue = finalValue * 0.5;
+        finalValue = finalValue * ConstStrings.HALF;
         return (int) finalValue;
     }
 
@@ -89,11 +89,10 @@ public class ChineseLogic extends Logic {
     public void coreCT2() {
         List<Attribute> foundCore = new ArrayList<>();
         int decisionClasses = countDecisionClasses();
-        System.out.println(decisionClasses);
         for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {
             int[] ctRow = new int[decisionClasses];
             int[] ctTotal = new int[decisionClasses];
-            int confs = 0;
+            int confs = ConstStrings.ZERO;
             DataObject prev = null;
             boolean difference = false;
             Collections.sort(DataAccessor.getDataset(), new DataObjectComparator(i));
@@ -115,7 +114,7 @@ public class ChineseLogic extends Logic {
                 } else {
                     int confsRow = countConflictsRow(ctRow);
                     confs = confs + confsRow;
-                    Arrays.fill(ctRow, 0);
+                    Arrays.fill(ctRow, ConstStrings.ZERO);
                     difference = false;
                     prev = null;
                     k--;
@@ -128,49 +127,42 @@ public class ChineseLogic extends Logic {
             }
         }
         foundCore.forEach((a) -> {
-            System.out.print(a.getName() + ",");
         });
-        if (foundCore.size() == DataAccessor.getAllAttributes().size() - 1) {
+        if (foundCore.size() == DataAccessor.getAllAttributes().size() - ConstStrings.ONE) {
             DataAccessor.setCoreAttributes(new ArrayList<>());
         } else {
             DataAccessor.setCoreAttributes(foundCore);
         }
         Collections.sort(DataAccessor.getDataset());
-        //DataObjectMultipleComparator domc = new DataObjectMultipleComparator(foundCore);
-        //Collections.sort(DataAccessor.getDataset(), domc);
     }
 
     //FUNKCJE DO LICZENIA ENTROPII
     private void calculateMutualInformation() {
-        double mutualInformation = informationEntropyD() - conditionalEntropyC();
-        DataAccessor.setDatasetMutualInformation(mutualInformation);
-        System.out.println(mutualInformation);
+        DataAccessor.setDatasetMutualInformation(informationEntropyD() - conditionalEntropyC());
     }
 
     private double informationEntropyD() {
-        double value = 0;
+        double value = ConstStrings.ZERO;
         for (String decision : DataAccessor.getDecisionValues()) {
-            int instances = 0;
-            instances = DataAccessor.getDataset().stream().filter((dataObject) -> (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision))).map((_item) -> 1).reduce(instances, Integer::sum);
+            int instances = ConstStrings.ZERO;
+            instances = DataAccessor.getDataset().stream().filter((dataObject) -> (dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue().equals(decision))).map((_item) -> ConstStrings.ONE).reduce(instances, Integer::sum);
             double probability = ((double) instances) / ((double) DataAccessor.getDataset().size());
-            double logarithm = (Math.log(probability) / Math.log(2));
-            value += (-1) * probability * logarithm;
+            double logarithm = (Math.log(probability) / Math.log(ConstStrings.TWO));
+            value += (ConstStrings.MINUS_ONE) * probability * logarithm;
         }
         DataAccessor.setDecisionEntropy(value);
         return value;
     }
 
     private double conditionalEntropyC() {
-//        for (DataObject x : DataAccessor.getDataset())
-//            System.out.println(x.toString());
-        double finalValue = 0;
-        double singleAttrValue = 0;
-        int numberOfClassInstances = 0;
+        double finalValue = ConstStrings.ZERO;
+        double singleAttrValue = ConstStrings.ZERO;
+        int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
         for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
             if (prev == null) {
-                Arrays.fill(decisionsInstances, 0);
+                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
                 prev = DataAccessor.getDataset().get(i);
                 numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
@@ -187,10 +179,10 @@ public class ChineseLogic extends Logic {
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
                 } else {
                     singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-                    singleAttrValue *= (-1) * ((double) numberOfClassInstances) / ((double) DataAccessor.getDataset().size());
-                    numberOfClassInstances = 0;
+                    singleAttrValue *= (ConstStrings.MINUS_ONE) * ((double) numberOfClassInstances) / ((double) DataAccessor.getDataset().size());
+                    numberOfClassInstances = ConstStrings.ZERO;
                     finalValue += singleAttrValue;
-                    singleAttrValue = 0;
+                    singleAttrValue = ConstStrings.ZERO;
                     i--;
                     theSame = true;
                     prev = null;
@@ -198,7 +190,7 @@ public class ChineseLogic extends Logic {
             }
         }
         //obliczanie ostatniego zbioru
-        if (numberOfClassInstances > 1) {
+        if (numberOfClassInstances > ConstStrings.ONE) {
             singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
             finalValue += singleAttrValue;
             prev = null;
@@ -207,13 +199,13 @@ public class ChineseLogic extends Logic {
     }
 
     private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances) {
-        double singleAttrValue = 0;
+        double singleAttrValue = ConstStrings.ZERO;
         for (int k = 0; k < decisionsInstances.length; k++) {
             double probability = ((double) decisionsInstances[k]) / ((double) numberOfClassInstances);
-            if (probability == 0) {
-                singleAttrValue += 0;
+            if (probability == ConstStrings.ZERO) {
+                singleAttrValue += ConstStrings.ZERO;
             } else {
-                double logarithm = (Math.log(probability) / Math.log(2));
+                double logarithm = (Math.log(probability) / Math.log(ConstStrings.TWO));
                 singleAttrValue = singleAttrValue + (probability * logarithm);
             }
         }
@@ -224,14 +216,14 @@ public class ChineseLogic extends Logic {
         if (DataAccessor.getCoreAttributes().isEmpty()) {
             return false;
         }
-        int numberOfClassInstances = 0;
+        int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
         DataObjectMultipleComparator domc = new DataObjectMultipleComparator(DataAccessor.getCoreAttributes());
         Collections.sort(DataAccessor.getDataset(), domc);
         for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
             if (prev == null) {
-                Arrays.fill(decisionsInstances, 0);
+                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
                 prev = DataAccessor.getDataset().get(i);
                 numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
@@ -247,16 +239,16 @@ public class ChineseLogic extends Logic {
                     numberOfClassInstances++;
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
                 } else {
-                    int variousClasses = 0;
+                    int variousClasses = ConstStrings.ZERO;
                     for (int j = 0; j < decisionsInstances.length; j++) {
-                        if (decisionsInstances[j] != 0) {
+                        if (decisionsInstances[j] != ConstStrings.ZERO) {
                             variousClasses++;
                         }
                     }
-                    if (variousClasses != 1) {
+                    if (variousClasses != ConstStrings.ONE) {
                         return false;
                     } else {
-                        numberOfClassInstances = 0;
+                        numberOfClassInstances = ConstStrings.ZERO;
                         i--;
                         theSame = true;
                         prev = null;
@@ -264,13 +256,13 @@ public class ChineseLogic extends Logic {
                 }
             }
         }
-        int variousClasses = 0;
+        int variousClasses = ConstStrings.ZERO;
         for (int j = 0; j < decisionsInstances.length; j++) {
-            if (decisionsInstances[j] != 0) {
+            if (decisionsInstances[j] != ConstStrings.ZERO) {
                 variousClasses++;
             }
         }
-        if (variousClasses != 1) {
+        if (variousClasses != ConstStrings.ONE) {
             return false;
         }
         Collections.sort(DataAccessor.getDataset());

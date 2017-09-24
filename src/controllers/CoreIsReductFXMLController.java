@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,20 +30,19 @@ public class CoreIsReductFXMLController implements Initializable {
     @FXML
     public TextField elapsedTime;
 
-    private int coreSize = 0;
+    private int coreSize = ConstStrings.ZERO;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         if (DataAccessor.getCoreAttributes() != null) {
             coreSize = DataAccessor.getCoreAttributes().size();
         }
-        if (coreSize != 0) {
+        if (coreSize != ConstStrings.EMPTY_CORE) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                finalReduct.appendText(attribute.getName() + ", ");
+                finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
             });
         }
-        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + " s");
+        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + ConstStrings.SECONDS);
     }
 
     @FXML

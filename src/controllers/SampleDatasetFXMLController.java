@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import java.io.File;
 import java.io.IOException;
@@ -34,9 +35,7 @@ public class SampleDatasetFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        //URL fileUrl=getClass().getResource("src/examples");
-        File dir = new File("src/examples");
+        File dir = new File(ConstStrings.EXAMPLES_DIRECTORY_PATH);
         File dir_list[] = dir.listFiles();
         if (dir_list != null) {
             for (File child : dir_list) {
@@ -48,8 +47,7 @@ public class SampleDatasetFXMLController implements Initializable {
 
     @FXML
     public void loadFile(ActionEvent event) throws IOException {
-        String test = exampleDataset.getSelectionModel().getSelectedItem().toString();
-        File file = new File("src/examples/" + exampleDataset.getSelectionModel().getSelectedItem().toString());
+        File file = new File(ConstStrings.EXAMPLES_DIRECTORY_PATH + ConstStrings.SLASH + exampleDataset.getSelectionModel().getSelectedItem().toString());
         DataAccessor.setFile(file);
         Stage stage = (Stage) exampleDataset.getScene().getWindow();
         stage.close();

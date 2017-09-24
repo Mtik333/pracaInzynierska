@@ -12,6 +12,7 @@ package data.graph;
 public class Vertice {
 
     private String name; //nazwa cechy
+    
     private int index; //indeks
 
     public Vertice(String name, int index) {

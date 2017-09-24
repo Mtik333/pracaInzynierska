@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,29 +34,28 @@ public class OneIterationFXMLController implements Initializable {
     @FXML
     public TextField foundSolutions;
 
-    private int coreSize = 0;
+    private int coreSize = ConstStrings.ZERO;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         if (DataAccessor.getCoreAttributes() != null) {
             coreSize = DataAccessor.getCoreAttributes().size();
         }
         newReductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size() + coreSize));
-        if (coreSize != 0) {
+        if (coreSize != ConstStrings.ZERO) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                reductList.appendText(attribute.getName() + ", ");
+                reductList.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
             });
         }
         DataAccessor.getCurrentReduct().forEach((x) -> {
-            reductList.appendText(x.getName() + ", ");
+            reductList.appendText(x.getName() + ConstStrings.COMMA_SPACE);
         });
-        if (DataAccessor.getPerformedIterations() == 1) {
+        if (DataAccessor.getPerformedIterations() == ConstStrings.ONE) {
             previousReductSize.setText(String.valueOf(DataAccessor.getGraph().getVertices().size() + coreSize));
         } else {
-            previousReductSize.setText(String.valueOf(DataAccessor.getListOfReducts().get(DataAccessor.getPerformedIterations() - 1).size() + coreSize));
+            previousReductSize.setText(String.valueOf(DataAccessor.getListOfReducts().get(DataAccessor.getPerformedIterations() - ConstStrings.ONE).size() + coreSize));
         }
-        int i = 0;
+        int i = ConstStrings.ZERO;
         i = DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).map((_item) -> 1).reduce(i, Integer::sum);
         foundSolutions.setText(String.valueOf(i));
     }

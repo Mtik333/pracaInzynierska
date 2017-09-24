@@ -5,6 +5,7 @@
  */
 package data.graph;
 
+import data.ConstStrings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +45,10 @@ public class Graph {
     public String toString() {
         StringBuilder s = new StringBuilder();
         vertices.forEach((x) -> {
-            s.append(x.toString()).append("\n");
+            s.append(x.toString()).append(ConstStrings.NEW_LINE);
         });
         edges.forEach((y) -> {
-            s.append(y.toString()).append("\n");
+            s.append(y.toString()).append(ConstStrings.NEW_LINE);
         });
         return s.toString();
     }

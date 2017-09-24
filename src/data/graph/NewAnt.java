@@ -5,6 +5,7 @@
  */
 package data.graph;
 
+import data.ConstStrings;
 import static data.ConstStrings.*;
 import data.DataAccessor;
 import data.roughsets.DataObject;
@@ -33,16 +34,15 @@ public class NewAnt extends Ant {
 
     @Override
     public void run() {
-        currentIter = 0;
+        currentIter = ConstStrings.ZERO;
         boolean reducedMatrix = checkIfReduct();
         while (currentIter < DataAccessor.getMaxList() - 1 && !reducedMatrix) {
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
                 probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
-                    return u / pheromoneSum; //To change body of generated lambdas, choose Tools | Templates.
+                    return u / pheromoneSum;
                 });
             }
-            //System.out.println(probabilities.values().stream().mapToDouble(Number::doubleValue).sum());
             pickedAttributes.add(pickVerticeByProbability());
             reducedMatrix = checkIfReduct();
             currentIter++;
@@ -57,7 +57,7 @@ public class NewAnt extends Ant {
 
     @Override
     public double calculateSum() {
-        double sumPheromone = 0;
+        double sumPheromone = ConstStrings.ZERO;
         this.probabilities = new HashMap<>();
         Vertice v = null;
         for (Edge x : allEdges) {
@@ -80,15 +80,15 @@ public class NewAnt extends Ant {
     }
 
     public boolean checkIfReduct() {
-        int numberOfClassInstances = 0;
+        int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
-        sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - 1)));
+        sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE)));
         domc = new DataObjectMultipleComparator(sortByAttributes);
         Collections.sort(sortedDataset, domc);
         for (int i = 0; i < sortedDataset.size(); i++) {
             if (prev == null) {
-                Arrays.fill(decisionsInstances, 0);
+                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
                 prev = sortedDataset.get(i);
                 numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
@@ -104,16 +104,16 @@ public class NewAnt extends Ant {
                     numberOfClassInstances++;
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
                 } else {
-                    int variousClasses = 0;
+                    int variousClasses = ConstStrings.ZERO;
                     for (int j = 0; j < decisionsInstances.length; j++) {
-                        if (decisionsInstances[j] != 0) {
+                        if (decisionsInstances[j] != ConstStrings.ZERO) {
                             variousClasses++;
                         }
                     }
-                    if (variousClasses != 1) {
+                    if (variousClasses != ConstStrings.ONE) {
                         return false;
                     } else {
-                        numberOfClassInstances = 0;
+                        numberOfClassInstances = ConstStrings.ZERO;
                         i--;
                         theSame = true;
                         prev = null;
@@ -121,13 +121,13 @@ public class NewAnt extends Ant {
                 }
             }
         }
-        int variousClasses = 0;
+        int variousClasses = ConstStrings.ZERO;
         for (int j = 0; j < decisionsInstances.length; j++) {
-            if (decisionsInstances[j] != 0) {
+            if (decisionsInstances[j] != ConstStrings.ZERO) {
                 variousClasses++;
             }
         }
-        return variousClasses == 1;
+        return variousClasses == ConstStrings.ONE;
     }
 
 }

@@ -73,7 +73,6 @@ public class FXMLDocumentController implements Initializable {
     private Button showStatistics;
     @FXML
     private Button resetAlgorithm;
-    //@FXML private TextArea examplesToString; //pole tekstowe na obiekty
     @FXML
     private AnchorPane solver; //widok grafu
     private List<Label> labels; //lista wierzcholkow (grafika)
@@ -91,7 +90,6 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     @FXML
@@ -100,6 +98,9 @@ public class FXMLDocumentController implements Initializable {
             DataAccessor.resetValues();
         }
         showFXML(SAMPLE_DATASET_FXML_RES, SAMPLE_DATASET_TITLE);
+        if (DataAccessor.getFile() == null) {
+            return;
+        }
         loadingDataset();
     }
 
@@ -134,7 +135,6 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 enableButtons();
                 newLogic = DataAccessor.createLogic();
-                //objectsToTextArea(DataAccessor.getAllAttributes(), DataAccessor.getDataset());
             }
             newLogic.generateGraph();
             drawGraph();
@@ -142,7 +142,6 @@ public class FXMLDocumentController implements Initializable {
                 if (ChineseLogic.checkIfCoreIsReduct()) {
                     showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
                     disableButtons();
-                    //pokaz okienko ze rdzen = redukt
                 }
             }
         } catch (IOException ioException) {
@@ -168,7 +167,6 @@ public class FXMLDocumentController implements Initializable {
                 showStepStats();
             } else if (newLogic.stepToNextVertice()) {
                 List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
-                System.out.println("xd");
                 newLogic.initializeAntsRandom();
                 colorEdges();
                 showStepStats();
@@ -182,8 +180,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void antsOneIteration(ActionEvent t) {
         if (DataAccessor.isLoadedData()) {
-            System.out.println(DataAccessor.getCurrentIter());
-            if (DataAccessor.getCurrentIter() == 0 || DataAccessor.isCalculatedReductInIteration()) {
+            if (DataAccessor.getCurrentIter() == ConstStrings.ZERO || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
             }
             DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
@@ -192,7 +189,6 @@ public class FXMLDocumentController implements Initializable {
         List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
         colorEdges();
         showIterationStats();
-        System.out.println("xd");
     }
 
     //znalezienie reduktu przez wykonanie określonej liczby iteracji algorytmu
@@ -200,7 +196,6 @@ public class FXMLDocumentController implements Initializable {
     private void antsFindReduct(ActionEvent t) {
         if (DataAccessor.isLoadedData()) {
             DataAccessor.setCalculationMode(ConstStrings.COMPUTE_REDUCT);
-//            newLogic.findReduct();
             Service<Void> service = new Service<Void>() {
                 @Override
                 protected Task<Void> createTask() {
@@ -218,7 +213,6 @@ public class FXMLDocumentController implements Initializable {
                                     disableButtons();
                                     //FX Stuff done here
                                 } finally {
-                                    //latch.countDown();
                                 }
                             });
                             latch.await();
@@ -229,11 +223,7 @@ public class FXMLDocumentController implements Initializable {
                 }
             };
             service.start();
-            //newLogic.findReduct();
         }
-        //List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
-        //showAlgorithmStats();
-        System.out.println("xd");
     }
 
     //FUNKCJE WCZYTYWANIA INNYCH WIDOKÓW
@@ -321,7 +311,6 @@ public class FXMLDocumentController implements Initializable {
             if (ChineseLogic.checkIfCoreIsReduct()) {
                 showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
                 disableButtons();
-                //pokaz okienko ze rdzen = redukt
             }
 
         }
@@ -336,19 +325,19 @@ public class FXMLDocumentController implements Initializable {
         lines = new ArrayList<>();
         edgeLines = new HashMap<>();
         verticeLabels = new HashMap<>();
-        double middleX = solver.getWidth() / 2;
-        double middleY = solver.getHeight() / 2;
-        double degreesIncrement = 360 / (DataAccessor.getGraph().getVertices().size());
+        double middleX = solver.getWidth() / ConstStrings.TWO;
+        double middleY = solver.getHeight() / ConstStrings.TWO;
+        double degreesIncrement = ConstStrings.CIRCLE_DEGREE / (DataAccessor.getGraph().getVertices().size());
         for (int i = 0; i < DataAccessor.getGraph().getVertices().size(); i++) {
             double cosinus = Math.cos(Math.toRadians(i * degreesIncrement));
             double sinus = Math.sin(Math.toRadians(i * degreesIncrement));
             Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
-            label.setMinWidth(100);
+            label.setMinWidth(ConstStrings.LABEL_MIN_WIDTH);
             label.setAlignment(Pos.CENTER);
-            label.setTranslateX(middleX + 200 * sinus);
-            label.setTranslateY(middleY + 200 * cosinus);
-            label.setStyle("-fx-border-color:red;-fx-background-color:white");
-            label.setFont(javafx.scene.text.Font.font(18));
+            label.setTranslateX(middleX + ConstStrings.GRAPH_TRANSLATE_X * sinus);
+            label.setTranslateY(middleY + ConstStrings.GRAPH_TRANSLATE_Y * cosinus);
+            label.setStyle(ConstStrings.VERTICE_DEFAULT_STYLE);
+            label.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
             label.setTextAlignment(TextAlignment.CENTER);
             label.setOnMousePressed(circleOnMousePressedEventHandler);
             label.setOnMouseDragged(circleOnMouseDraggedEventHandler);
@@ -365,23 +354,21 @@ public class FXMLDocumentController implements Initializable {
         }
         if (DataAccessor.getAlgorithmType().equals(ConstStrings.RSFSACO)) {
             VBox stackPane = new VBox();
-            stackPane.setTranslateX(middleX / 4);
-            stackPane.setTranslateY(middleY / 4);
+            stackPane.setTranslateX(middleX / ConstStrings.FOUR);
+            stackPane.setTranslateY(middleY / ConstStrings.FOUR);
             stackPane.setAlignment(Pos.CENTER);
-            stackPane.setStyle("-fx-border-color:red;-fx-background-color:transparent");
-            //stackPane.setSpacing(10);
-            Label core = new Label("Core");
-            //core.setMinWidth(100);
-            core.setStyle("-fx-border-color:white;-fx-background-color:white");
-            core.setFont(javafx.scene.text.Font.font(18));
+            stackPane.setStyle(ConstStrings.CORE_PANE_DEFAULT_STYLE);
+            Label core = new Label(ConstStrings.CORE);
+            core.setStyle(ConstStrings.CORE_TITLE_STYLE);
+            core.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
             core.setTextAlignment(TextAlignment.CENTER);
             core.setAlignment(Pos.CENTER);
             stackPane.getChildren().add(core);
             for (int i = 0; i < DataAccessor.getCoreAttributes().size(); i++) {
                 Label label = new Label(DataAccessor.getCoreAttributes().get(i).getName());
-                label.setMinWidth(100);
-                label.setStyle("-fx-border-color:blue;-fx-background-color:yellow");
-                label.setFont(javafx.scene.text.Font.font(18));
+                label.setMinWidth(LABEL_MIN_WIDTH);
+                label.setStyle(ConstStrings.CORE_VERTICES_STYLE);
+                label.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
                 label.setTextAlignment(TextAlignment.CENTER);
                 label.setAlignment(Pos.CENTER);
                 stackPane.getChildren().add(label);
@@ -392,92 +379,70 @@ public class FXMLDocumentController implements Initializable {
         }
         solver.getChildren().addAll(lines);
         solver.getChildren().addAll(labels);
-
         labels.forEach((label) -> {
             label.toFront();
         });
     }
 
-    //wpisuje przykłady do okna tekstowego
-//    private void objectsToTextArea(List<Attribute> attributes, List<DataObject> objects) {
-//        examplesToString.setText(TEXTAREA_PARAMETERS);
-//        attributes.forEach((attribute) -> {
-//            examplesToString.appendText(attribute.getName() + ", ");
-//        });
-//        examplesToString.deleteText(examplesToString.getLength() - 2, examplesToString.getLength());
-//        examplesToString.appendText(TEXTAREA_APPEND);
-//        objects.forEach((x) -> {
-//            examplesToString.appendText(x.toString());
-//        });
-//    }
     //połączenie między wierzchołkami (grafika)
     private Line connect(Label c1, Label c2) {
         Line line = new Line();
-        //line.setStyle("-fx-border-color:black");
         line.startXProperty().bind(Bindings.createDoubleBinding(() -> {
             Bounds b = c1.getBoundsInParent();
-            return b.getMinX() + b.getWidth() / 2;
+            return b.getMinX() + b.getWidth() / ConstStrings.TWO;
         }, c1.boundsInParentProperty()));
         line.startYProperty().bind(Bindings.createDoubleBinding(() -> {
             Bounds b = c1.getBoundsInParent();
-            return b.getMinY() + b.getHeight() / 2;
+            return b.getMinY() + b.getHeight() / ConstStrings.TWO;
         }, c1.boundsInParentProperty()));
         line.endXProperty().bind(Bindings.createDoubleBinding(() -> {
             Bounds b = c2.getBoundsInParent();
-            return b.getMinX() + b.getWidth() / 2;
+            return b.getMinX() + b.getWidth() / ConstStrings.TWO;
         }, c2.boundsInParentProperty()));
         line.endYProperty().bind(Bindings.createDoubleBinding(() -> {
             Bounds b = c2.getBoundsInParent();
-            return b.getMinY() + b.getHeight() / 2;
+            return b.getMinY() + b.getHeight() / ConstStrings.TWO;
         }, c2.boundsInParentProperty()));
-        line.setStrokeWidth(5);
-        //line.setStrokeLineCap(StrokeLineCap.BUTT);
-        //line.getStrokeDashArray().setAll(1.0, 4.0);
+        line.setStrokeWidth(ConstStrings.EDGE_STROKE_WIDTH);
         line.toBack();
         line.setOnMouseClicked(lineOnMouseEventHandler);
         return line;
     }
 
     public static void colorEdges() {
-        //double min=0.0;
-        //double max=Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
-
-        //test sortowania
         if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
             edgeLines = DataAccessor.sortByValue(edgeLines);
         }
         double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
         edgeLines.forEach((Line k, Edge v) -> {
-            double value = ((max - v.getPheromone()) / (max)) * 255;
+            double value = ((max - v.getPheromone()) / (max)) * ConstStrings.RGB_MAX_VALUE;
             if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
-                if (value < 128) {
+                if (value < ConstStrings.RGB_MAX_VALUE_DIV2) {
                     k.toFront();
                 }
             }
-            k.setStroke(Color.rgb((int) value, 255, (int) value));
+            k.setStroke(Color.rgb((int) value, ConstStrings.RGB_MAX_VALUE, (int) value));
         });
-        //if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)){
         verticeLabels.forEach((t, u) -> {
             if (DataAccessor.ifVerticeInReduct(u)) {
-                t.setStyle("-fx-background-color:#CCFF99");
+                t.setStyle(ConstStrings.VERTICE_IN_REDUCT_STYLE);
             } else {
-                t.setStyle("-fx-border-color:red;-fx-background-color:white");
+                t.setStyle(ConstStrings.VERTICE_DEFAULT_STYLE);
             }
             if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
                 t.toFront();
             }
         });
-        //}
     }
 
     //FUNKCJE OBSŁUGUJĄCE MYSZKĘ
     //obsługa kliknięcia na wierzchołek
     EventHandler<MouseEvent> circleOnMousePressedEventHandler
             = new EventHandler<MouseEvent>() {
-
         @Override
         public void handle(MouseEvent t) {
             if (t.getButton() == MouseButton.SECONDARY) {
+                DataAccessor.setAnalyzedVertice(verticeLabels.get((Label) t.getSource()));
                 showFXML(SHOW_VERTICE_FXML_RES, SHOW_VERTICE_TITLE);
             } else {
                 orgSceneX = t.getSceneX();
@@ -500,7 +465,6 @@ public class FXMLDocumentController implements Initializable {
             double newTranslateY = orgTranslateY + offsetY;
             ((Label) (t.getSource())).setTranslateX(newTranslateX);
             ((Label) (t.getSource())).setTranslateY(newTranslateY);
-
         }
     };
 
@@ -515,7 +479,6 @@ public class FXMLDocumentController implements Initializable {
             double newTranslateY = orgTranslateY + offsetY;
             ((VBox) (t.getSource())).setTranslateX(newTranslateX);
             ((VBox) (t.getSource())).setTranslateY(newTranslateY);
-
         }
     };
 
@@ -523,6 +486,7 @@ public class FXMLDocumentController implements Initializable {
     EventHandler<MouseEvent> lineOnMouseEventHandler
             = (MouseEvent t) -> {
                 if (t.getButton() == MouseButton.SECONDARY) {
+                    DataAccessor.setAnalyzedEdge(edgeLines.get((Line) t.getSource()));
                     showFXML(SHOW_EDGE_FXML_RES, SHOW_EDGE_TITLE);
                 }
             };

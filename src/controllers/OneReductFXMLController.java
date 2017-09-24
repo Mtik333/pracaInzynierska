@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import data.roughsets.Attribute;
 import java.net.URL;
@@ -37,7 +38,7 @@ public class OneReductFXMLController implements Initializable {
     @FXML
     public TextField attributesInIteration;
 
-    private int coreSize = 0;
+    private int coreSize = ConstStrings.ZERO;
 
     /**
      * Initializes the controller class.
@@ -51,7 +52,7 @@ public class OneReductFXMLController implements Initializable {
             coreSize = DataAccessor.getCoreAttributes().size();
         }
         for (int i = 0; i < DataAccessor.getListOfReducts().size(); i++) {
-            chosenIteration.getItems().add("Iteration " + i);
+            chosenIteration.getItems().add(ConstStrings.ITERATION_VIEW_STRING + i);
         }
         chosenIteration.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -60,16 +61,16 @@ public class OneReductFXMLController implements Initializable {
             }
         });
         chosenIteration.getSelectionModel().select(0);
-        if (coreSize != 0) {
+        if (coreSize != ConstStrings.ZERO) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                finalReduct.appendText(attribute.getName() + ", ");
+                finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
             });
         }
         DataAccessor.getCurrentReduct().forEach((attribute) -> {
-            finalReduct.appendText(attribute.getName() + ", ");
+            finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
         });
         reductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size() + coreSize));
-        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + " s");
+        elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + ConstStrings.SECONDS);
     }
 
     @FXML
@@ -82,13 +83,13 @@ public class OneReductFXMLController implements Initializable {
     public void setNewValues() {
         attributesInIteration.clear();
         List<Attribute> list = DataAccessor.getListOfReducts().get(chosenIteration.getSelectionModel().getSelectedIndex());
-        if (coreSize != 0) {
+        if (coreSize != ConstStrings.ZERO) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                attributesInIteration.appendText(attribute.getName() + ", ");
+                attributesInIteration.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
             });
         }
         list.forEach((attribute) -> {
-            attributesInIteration.appendText(attribute.getName() + ", ");
+            attributesInIteration.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
         });
     }
 }

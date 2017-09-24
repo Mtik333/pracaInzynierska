@@ -5,6 +5,7 @@
  */
 package data.graph;
 
+import data.ConstStrings;
 import static data.ConstStrings.SINGLE_STEP;
 import data.DataAccessor;
 import data.roughsets.DataObject;
@@ -40,11 +41,11 @@ public class ChineseAnt extends Ant {
 
     @Override
     public void run() {
-        currentIter = 0;
+        currentIter = ConstStrings.ZERO;
         reducedDataset = calculateMutualInformation();
         while (currentIter < DataAccessor.getMaxList() - 1 && DataAccessor.getDatasetMutualInformation() != reducedDataset) {
             unpickedAttributes.forEach((vertice) -> {
-                computeHeuristic(vertice, pickedAttributes.get(pickedAttributes.size() - 1));
+                computeHeuristic(vertice, pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE));
             });
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
@@ -57,16 +58,16 @@ public class ChineseAnt extends Ant {
             currentIter++;
             addEdgeToSolution();
             if (DataAccessor.getCalculationMode().equals(SINGLE_STEP)) {
-                foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == 0;
+                foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == ConstStrings.ZERO;
                 return;
             }
         }
-        foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == 0;
+        foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == ConstStrings.ZERO;
     }
 
     @Override
     public double calculateSum() {
-        double sumPheromone = 0;
+        double sumPheromone = ConstStrings.ZERO;
         this.probabilities = new HashMap<>();
         Vertice v = null;
         for (Edge x : allEdges) {
@@ -83,7 +84,6 @@ public class ChineseAnt extends Ant {
                         double test2 = Math.pow(findHeuristicValue(v), DataAccessor.getEdgeRelevance());
                         double addedValue = test1 * test2;
                         sumPheromone += addedValue;
-                        //sumPheromone += Math.pow(x.getPheromone(), DataAccessor.getPheromoneRelevance()) * Math.pow(findHeuristicValue(v), DataAccessor.getEdgeRelevance());
                         probabilities.put(v, addedValue);
                     }
                 }
@@ -107,7 +107,7 @@ public class ChineseAnt extends Ant {
 
     private double calculateMutualInformation() {
         List<DataObject> originalSort = DataAccessor.getDataset();
-        sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - 1)));
+        sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE)));
         domc = new DataObjectMultipleComparator(sortByAttributes);
         Collections.sort(sortedDataset, domc);
         double mutualInformation = DataAccessor.getDecisionEntropy() - conditionalEntropyC();
@@ -115,14 +115,14 @@ public class ChineseAnt extends Ant {
     }
 
     private double conditionalEntropyC() {
-        double finalValue = 0;
-        double singleAttrValue = 0;
-        int numberOfClassInstances = 0;
+        double finalValue = ConstStrings.ZERO;
+        double singleAttrValue = ConstStrings.ZERO;
+        int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
         for (int i = 0; i < sortedDataset.size(); i++) {
             if (prev == null) {
-                Arrays.fill(decisionsInstances, 0);
+                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
                 prev = sortedDataset.get(i);
                 numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
@@ -139,10 +139,10 @@ public class ChineseAnt extends Ant {
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
                 } else {
                     singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-                    singleAttrValue *= (-1) * ((double) numberOfClassInstances) / ((double) sortedDataset.size());
-                    numberOfClassInstances = 0;
+                    singleAttrValue *= (ConstStrings.MINUS_ONE) * ((double) numberOfClassInstances) / ((double) sortedDataset.size());
+                    numberOfClassInstances = ConstStrings.ZERO;
                     finalValue += singleAttrValue;
-                    singleAttrValue = 0;
+                    singleAttrValue = ConstStrings.ZERO;
                     i--;
                     theSame = true;
                     prev = null;
@@ -150,7 +150,7 @@ public class ChineseAnt extends Ant {
             }
         }
         //obliczanie ostatniego zbioru
-        if (numberOfClassInstances > 1) {
+        if (numberOfClassInstances > ConstStrings.ONE) {
             singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
             finalValue += singleAttrValue;
             prev = null;
@@ -159,13 +159,13 @@ public class ChineseAnt extends Ant {
     }
 
     private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances) {
-        double singleAttrValue = 0;
+        double singleAttrValue = ConstStrings.ZERO;
         for (int k = 0; k < decisionsInstances.length; k++) {
             double probability = ((double) decisionsInstances[k]) / ((double) numberOfClassInstances);
-            if (probability == 0) {
-                singleAttrValue += 0;
+            if (probability == ConstStrings.ZERO) {
+                singleAttrValue += ConstStrings.ZERO;
             } else {
-                double logarithm = (Math.log(probability) / Math.log(2));
+                double logarithm = (Math.log(probability) / Math.log(ConstStrings.TWO));
                 singleAttrValue = singleAttrValue + (probability * logarithm);
             }
         }

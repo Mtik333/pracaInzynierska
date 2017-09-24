@@ -5,6 +5,7 @@
  */
 package interfejsinżynierski;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +21,10 @@ public class InterfejsInżynierski extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxmls/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(ConstStrings.MAIN_DOCUMENT_FXML_RES));
         Scene scene = new Scene(root);
         DataAccessor.setPrimaryStage(stage);
-        stage.setTitle("Ant algorithms");
+        stage.setTitle(ConstStrings.PROGRAM_NAME);
         stage.setScene(scene);
         stage.show();
     }

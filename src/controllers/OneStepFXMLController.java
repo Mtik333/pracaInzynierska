@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import data.graph.Ant;
 import java.net.URL;
@@ -52,17 +53,8 @@ public class OneStepFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-//        setAnt(DataAccessor.getAllAnts().get(0));
-//        pickedAttribute.setText(ant.getPickedAttributes().get(ant.getPickedAttributes().size()-1).getName());
-//        for (Vertice vertice : ant.getPickedAttributes()){
-//            allAttributes.appendText(vertice.getName()+",");
-//        }
-//        if (ant.isFoundSolution())
-//            isSolutionFound.setText(String.valueOf(true));
-//        else isSolutionFound.setText(String.valueOf(false));
         DataAccessor.getAllAnts().forEach((Ant newAnt) -> {
-            chosenAnt.getItems().add("Ant " + newAnt.getIndex());
+            chosenAnt.getItems().add(ConstStrings.ANT_VIEW_STRING + newAnt.getIndex());
         });
         chosenAnt.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -70,17 +62,17 @@ public class OneStepFXMLController implements Initializable {
                 setNewValues();
             }
         });
-        chosenAnt.getSelectionModel().select(0);
+        chosenAnt.getSelectionModel().select(ConstStrings.ZERO);
     }
 
     @FXML
     public void setNewValues() {
         pickedAttribute.clear();
         setAnt(DataAccessor.getAllAnts().get(chosenAnt.getSelectionModel().getSelectedIndex()));
-        pickedAttribute.setText(ant.getPickedAttributes().get(ant.getPickedAttributes().size() - 1).getName());
+        pickedAttribute.setText(ant.getPickedAttributes().get(ant.getPickedAttributes().size() - ConstStrings.ONE).getName());
         allAttributes.clear();
         ant.getPickedAttributes().forEach((vertice) -> {
-            allAttributes.appendText(vertice.getName() + ",");
+            allAttributes.appendText(vertice.getName() + ConstStrings.COMMA_NOSPACE);
         });
         isSolutionFound.clear();
         if (ant.isFoundSolution()) {

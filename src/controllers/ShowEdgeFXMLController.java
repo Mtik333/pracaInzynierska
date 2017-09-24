@@ -31,6 +31,7 @@ public class ShowEdgeFXMLController implements Initializable {
     public void setEdge(Edge edge) {
         this.edge = edge;
     }
+    
     @FXML
     public TextField weightAmount;
     @FXML

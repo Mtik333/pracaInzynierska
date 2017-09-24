@@ -5,6 +5,7 @@
  */
 package data.roughsets;
 
+import data.ConstStrings;
 import static data.ConstStrings.*;
 
 /**
@@ -20,9 +21,9 @@ public class Attribute {
     @Override
     public String toString() {
         if (!decisionMaking) {
-            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + '}';
+            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ConstStrings.CURLY_BRACKET_CLOSE;
         } else {
-            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + decisionMaking + '}';
+            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + decisionMaking + ConstStrings.CURLY_BRACKET_CLOSE;
         }
     }
 

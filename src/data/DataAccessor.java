@@ -247,17 +247,17 @@ public class DataAccessor {
     public static boolean parseFile() throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(getFile().getPath()));
         stringToAttribute(br.readLine().split(getSeparator()));
-        if (getAllAttributes().size() == 1) {
+        if (getAllAttributes().size() == ConstStrings.ONE) {
             setAllAttributes(null);
             setFile(null);
             return false;
         }
-        int j = 1; //ilosc obiektow
+        int j = ConstStrings.ONE; //ilosc obiektow
         String line;
         setDataset(new ArrayList<>());
         while ((line = br.readLine()) != null) {
             String oneObject[] = line.split(getSeparator());
-            int i = 0; //ktory z kolei atrybut wczytywany
+            int i = ConstStrings.ZERO; //ktory z kolei atrybut wczytywany
             List<Attribute> singleObjectAttributes = new ArrayList<>();
             for (String x : oneObject) {
                 Attribute attribute = new Attribute(getAllAttributes().get(i).getName(), x);
@@ -279,7 +279,7 @@ public class DataAccessor {
 
     private static void stringToAttribute(String[] attributes) {
         setAllAttributes(new ArrayList<>());
-        setDecisionMaker(attributes.length - 1);
+        setDecisionMaker(attributes.length - ConstStrings.ONE);
         for (String attribute : attributes) {
             Attribute myAttribute = new Attribute(attribute);
             getAllAttributes().add(myAttribute);
@@ -409,20 +409,16 @@ public class DataAccessor {
     }
 
     public static Map<Line, Edge> sortByValue(Map<Line, Edge> unsortMap) {
-        // 1. Convert Map to List of Map
         List<Map.Entry<Line, Edge>> list
                 = new LinkedList<>(unsortMap.entrySet());
-        // 2. Sort list with Collections.sort(), provide a custom Comparator
-        //    Try switch the o1 o2 position for a different order
         Collections.sort(list, (Map.Entry<Line, Edge> o1, Map.Entry<Line, Edge> o2) -> {
             if (o1.getValue().getPheromone() < o2.getValue().getPheromone()) {
-                return -1;
+                return ConstStrings.MINUS_ONE;
             } else if (o1.getValue().getPheromone() > o2.getValue().getPheromone()) {
-                return 1;
+                return ConstStrings.ONE;
             }
-            return 0;
+            return ConstStrings.ZERO;
         });
-        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
         Map<Line, Edge> sortedMap = new LinkedHashMap<>();
         list.forEach((entry) -> {
             sortedMap.put(entry.getKey(), entry.getValue());
@@ -432,19 +428,18 @@ public class DataAccessor {
 
     public static void resetValues() {
         setLoadedData(false);
-        //setFile(null);
         setDataset(null);
         setAllAttributes(null);
-        setDecisionMaker(0);
-        setAntsNumber(0);
+        setDecisionMaker(ConstStrings.ZERO);
+        setAntsNumber(ConstStrings.ZERO);
         setAnalyzedEdge(null);
         setAnalyzedVertice(null);
         setAllAnts(null);
-        setCurrentIter(0);
+        setCurrentIter(ConstStrings.ZERO);
         setCurrentReduct(null);
         setIndiscMatrix(null);
         setListOfReducts(null);
-        setPerformedIterations(0);
+        setPerformedIterations(ConstStrings.ZERO);
         setCalculatedReductInIteration(false);
         setDecisionValues(null);
         setCoreAttributes(null);

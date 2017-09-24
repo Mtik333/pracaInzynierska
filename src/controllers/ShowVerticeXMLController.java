@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.ConstStrings;
 import data.DataAccessor;
 import data.JensenLogic;
 import data.graph.Vertice;
@@ -32,6 +33,7 @@ public class ShowVerticeXMLController implements Initializable {
     public void setVertice(Vertice vertice) {
         this.vertice = vertice;
     }
+    
     @FXML
     public TextField verticeName;
     @FXML
@@ -52,9 +54,15 @@ public class ShowVerticeXMLController implements Initializable {
         if (DataAccessor.isLoadedData()) {
             antsAmount.setText(String.valueOf(JensenLogic.returnAntsNumberOnVertice(vertice)));
         } else {
-            antsAmount.setText(String.valueOf(0));
+            antsAmount.setText(String.valueOf(ConstStrings.ZERO));
         }
-        isInReduct.setText(String.valueOf(true));
+        if (DataAccessor.getCurrentReduct()!=null){
+            if (DataAccessor.ifVerticeInReduct(vertice)){
+                isInReduct.setText(String.valueOf(true));
+            }
+            else isInReduct.setText(String.valueOf(false));
+        }
+        else isInReduct.setText(String.valueOf(false));
     }
 
     @FXML
