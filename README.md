@@ -215,3 +215,7 @@ Restored "View dataset" functionality with additional buttons to navigate to pre
 0.6.5 - 24.09.2017
 
 Second refactorization of the code, especially removing "commented methods"
+
+0.6.6 - 06.10.2017
+
+More and more doubts about core-searching in specific cases.

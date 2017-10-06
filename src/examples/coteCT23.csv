@@ -1,0 +1,7 @@
+bol_glowy,bol_miesni,temperatura,grypa
+nie,tak,normalna,nie
+nie,tak,podwyzszona,tak
+tak,tak,podwyzszona,tak
+tak,nie,podwyzszona,tak
+tak,nie,podwyzszona,nie
+nie,nie,wysoka,tak

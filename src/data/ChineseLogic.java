@@ -34,6 +34,7 @@ public class ChineseLogic extends Logic {
         DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
         List<Attribute> test = DataAccessor.getAllAttributes();
         calculateMutualInformation();
+        featureCore();
         List<Vertice> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {
@@ -270,4 +271,76 @@ public class ChineseLogic extends Logic {
         return true;
     }
 
+    public void featureCore(){
+        List<Attribute> chineseCore = new ArrayList<>();
+        double test2 = DataAccessor.getDecisionEntropy();
+        double test = DataAccessor.getDatasetMutualInformation();
+        for (int i=0; i<DataAccessor.getAllAttributes().size(); i++){
+            if (mutualInformationWithoutAttr(DataAccessor.getAllAttributes().get(i), i)<test){
+                chineseCore.add(DataAccessor.getAllAttributes().get(i));
+            }
+        }
+        if (chineseCore.size() == DataAccessor.getAllAttributes().size() - ConstStrings.ONE) {
+            DataAccessor.setCoreAttributes(new ArrayList<>());
+        } else {
+            DataAccessor.setCoreAttributes(chineseCore);
+        }
+        Collections.sort(DataAccessor.getDataset());
+        int test5=5;
+    }
+    
+    public double mutualInformationWithoutAttr(Attribute attribute, int i){
+        double mutualInformation = DataAccessor.getDecisionEntropy()-conditionalEntropyCWithoutAttribute(attribute, i);
+        return mutualInformation;
+    }
+    
+    private double conditionalEntropyCWithoutAttribute(Attribute attribute, int index) {
+        double finalValue = ConstStrings.ZERO;
+        double singleAttrValue = ConstStrings.ZERO;
+        int numberOfClassInstances = ConstStrings.ZERO;
+        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
+        DataObject prev = null;
+        Collections.sort(DataAccessor.getDataset(), new DataObjectComparator(index));
+        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
+            if (prev == null) {
+                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
+                prev = DataAccessor.getDataset().get(i);
+                numberOfClassInstances++;
+                decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+            } else {
+                boolean theSame = true;
+                for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
+                    if (!prev.getAttributes().get(j).getName().equals(attribute.getName())){
+                        if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
+                            theSame = false;
+                            break;
+                        }
+                    }
+                }
+                if (theSame) {
+                    numberOfClassInstances++;
+                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+                } else {
+                    singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+                    singleAttrValue *= (ConstStrings.MINUS_ONE) * ((double) numberOfClassInstances) / ((double) DataAccessor.getDataset().size());
+                    numberOfClassInstances = ConstStrings.ZERO;
+                    finalValue += singleAttrValue;
+                    singleAttrValue = ConstStrings.ZERO;
+                    i--;
+                    theSame = true;
+                    prev = null;
+                }
+            }
+        }
+        //obliczanie ostatniego zbioru
+        if (numberOfClassInstances > ConstStrings.ONE) {
+            singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+            finalValue += singleAttrValue;
+            prev = null;
+        }
+        if (finalValue<0)
+            finalValue*=-1;
+        return finalValue;
+    }
+    
 }
