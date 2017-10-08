@@ -208,8 +208,8 @@ public abstract class Logic {
             List<List<Attribute>> list = DataAccessor.getListOfReducts();
             int performedIterations = DataAccessor.getPerformedIterations();
             int size = DataAccessor.getListOfReducts().get(performedIterations - ConstStrings.ONE).size();
-            for (int i = 2; i <= DataAccessor.getFruitlessSearches(); i++) {
-                if (DataAccessor.getListOfReducts().get(performedIterations - ConstStrings.ONE).size() != size) {
+            for (int i = 2; i < DataAccessor.getFruitlessSearches(); i++) {
+                if (DataAccessor.getListOfReducts().get(performedIterations - i).size() != size) {
                     return false;
                 }
             }

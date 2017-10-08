@@ -160,6 +160,8 @@ public class ChineseLogic extends Logic {
         double singleAttrValue = ConstStrings.ZERO;
         int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
+        DataObjectMultipleComparator domc = new DataObjectMultipleComparator(DataAccessor.getAllAttributes());
+        Collections.sort(DataAccessor.getDataset(), domc);
         DataObject prev = null;
         for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
             if (prev == null) {

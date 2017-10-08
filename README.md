@@ -219,3 +219,7 @@ Second refactorization of the code, especially removing "commented methods"
 0.6.6 - 06.10.2017
 
 More and more doubts about core-searching in specific cases.
+
+0.6.7 - 08.10.2017
+
+Added FEATURECORE but code needs refactoring, a lot of refactoring.
