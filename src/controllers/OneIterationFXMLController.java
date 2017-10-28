@@ -7,13 +7,13 @@ package controllers;
 
 import data.ConstStrings;
 import data.DataAccessor;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -26,13 +26,13 @@ public class OneIterationFXMLController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    public TextField newReductSize;
+    private TextField newReductSize;
     @FXML
-    public TextField reductList;
+    private TextField reductList;
     @FXML
-    public TextField previousReductSize;
+    private TextField previousReductSize;
     @FXML
-    public TextField foundSolutions;
+    private TextField foundSolutions;
 
     private int coreSize = ConstStrings.ZERO;
 
@@ -43,13 +43,9 @@ public class OneIterationFXMLController implements Initializable {
         }
         newReductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size() + coreSize));
         if (coreSize != ConstStrings.ZERO) {
-            DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                reductList.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
-            });
+            DataAccessor.getCoreAttributes().forEach((attribute) -> reductList.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
         }
-        DataAccessor.getCurrentReduct().forEach((x) -> {
-            reductList.appendText(x.getName() + ConstStrings.COMMA_SPACE);
-        });
+        DataAccessor.getCurrentReduct().forEach((x) -> reductList.appendText(x.getName() + ConstStrings.COMMA_SPACE));
         if (DataAccessor.getPerformedIterations() == ConstStrings.ONE) {
             previousReductSize.setText(String.valueOf(DataAccessor.getGraph().getVertices().size() + coreSize));
         } else {
@@ -61,7 +57,7 @@ public class OneIterationFXMLController implements Initializable {
     }
 
     @FXML
-    public void dismiss(ActionEvent event) {
+    public void dismiss() {
         Stage stage = (Stage) foundSolutions.getScene().getWindow();
         stage.close();
     }

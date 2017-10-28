@@ -7,16 +7,15 @@ package controllers;
 
 import data.ConstStrings;
 import data.DataAccessor;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -31,7 +30,7 @@ public class SampleDatasetFXMLController implements Initializable {
     @FXML
     public TextArea datasetDescription;
     @FXML
-    public ComboBox exampleDataset;
+    private ComboBox<String> exampleDataset;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -46,16 +45,11 @@ public class SampleDatasetFXMLController implements Initializable {
     }
 
     @FXML
-    public void loadFile(ActionEvent event) throws IOException {
-        File file = new File(ConstStrings.EXAMPLES_DIRECTORY_PATH + ConstStrings.SLASH + exampleDataset.getSelectionModel().getSelectedItem().toString());
+    public void loadFile() {
+        File file = new File(ConstStrings.EXAMPLES_DIRECTORY_PATH + ConstStrings.SLASH + exampleDataset.getSelectionModel().getSelectedItem());
         DataAccessor.setFile(file);
         Stage stage = (Stage) exampleDataset.getScene().getWindow();
         stage.close();
     }
 
-    @FXML
-    public void dismiss(ActionEvent event) {
-        Stage stage = (Stage) exampleDataset.getScene().getWindow();
-        stage.close();
-    }
 }

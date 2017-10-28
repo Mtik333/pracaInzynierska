@@ -6,6 +6,7 @@
 package data.roughsets;
 
 import data.ConstStrings;
+
 import java.util.Comparator;
 
 /**
@@ -14,11 +15,7 @@ import java.util.Comparator;
  */
 public class DataObjectComparator implements Comparator<DataObject> {
 
-    public int unusedAttribute = ConstStrings.ZERO; //nieuzywane atrybuty
-
-    public void setUnusedAttribute(int unusedAttribute) {
-        this.unusedAttribute = unusedAttribute;
-    }
+    private int unusedAttribute = ConstStrings.ZERO; //nieuzywane atrybuty
 
     public DataObjectComparator(int unusedAttribute) {
         this.unusedAttribute = unusedAttribute;
@@ -32,7 +29,7 @@ public class DataObjectComparator implements Comparator<DataObject> {
         }
         for (int i = 0; i < t.getAttributes().size() - 1; i++) {
             if (i != unusedAttribute) {
-                c = ((DataObject) t).getAttributes().get(i).getValue().compareTo(((DataObject) t1).getAttributes().get(i).getValue());
+                c = t.getAttributes().get(i).getValue().compareTo(t1.getAttributes().get(i).getValue());
             }
             if (c != ConstStrings.ZERO) {
                 break;

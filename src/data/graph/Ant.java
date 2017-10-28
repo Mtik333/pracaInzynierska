@@ -9,6 +9,7 @@ import data.ConstStrings;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,80 +20,28 @@ import java.util.Map;
  */
 public abstract class Ant implements Runnable {
 
-    protected int index; //indeks mrówki
-    protected int currentIter; //obecny numer kroku w iteracji
-    protected List<Vertice> pickedAttributes; //wybrane węzły
-    protected List<Vertice> unpickedAttributes; //pozostałe węzły
-    protected Map<Vertice, Double> probabilities; //mapa z prawdopodobieństwami
-    protected List<Edge> allEdges; //lista krawedzi (wszystkich)
-    protected List<Edge> chosenEdges; //lista krawedzi (wybranych)
-    protected boolean foundSolution = false; //czy znaleziono rozwiazanie)
-    protected List<Attribute> sortByAttributes; //posortowane atrybuty
-    protected DataObjectMultipleComparator domc; //komparator do zbioru
-    protected List<DataObject> sortedDataset; //dane posortowane
-
-    public int getCurrentIter() {
-        return currentIter;
-    }
-
-    public void setCurrentIter(int currentIter) {
-        this.currentIter = currentIter;
-    }
-
-    public List<Attribute> getSortByAttributes() {
-        return sortByAttributes;
-    }
-
-    public void setSortByAttributes(List<Attribute> sortByAttributes) {
-        this.sortByAttributes = sortByAttributes;
-    }
-
-    public DataObjectMultipleComparator getDomc() {
-        return domc;
-    }
-
-    public void setDomc(DataObjectMultipleComparator domc) {
-        this.domc = domc;
-    }
-
-    public List<DataObject> getSortedDataset() {
-        return sortedDataset;
-    }
-
-    public void setSortedDataset(List<DataObject> sortedDataset) {
-        this.sortedDataset = sortedDataset;
-    }
+    int index; //indeks mrówki
+    int currentIter; //obecny numer kroku w iteracji
+    List<Vertice> pickedAttributes; //wybrane węzły
+    List<Vertice> unpickedAttributes; //pozostałe węzły
+    Map<Vertice, Double> probabilities; //mapa z prawdopodobieństwami
+    List<Edge> allEdges; //lista krawedzi (wszystkich)
+    List<Edge> chosenEdges; //lista krawedzi (wybranych)
+    boolean foundSolution = false; //czy znaleziono rozwiazanie)
+    List<Attribute> sortByAttributes; //posortowane atrybuty
+    DataObjectMultipleComparator domc; //komparator do zbioru
+    List<DataObject> sortedDataset; //dane posortowane
 
     public int getIndex() {
         return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public List<Vertice> getPickedAttributes() {
         return pickedAttributes;
     }
 
-    public void setPickedAttributes(List<Vertice> pickedAttributes) {
-        this.pickedAttributes = pickedAttributes;
-    }
-
     public List<Vertice> getUnpickedAttributes() {
         return unpickedAttributes;
-    }
-
-    public void setUnpickedAttributes(List<Vertice> unpickedAttributes) {
-        this.unpickedAttributes = unpickedAttributes;
-    }
-
-    public Map<Vertice, Double> getProbabilities() {
-        return probabilities;
-    }
-
-    public void setProbabilities(Map<Vertice, Double> probabilities) {
-        this.probabilities = probabilities;
     }
 
     public boolean isFoundSolution() {
@@ -110,21 +59,15 @@ public abstract class Ant implements Runnable {
 
     public void initLists(List<Vertice> unpicked) {
         this.unpickedAttributes = new ArrayList<>();
-        unpicked.forEach((x) -> {
-            unpickedAttributes.add(x);
-        });
+        unpickedAttributes.addAll(unpicked);
         this.pickedAttributes = new ArrayList<>();
     }
 
-    public void addEdgeToSolution() {
-        allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - ConstStrings.ONE).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - ConstStrings.ONE).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> {
-            chosenEdges.add(x);
-        });
+    void addEdgeToSolution() {
+        allEdges.stream().filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter - ConstStrings.ONE).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter - ConstStrings.ONE).getName()))).filter((x) -> (x.getStart().getName().equals(pickedAttributes.get(currentIter).getName()) || x.getEnd().getName().equals(pickedAttributes.get(currentIter).getName()))).forEachOrdered((x) -> chosenEdges.add(x));
     }
 
-    public abstract double calculateSum();
-
-    public Vertice pickVerticeByProbability() {
+    Vertice pickVerticeByProbability() {
         double p = Math.random();
         double cumulativeProbability = ConstStrings.DOUBLE_ZERO;
         for (Map.Entry<Vertice, Double> x : probabilities.entrySet()) {
@@ -137,20 +80,8 @@ public abstract class Ant implements Runnable {
         return null;
     }
 
-    public List<Edge> getAllEdges() {
-        return allEdges;
-    }
-
-    public void setAllEdges(List<Edge> allEdges) {
-        this.allEdges = allEdges;
-    }
-
     public List<Edge> getChosenEdges() {
         return chosenEdges;
-    }
-
-    public void setChosenEdges(List<Edge> chosenEdges) {
-        this.chosenEdges = chosenEdges;
     }
 
 }

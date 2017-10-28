@@ -6,6 +6,7 @@
 package data.graph;
 
 import data.ConstStrings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,27 +30,15 @@ public class Graph {
         return vertices;
     }
 
-    public void setVertices(List<Vertice> vertices) {
-        this.vertices = vertices;
-    }
-
     public List<Edge> getEdges() {
         return edges;
-    }
-
-    public void setEdges(List<Edge> edges) {
-        this.edges = edges;
     }
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        vertices.forEach((x) -> {
-            s.append(x.toString()).append(ConstStrings.NEW_LINE);
-        });
-        edges.forEach((y) -> {
-            s.append(y.toString()).append(ConstStrings.NEW_LINE);
-        });
+        vertices.forEach((x) -> s.append(x.toString()).append(ConstStrings.NEW_LINE));
+        edges.forEach((y) -> s.append(y.toString()).append(ConstStrings.NEW_LINE));
         return s.toString();
     }
 }

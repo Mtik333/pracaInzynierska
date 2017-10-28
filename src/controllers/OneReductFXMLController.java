@@ -8,17 +8,15 @@ package controllers;
 import data.ConstStrings;
 import data.DataAccessor;
 import data.roughsets.Attribute;
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -28,23 +26,23 @@ import javafx.stage.Stage;
 public class OneReductFXMLController implements Initializable {
 
     @FXML
-    public ComboBox chosenIteration;
+    private ComboBox<String> chosenIteration;
     @FXML
-    public TextField finalReduct;
+    private TextField finalReduct;
     @FXML
-    public TextField reductSize;
+    private TextField reductSize;
     @FXML
-    public TextField elapsedTime;
+    private TextField elapsedTime;
     @FXML
-    public TextField attributesInIteration;
+    private TextField attributesInIteration;
 
     private int coreSize = ConstStrings.ZERO;
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -54,42 +52,29 @@ public class OneReductFXMLController implements Initializable {
         for (int i = 0; i < DataAccessor.getListOfReducts().size(); i++) {
             chosenIteration.getItems().add(ConstStrings.ITERATION_VIEW_STRING + i);
         }
-        chosenIteration.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue ov, String t, String t1) {
-                setNewValues();
-            }
-        });
+        chosenIteration.valueProperty().addListener((ov, t, t1) -> setNewValues());
         chosenIteration.getSelectionModel().select(0);
         if (coreSize != ConstStrings.ZERO) {
-            DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
-            });
+            DataAccessor.getCoreAttributes().forEach((attribute) -> finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
         }
-        DataAccessor.getCurrentReduct().forEach((attribute) -> {
-            finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
-        });
+        DataAccessor.getCurrentReduct().forEach((attribute) -> finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
         reductSize.setText(String.valueOf(DataAccessor.getCurrentReduct().size() + coreSize));
         elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + ConstStrings.SECONDS);
     }
 
     @FXML
-    public void dismiss(ActionEvent event) {
+    public void dismiss() {
         Stage stage = (Stage) finalReduct.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    public void setNewValues() {
+    private void setNewValues() {
         attributesInIteration.clear();
         List<Attribute> list = DataAccessor.getListOfReducts().get(chosenIteration.getSelectionModel().getSelectedIndex());
         if (coreSize != ConstStrings.ZERO) {
-            DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                attributesInIteration.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
-            });
+            DataAccessor.getCoreAttributes().forEach((attribute) -> attributesInIteration.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
         }
-        list.forEach((attribute) -> {
-            attributesInIteration.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
-        });
+        list.forEach((attribute) -> attributesInIteration.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
     }
 }

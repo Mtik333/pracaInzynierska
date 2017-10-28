@@ -1,77 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OneStepFXMLController">
-    <children>
-        <VBox>
-            <children>
-                <HBox layoutX="15.0" layoutY="15.0" VBox.vgrow="ALWAYS">
-                    <children>
-                        <Pane HBox.hgrow="ALWAYS" />
-                        <Label prefHeight="40.0" text="Statistics for single step" textAlignment="CENTER" />
-                        <Pane HBox.hgrow="ALWAYS" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox>
-                    <children>
-                        <Label prefHeight="40.0" prefWidth="180.0" text="Ant:" />
-                        <ComboBox fx:id="chosenAnt" prefHeight="40.0" prefWidth="220.0" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox layoutX="10.0" layoutY="50.0">
-                    <children>
-                        <Label prefHeight="40.0" prefWidth="180.0" text="Lastly picked attribute:" />
-                        <TextField fx:id="pickedAttribute" editable="false" prefHeight="40.0" prefWidth="220.0" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox layoutX="15.0" layoutY="115.0">
-                    <children>
-                        <Label prefHeight="40.0" prefWidth="180.0" text="List of picked attributes:" />
-                        <TextField fx:id="allAttributes" editable="false" prefHeight="40.0" prefWidth="220.0" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox layoutX="15.0" layoutY="165.0">
-                    <children>
-                        <Label prefHeight="40.0" prefWidth="180.0" text="Found solution?" />
-                        <TextField fx:id="isSolutionFound" editable="false" prefHeight="40.0" prefWidth="220.0" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox>
-                    <children>
-                        <Pane layoutX="90.0" layoutY="10.0" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#dismiss" prefHeight="25.0" prefWidth="70.0" text="OK">
-                            <HBox.margin>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                            </HBox.margin>
-                        </Button>
-                        <Pane HBox.hgrow="ALWAYS" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                </HBox>
-            </children>
-        </VBox>
-    </children>
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.OneStepFXMLController">
+    <VBox>
+        <HBox layoutX="15.0" layoutY="15.0" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label prefHeight="40.0" text="Statistics for single step" textAlignment="CENTER"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <HBox>
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="Ant:"/>
+            <ComboBox fx:id="chosenAnt" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox layoutX="10.0" layoutY="50.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="Lastly picked attribute:"/>
+            <TextField fx:id="pickedAttribute" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox layoutX="15.0" layoutY="115.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="List of picked attributes:"/>
+            <TextField fx:id="allAttributes" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox layoutX="15.0" layoutY="165.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="Found solution?"/>
+            <TextField fx:id="isSolutionFound" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox>
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Pane layoutX="90.0" layoutY="10.0" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#dismiss"
+                    prefHeight="25.0" prefWidth="70.0" text="OK">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

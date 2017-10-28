@@ -6,16 +6,18 @@
 package controllers;
 
 import data.ConstStrings;
-import static data.ConstStrings.*;
 import data.DataAccessor;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static data.ConstStrings.JSACO;
+import static data.ConstStrings.RSFSACO;
 
 /**
  * FXML Controller class
@@ -25,29 +27,29 @@ import javafx.stage.Stage;
 public class AlgorithmSettingsFXMLController implements Initializable {
 
     @FXML
-    public ChoiceBox algorithmChoice;
+    private ChoiceBox<String> algorithmChoice;
     @FXML
-    public TextField pheromoneImportance;
+    private TextField pheromoneImportance;
     @FXML
-    public TextField weightImportance;
+    private TextField weightImportance;
     @FXML
-    public TextField loopLimit;
+    private TextField loopLimit;
     @FXML
-    public TextField antsNumber;
+    private TextField antsNumber;
     @FXML
-    public TextField pheromoneConstant;
+    private TextField pheromoneConstant;
     @FXML
-    public TextField pheromoneEvaporation;
+    private TextField pheromoneEvaporation;
     @FXML
-    public TextField epsilonValue;
+    private TextField epsilonValue;
     @FXML
-    public TextField fruitlessSearches;
+    private TextField fruitlessSearches;
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -72,7 +74,7 @@ public class AlgorithmSettingsFXMLController implements Initializable {
     }
 
     @FXML
-    public void setSettings(ActionEvent event) {
+    public void setSettings() {
         if (algorithmChoice.getSelectionModel().getSelectedIndex() == ConstStrings.ALGORITHM_DEFAULT_INDEX) {
             DataAccessor.setAlgorithmType(JSACO);
         } else {
@@ -86,11 +88,11 @@ public class AlgorithmSettingsFXMLController implements Initializable {
         DataAccessor.setPheromoneEvaporation(Double.valueOf(pheromoneEvaporation.getText()));
         DataAccessor.setEpsilonValue(Double.valueOf(epsilonValue.getText()));
         DataAccessor.setFruitlessSearches(Integer.valueOf(fruitlessSearches.getText()));
-        cancelSettings(null);
+        cancelSettings();
     }
 
     @FXML
-    public void cancelSettings(ActionEvent event) {
+    private void cancelSettings() {
         Stage stage = (Stage) algorithmChoice.getScene().getWindow();
         stage.close();
     }

@@ -7,13 +7,13 @@ package controllers;
 
 import data.DataAccessor;
 import data.graph.Edge;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -24,28 +24,24 @@ public class ShowEdgeFXMLController implements Initializable {
 
     private Edge edge;
 
-    public Edge getEdge() {
-        return edge;
-    }
-
-    public void setEdge(Edge edge) {
+    private void setEdge(Edge edge) {
         this.edge = edge;
     }
     
     @FXML
-    public TextField weightAmount;
+    private TextField weightAmount;
     @FXML
-    public TextField startVerticeName;
+    private TextField startVerticeName;
     @FXML
-    public TextField endVerticeName;
+    private TextField endVerticeName;
     @FXML
-    public TextField pheromoneAmount;
+    private TextField pheromoneAmount;
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,7 +53,7 @@ public class ShowEdgeFXMLController implements Initializable {
     }
 
     @FXML
-    public void dismiss(ActionEvent event) {
+    public void dismiss() {
         Stage stage = (Stage) weightAmount.getScene().getWindow();
         this.edge = null;
         stage.close();

@@ -6,16 +6,18 @@
 package controllers;
 
 import data.ConstStrings;
-import static data.ConstStrings.*;
 import data.DataAccessor;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static data.ConstStrings.SEPARATOR_COMMA;
+import static data.ConstStrings.SEPARATOR_SEMICOLON;
 
 /**
  * FXML Controller class
@@ -25,17 +27,17 @@ import javafx.stage.Stage;
 public class SetSeparatorFXMLController implements Initializable {
 
     @FXML
-    public ChoiceBox separators;
+    private ChoiceBox<String> separators;
     @FXML
-    public Button cancelButton;
+    private Button cancelButton;
     @FXML
-    public Button okButton;
+    private Button okButton;
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,15 +50,15 @@ public class SetSeparatorFXMLController implements Initializable {
     }
 
     @FXML
-    public void setSeparator(ActionEvent event) {
-        String chosenSeparator = separators.getSelectionModel().getSelectedItem().toString();
+    public void setSeparator() {
+        String chosenSeparator = separators.getSelectionModel().getSelectedItem();
         DataAccessor.setSeparator(chosenSeparator.substring(ConstStrings.ZERO, ConstStrings.ONE));
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    public void cancelSet(ActionEvent event) {
+    public void cancelSet() {
         if (DataAccessor.getSeparator().contains(ConstStrings.COMMA_NOSPACE)) {
             separators.getSelectionModel().select(ConstStrings.ZERO);
         } else {

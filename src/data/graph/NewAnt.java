@@ -6,14 +6,15 @@
 package data.graph;
 
 import data.ConstStrings;
-import static data.ConstStrings.*;
 import data.DataAccessor;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
+
+import static data.ConstStrings.SINGLE_STEP;
 
 /**
  *
@@ -39,9 +40,7 @@ public class NewAnt extends Ant {
         while (currentIter < DataAccessor.getMaxList() - 1 && !reducedMatrix) {
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
-                probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
-                    return u / pheromoneSum;
-                });
+                probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> u / pheromoneSum);
             }
             pickedAttributes.add(pickVerticeByProbability());
             reducedMatrix = checkIfReduct();
@@ -55,8 +54,7 @@ public class NewAnt extends Ant {
         foundSolution = checkIfReduct();
     }
 
-    @Override
-    public double calculateSum() {
+    private double calculateSum() {
         double sumPheromone = ConstStrings.ZERO;
         this.probabilities = new HashMap<>();
         Vertice v = null;
@@ -79,13 +77,13 @@ public class NewAnt extends Ant {
         return sumPheromone;
     }
 
-    public boolean checkIfReduct() {
+    private boolean checkIfReduct() {
         int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
         sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE)));
         domc = new DataObjectMultipleComparator(sortByAttributes);
-        Collections.sort(sortedDataset, domc);
+        sortedDataset.sort(domc);
         for (int i = 0; i < sortedDataset.size(); i++) {
             if (prev == null) {
                 Arrays.fill(decisionsInstances, ConstStrings.ZERO);
@@ -105,8 +103,8 @@ public class NewAnt extends Ant {
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
                 } else {
                     int variousClasses = ConstStrings.ZERO;
-                    for (int j = 0; j < decisionsInstances.length; j++) {
-                        if (decisionsInstances[j] != ConstStrings.ZERO) {
+                    for (int decisionsInstance : decisionsInstances) {
+                        if (decisionsInstance != ConstStrings.ZERO) {
                             variousClasses++;
                         }
                     }
@@ -115,15 +113,14 @@ public class NewAnt extends Ant {
                     } else {
                         numberOfClassInstances = ConstStrings.ZERO;
                         i--;
-                        theSame = true;
                         prev = null;
                     }
                 }
             }
         }
         int variousClasses = ConstStrings.ZERO;
-        for (int j = 0; j < decisionsInstances.length; j++) {
-            if (decisionsInstances[j] != ConstStrings.ZERO) {
+        for (int decisionsInstance : decisionsInstances) {
+            if (decisionsInstance != ConstStrings.ZERO) {
                 variousClasses++;
             }
         }

@@ -8,16 +8,14 @@ package controllers;
 import data.ConstStrings;
 import data.DataAccessor;
 import data.graph.Ant;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -28,52 +26,39 @@ public class OneStepFXMLController implements Initializable {
 
     private Ant ant;
 
-    public Ant getAnt() {
-        return ant;
-    }
-
-    public void setAnt(Ant ant) {
+    private void setAnt(Ant ant) {
         this.ant = ant;
     }
 
     @FXML
-    public ComboBox chosenAnt;
+    private ComboBox<String> chosenAnt;
     @FXML
-    public TextField pickedAttribute;
+    private TextField pickedAttribute;
     @FXML
-    public TextField allAttributes;
+    private TextField allAttributes;
     @FXML
-    public TextField isSolutionFound;
+    private TextField isSolutionFound;
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DataAccessor.getAllAnts().forEach((Ant newAnt) -> {
-            chosenAnt.getItems().add(ConstStrings.ANT_VIEW_STRING + newAnt.getIndex());
-        });
-        chosenAnt.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue ov, String t, String t1) {
-                setNewValues();
-            }
-        });
+        DataAccessor.getAllAnts().forEach((Ant newAnt) -> chosenAnt.getItems().add(ConstStrings.ANT_VIEW_STRING + newAnt.getIndex()));
+        chosenAnt.valueProperty().addListener((ov, t, t1) -> setNewValues());
         chosenAnt.getSelectionModel().select(ConstStrings.ZERO);
     }
 
     @FXML
-    public void setNewValues() {
+    private void setNewValues() {
         pickedAttribute.clear();
         setAnt(DataAccessor.getAllAnts().get(chosenAnt.getSelectionModel().getSelectedIndex()));
         pickedAttribute.setText(ant.getPickedAttributes().get(ant.getPickedAttributes().size() - ConstStrings.ONE).getName());
         allAttributes.clear();
-        ant.getPickedAttributes().forEach((vertice) -> {
-            allAttributes.appendText(vertice.getName() + ConstStrings.COMMA_NOSPACE);
-        });
+        ant.getPickedAttributes().forEach((vertice) -> allAttributes.appendText(vertice.getName() + ConstStrings.COMMA_NOSPACE));
         isSolutionFound.clear();
         if (ant.isFoundSolution()) {
             isSolutionFound.setText(String.valueOf(true));
@@ -83,7 +68,7 @@ public class OneStepFXMLController implements Initializable {
     }
 
     @FXML
-    public void dismiss(ActionEvent event) {
+    public void dismiss() {
         Stage stage = (Stage) isSolutionFound.getScene().getWindow();
         this.ant = null;
         stage.close();

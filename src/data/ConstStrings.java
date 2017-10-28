@@ -65,10 +65,6 @@ public class ConstStrings {
 
     public static final String NO_DATA_TO_LOAD = "No data to load";
 
-    public static final String TEXTAREA_PARAMETERS = "Parameters: ";
-
-    public static final String TEXTAREA_APPEND = ";\nObjects: \n";
-
     public static final String SHOW_VERTICE_FXML_RES = "/fxmls/ShowVerticeXML.fxml";
 
     public static final String SHOW_VERTICE_TITLE = "Show vertice info";

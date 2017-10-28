@@ -5,11 +5,8 @@
  */
 package data;
 
-import data.graph.Ant;
-import data.graph.Edge;
-import data.graph.Graph;
-import data.graph.NewAnt;
-import data.graph.Vertice;
+import data.graph.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

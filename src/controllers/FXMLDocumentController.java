@@ -7,25 +7,10 @@ package controllers;
 
 import data.ChineseLogic;
 import data.ConstStrings;
-import static data.ConstStrings.*;
 import data.DataAccessor;
 import data.Logic;
 import data.graph.Edge;
 import data.graph.Vertice;
-import data.roughsets.Attribute;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
@@ -37,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -52,6 +38,16 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static data.ConstStrings.*;
 
 /**
  *
@@ -75,16 +71,16 @@ public class FXMLDocumentController implements Initializable {
     private Button resetAlgorithm;
     @FXML
     private AnchorPane solver; //widok grafu
-    private List<Label> labels; //lista wierzcholkow (grafika)
-    private List<Line> lines; //lista krawedzi (grafika)
     private static Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
     private static Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
-    double orgSceneX, orgSceneY; //do przenoszenia wierzcholkow/krawedzi
-    double orgTranslateX, orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
+    private double orgSceneX;
+    private double orgSceneY; //do przenoszenia wierzcholkow/krawedzi
+    private double orgTranslateX;
+    private double orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
     private Logic newLogic; //logika algorytmu
 
     @FXML
-    public void exitApp(ActionEvent event) {
+    public void exitApp() {
         Platform.exit();
     }
 
@@ -93,7 +89,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    public void loadSampleDataset(ActionEvent event) {
+    public void loadSampleDataset() {
         if (newLogic != null) {
             DataAccessor.resetValues();
         }
@@ -106,7 +102,7 @@ public class FXMLDocumentController implements Initializable {
 
     //wczytuje zestaw danych z pliku
     @FXML
-    public void loadDataset(ActionEvent event) {
+    public void loadDataset() {
         if (newLogic != null) {
             DataAccessor.resetValues();
         }
@@ -136,6 +132,7 @@ public class FXMLDocumentController implements Initializable {
                 enableButtons();
                 newLogic = DataAccessor.createLogic();
             }
+            assert newLogic != null;
             newLogic.generateGraph();
             drawGraph();
             if (newLogic instanceof ChineseLogic) {
@@ -150,14 +147,6 @@ public class FXMLDocumentController implements Initializable {
         DataAccessor.setLoadedData(true);
     }
 
-    //ustawienie mrówek losowo
-    @FXML
-    private void antsRandomButton(ActionEvent t) {
-        if (DataAccessor.isLoadedData()) {
-            newLogic.initializeAntsRandom();
-        }
-    }
-
     //wykonanie jednego wyboru kolejnej krawędzi przez mrówkę
     @FXML
     private void antsOneStep(ActionEvent t) {
@@ -166,7 +155,6 @@ public class FXMLDocumentController implements Initializable {
                 newLogic.initializeAntsRandom();
                 showStepStats();
             } else if (newLogic.stepToNextVertice()) {
-                List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
                 newLogic.initializeAntsRandom();
                 colorEdges();
                 showStepStats();
@@ -186,7 +174,6 @@ public class FXMLDocumentController implements Initializable {
             DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
             newLogic.performOneIteration();
         }
-        List<List<Attribute>> reducts = DataAccessor.getListOfReducts();
         colorEdges();
         showIterationStats();
     }
@@ -206,14 +193,11 @@ public class FXMLDocumentController implements Initializable {
                             //Background work
                             final CountDownLatch latch = new CountDownLatch(1);
                             Platform.runLater(() -> {
-                                try {
-                                    DataAccessor.setCalculationMode(SINGLE_ITERATION);
-                                    colorEdges();
-                                    showAlgorithmStats();
-                                    disableButtons();
-                                    //FX Stuff done here
-                                } finally {
-                                }
+                                DataAccessor.setCalculationMode(SINGLE_ITERATION);
+                                colorEdges();
+                                showAlgorithmStats();
+                                disableButtons();
+                                //FX Stuff done here
                             });
                             latch.await();
                             //Keep with the background work
@@ -229,19 +213,19 @@ public class FXMLDocumentController implements Initializable {
     //FUNKCJE WCZYTYWANIA INNYCH WIDOKÓW
     //ustawia separator danych (średnik albo przecinek)
     @FXML
-    public void setSeparator(ActionEvent event) throws IOException {
+    public void setSeparator() {
         showFXML(SET_SEPARATOR_FXML_RES, SET_SEPARATOR_TITLE);
     }
 
     //przechodzi do widoku ustawień algorytmu
     @FXML
-    public void programSettings(ActionEvent event) throws IOException {
+    public void programSettings() {
         showFXML(ALGORITHM_SETTINGS_FXML_RES, ALGORITHM_SETTINGS_TITLE);
     }
 
     //przechodzi do widoku edycji przykładów
     @FXML
-    public void editExamples(ActionEvent event) throws IOException {
+    public void editExamples() {
         if (DataAccessor.isLoadedData()) {
             showFXML(EDIT_EXAMPLES_FXML_RES, EDIT_EXAMPLES_TITLE);
         } else {
@@ -271,7 +255,7 @@ public class FXMLDocumentController implements Initializable {
     private void showFXML(String resource, String title) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
-            Parent root1 = (Parent) fxmlLoader.load();
+            Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.initModality(Modality.WINDOW_MODAL);
@@ -305,6 +289,7 @@ public class FXMLDocumentController implements Initializable {
         DataAccessor.parseFile();
         enableButtons();
         newLogic = DataAccessor.createLogic();
+        assert newLogic != null;
         newLogic.generateGraph();
         drawGraph();
         if (newLogic instanceof ChineseLogic) {
@@ -319,10 +304,10 @@ public class FXMLDocumentController implements Initializable {
 
     //FUNKCJE RYSOWANIA GRAFU I GŁÓWNEGO WIDOKU
     //rysuje graf w widoku
-    public void drawGraph() {
+    private void drawGraph() {
         solver.getChildren().clear();
-        labels = new ArrayList<>();
-        lines = new ArrayList<>();
+        List<Label> labels = new ArrayList<>();
+        List<Line> lines = new ArrayList<>();
         edgeLines = new HashMap<>();
         verticeLabels = new HashMap<>();
         double middleX = solver.getWidth() / ConstStrings.TWO;
@@ -379,9 +364,7 @@ public class FXMLDocumentController implements Initializable {
         }
         solver.getChildren().addAll(lines);
         solver.getChildren().addAll(labels);
-        labels.forEach((label) -> {
-            label.toFront();
-        });
+        labels.forEach(Node::toFront);
     }
 
     //połączenie między wierzchołkami (grafika)
@@ -413,7 +396,7 @@ public class FXMLDocumentController implements Initializable {
         if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
             edgeLines = DataAccessor.sortByValue(edgeLines);
         }
-        double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(c -> c.getPheromone())).getPheromone();
+        double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(Edge::getPheromone)).getPheromone();
         edgeLines.forEach((Line k, Edge v) -> {
             double value = ((max - v.getPheromone()) / (max)) * ConstStrings.RGB_MAX_VALUE;
             if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
@@ -437,12 +420,12 @@ public class FXMLDocumentController implements Initializable {
 
     //FUNKCJE OBSŁUGUJĄCE MYSZKĘ
     //obsługa kliknięcia na wierzchołek
-    EventHandler<MouseEvent> circleOnMousePressedEventHandler
+    private final EventHandler<MouseEvent> circleOnMousePressedEventHandler
             = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent t) {
             if (t.getButton() == MouseButton.SECONDARY) {
-                DataAccessor.setAnalyzedVertice(verticeLabels.get((Label) t.getSource()));
+                DataAccessor.setAnalyzedVertice(verticeLabels.get(t.getSource()));
                 showFXML(SHOW_VERTICE_FXML_RES, SHOW_VERTICE_TITLE);
             } else {
                 orgSceneX = t.getSceneX();
@@ -455,7 +438,7 @@ public class FXMLDocumentController implements Initializable {
     };
 
     //obsługa przesuwania wierzchołków poprzez myszkę
-    EventHandler<MouseEvent> circleOnMouseDraggedEventHandler
+    private final EventHandler<MouseEvent> circleOnMouseDraggedEventHandler
             = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent t) {
@@ -469,7 +452,7 @@ public class FXMLDocumentController implements Initializable {
     };
 
     //obsługa przesuwania rdzenia poprzez myszkę
-    EventHandler<MouseEvent> coreOnMouseDraggedEventHandler
+    private final EventHandler<MouseEvent> coreOnMouseDraggedEventHandler
             = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent t) {
@@ -483,10 +466,10 @@ public class FXMLDocumentController implements Initializable {
     };
 
     //obsługa kliknięcia na krawędź
-    EventHandler<MouseEvent> lineOnMouseEventHandler
+    private final EventHandler<MouseEvent> lineOnMouseEventHandler
             = (MouseEvent t) -> {
                 if (t.getButton() == MouseButton.SECONDARY) {
-                    DataAccessor.setAnalyzedEdge(edgeLines.get((Line) t.getSource()));
+                    DataAccessor.setAnalyzedEdge(edgeLines.get(t.getSource()));
                     showFXML(SHOW_EDGE_FXML_RES, SHOW_EDGE_TITLE);
                 }
             };

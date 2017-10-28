@@ -7,15 +7,10 @@ package data;
 
 import controllers.FXMLDocumentController;
 import data.graph.Ant;
-import data.graph.Edge;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,7 +24,7 @@ public abstract class Logic {
     public abstract void generateGraph();
 
     //generuje feromony na ścieżkach
-    public abstract void generateAntsPheromone();
+    protected abstract void generateAntsPheromone();
 
     //inicjalizacja mrowek na losowych pozycjach
     public void initializeAntsRandom() {
@@ -44,11 +39,9 @@ public abstract class Logic {
     }
 
     //generowanie bazowego feromonu
-    public void generateBasicPheromone() {
+    void generateBasicPheromone() {
         Random random = new Random();
-        DataAccessor.getGraph().getEdges().forEach((x) -> {
-            x.setPheromone(random.nextDouble() * ConstStrings.PERTURBATION + ConstStrings.HALF);
-        });
+        DataAccessor.getGraph().getEdges().forEach((x) -> x.setPheromone(random.nextDouble() * ConstStrings.PERTURBATION + ConstStrings.HALF));
     }
 
     //tryb znajdowania reduktu
@@ -74,9 +67,7 @@ public abstract class Logic {
         if (DataAccessor.getCurrentIter() == ConstStrings.ZERO) {
             DataAccessor.setCurrentIter(ConstStrings.ONE);
         }
-        DataAccessor.getAllAnts().forEach((ant) -> {
-            executor.execute(ant);
-        });
+        DataAccessor.getAllAnts().forEach(executor::execute);
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
@@ -99,7 +90,6 @@ public abstract class Logic {
     //tryb wykonania jednego kroku w iteracji
     public boolean stepToNextVertice() {
         DataAccessor.setCalculationMode(ConstStrings.SINGLE_STEP);
-        List<Ant> ants = DataAccessor.getAllAnts();
         if (DataAccessor.getCurrentIter() == DataAccessor.getMaxList()) {
             evaluateSubsets();
             updatePheromone();
@@ -111,9 +101,7 @@ public abstract class Logic {
         }
         ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAntsNumber());
         DataAccessor.setCurrentIter(DataAccessor.getCurrentIter() + ConstStrings.ONE);
-        DataAccessor.getAllAnts().forEach((ant) -> {
-            executor.execute(ant);
-        });
+        DataAccessor.getAllAnts().forEach(executor::execute);
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
@@ -132,12 +120,9 @@ public abstract class Logic {
     }
 
     //weryfikacja otrzymanych rozwiazan
-    public void evaluateSubsets() {
-        DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).map((ant) -> {
-            ant.getPickedAttributes().forEach((vertice) -> {
-            });
-            return ant;
-        }).forEachOrdered((_item) -> {
+    private void evaluateSubsets() {
+        DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).peek((ant) -> ant.getPickedAttributes().forEach((vertice) -> {
+        })).forEachOrdered((_item) -> {
         });
         if (DataAccessor.getCurrentReduct() == null) {
             DataAccessor.setCurrentReduct(new ArrayList<>(DataAccessor.getDataset().get(ConstStrings.ZERO).getAttributes()));
@@ -145,26 +130,15 @@ public abstract class Logic {
             DataAccessor.getCurrentReduct().remove(DataAccessor.getCurrentReduct().size() - ConstStrings.ONE);
         }
         List<Attribute> newReduct = new ArrayList<>();
-        DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().size() < DataAccessor.getMaxList())).map((ant) -> {
-            DataAccessor.setMaxList(ant.getPickedAttributes().size());
-            return ant;
-        }).map((ant) -> {
+        DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().size() < DataAccessor.getMaxList())).peek((ant) -> DataAccessor.setMaxList(ant.getPickedAttributes().size())).peek((ant) -> {
             newReduct.clear();
             DataAccessor.getCurrentReduct().clear();
-            return ant;
-        }).forEachOrdered((ant) -> {
-            ant.getPickedAttributes().stream().map((vertice) -> {
-                newReduct.add(DataAccessor.getAllAttributes().get(vertice.getIndex()));
-                return vertice;
-            }).forEachOrdered((vertice) -> {
-                DataAccessor.getCurrentReduct().add(DataAccessor.getAllAttributes().get(vertice.getIndex()));
-            });
-        });
+        }).forEachOrdered((ant) -> ant.getPickedAttributes().stream().peek((vertice) -> newReduct.add(DataAccessor.getAllAttributes().get(vertice.getIndex()))).forEachOrdered((vertice) -> {
+            DataAccessor.getCurrentReduct().add(DataAccessor.getAllAttributes().get(vertice.getIndex()));
+        }));
         //przy pierwszej iteracji aktualizacja tylko tam gdzie najmniejszy redukt zamiast wszedzie
         if (DataAccessor.getPerformedIterations() == ConstStrings.ONE) {
-            DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().size() != DataAccessor.getMaxList())).forEachOrdered((ant) -> {
-                ant.setFoundSolution(false);
-            });
+            DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().size() != DataAccessor.getMaxList())).forEachOrdered((ant) -> ant.setFoundSolution(false));
         }
         if (!newReduct.isEmpty()) {
             DataAccessor.getListOfReducts().add(newReduct);
@@ -172,40 +146,29 @@ public abstract class Logic {
     }
 
     //dodanie do listy reduktów w kolejnych iteracji reduktu z poprzedniej pętli (rozwiazanie z poprzedniej iteracji bylo lepsze)
-    public void addPreviousReduct() {
+    private void addPreviousReduct() {
         List<Attribute> newReduct = new ArrayList<>();
-        DataAccessor.getCurrentReduct().forEach((x) -> {
-            newReduct.add(x);
-        });
+        newReduct.addAll(DataAccessor.getCurrentReduct());
         DataAccessor.getListOfReducts().add(newReduct);
     }
 
     //aktualizuj feromony na ścieżkach
-    public void updatePheromone() {
-        DataAccessor.getGraph().getEdges().forEach((x) -> {
-            x.setPheromone(x.getPheromone() * (ConstStrings.ONE - DataAccessor.getPheromoneEvaporation()));
-        });
+    private void updatePheromone() {
+        DataAccessor.getGraph().getEdges().forEach((x) -> x.setPheromone(x.getPheromone() * (ConstStrings.ONE - DataAccessor.getPheromoneEvaporation())));
         DataAccessor.getAllAnts().stream().filter((y) -> (y.isFoundSolution())).forEachOrdered((y) -> {
             double contribution = (DataAccessor.getConstantForUpdating() / (double) y.getChosenEdges().size());
-            y.getChosenEdges().forEach((x) -> {
-                x.setPheromone(x.getPheromone() + contribution);
-            });
+            y.getChosenEdges().forEach((x) -> x.setPheromone(x.getPheromone() + contribution));
         });
-        List<Edge> edges = DataAccessor.getGraph().getEdges();
-        Edge d = Collections.max(edges, Comparator.comparing(c -> c.getPheromone()));
     }
 
-    public int countDecisionClasses() {
+    int countDecisionClasses() {
         DataAccessor.setDecisionValues(new ArrayList<>());
-        DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> {
-            DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue());
-        });
+        DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()));
         return DataAccessor.getDecisionValues().size();
     }
 
-    public boolean checkFruitlessSearches() {
+    private boolean checkFruitlessSearches() {
         if (DataAccessor.getListOfReducts().size() > DataAccessor.getFruitlessSearches()) {
-            List<List<Attribute>> list = DataAccessor.getListOfReducts();
             int performedIterations = DataAccessor.getPerformedIterations();
             int size = DataAccessor.getListOfReducts().get(performedIterations - ConstStrings.ONE).size();
             for (int i = 2; i < DataAccessor.getFruitlessSearches(); i++) {

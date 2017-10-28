@@ -7,13 +7,13 @@ package controllers;
 
 import data.ConstStrings;
 import data.DataAccessor;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -26,9 +26,9 @@ public class CoreIsReductFXMLController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    public TextField finalReduct;
+    private TextField finalReduct;
     @FXML
-    public TextField elapsedTime;
+    private TextField elapsedTime;
 
     private int coreSize = ConstStrings.ZERO;
 
@@ -38,15 +38,13 @@ public class CoreIsReductFXMLController implements Initializable {
             coreSize = DataAccessor.getCoreAttributes().size();
         }
         if (coreSize != ConstStrings.EMPTY_CORE) {
-            DataAccessor.getCoreAttributes().forEach((attribute) -> {
-                finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE);
-            });
+            DataAccessor.getCoreAttributes().forEach((attribute) -> finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
         }
         elapsedTime.setText(String.valueOf(DataAccessor.getElapsedTime()) + ConstStrings.SECONDS);
     }
 
     @FXML
-    public void dismiss(ActionEvent event) {
+    public void dismiss() {
         Stage stage = (Stage) finalReduct.getScene().getWindow();
         stage.close();
     }

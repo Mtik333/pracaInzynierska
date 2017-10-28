@@ -6,16 +6,13 @@
 package data.graph;
 
 import data.ConstStrings;
-import static data.ConstStrings.SINGLE_STEP;
 import data.DataAccessor;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
+import static data.ConstStrings.SINGLE_STEP;
 
 /**
  *
@@ -23,7 +20,7 @@ import java.util.Map;
  */
 public class ChineseAnt extends Ant {
 
-    private Map<Vertice, Double> heuristicValues; //informacja heurystyczna
+    private final Map<Vertice, Double> heuristicValues; //informacja heurystyczna
     private double reducedDataset;
 
     public ChineseAnt(int index) {
@@ -44,9 +41,7 @@ public class ChineseAnt extends Ant {
         currentIter = ConstStrings.ZERO;
         reducedDataset = calculateMutualInformation();
         while (currentIter < DataAccessor.getMaxList() - 1 && DataAccessor.getDatasetMutualInformation() != reducedDataset) {
-            unpickedAttributes.forEach((vertice) -> {
-                computeHeuristic(vertice, pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE));
-            });
+            unpickedAttributes.forEach(this::computeHeuristic);
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
                 probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
@@ -65,8 +60,7 @@ public class ChineseAnt extends Ant {
         foundSolution = DataAccessor.getDatasetMutualInformation() - reducedDataset == ConstStrings.ZERO;
     }
 
-    @Override
-    public double calculateSum() {
+    private double calculateSum() {
         double sumPheromone = ConstStrings.ZERO;
         this.probabilities = new HashMap<>();
         Vertice v = null;
@@ -106,17 +100,15 @@ public class ChineseAnt extends Ant {
     }
 
     private double calculateMutualInformation() {
-        List<DataObject> originalSort = DataAccessor.getDataset();
         sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE)));
         domc = new DataObjectMultipleComparator(sortByAttributes);
-        Collections.sort(sortedDataset, domc);
-        double mutualInformation = DataAccessor.getDecisionEntropy() - conditionalEntropyC();
-        return mutualInformation;
+        sortedDataset.sort(domc);
+        return DataAccessor.getDecisionEntropy() - conditionalEntropyC();
     }
 
     private double conditionalEntropyC() {
         double finalValue = ConstStrings.ZERO;
-        double singleAttrValue = ConstStrings.ZERO;
+        double singleAttrValue;
         int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
@@ -142,9 +134,7 @@ public class ChineseAnt extends Ant {
                     singleAttrValue *= (ConstStrings.MINUS_ONE) * ((double) numberOfClassInstances) / ((double) sortedDataset.size());
                     numberOfClassInstances = ConstStrings.ZERO;
                     finalValue += singleAttrValue;
-                    singleAttrValue = ConstStrings.ZERO;
                     i--;
-                    theSame = true;
                     prev = null;
                 }
             }
@@ -153,15 +143,14 @@ public class ChineseAnt extends Ant {
         if (numberOfClassInstances > ConstStrings.ONE) {
             singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
             finalValue += singleAttrValue;
-            prev = null;
         }
         return finalValue;
     }
 
     private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances) {
         double singleAttrValue = ConstStrings.ZERO;
-        for (int k = 0; k < decisionsInstances.length; k++) {
-            double probability = ((double) decisionsInstances[k]) / ((double) numberOfClassInstances);
+        for (int decisionsInstance : decisionsInstances) {
+            double probability = ((double) decisionsInstance) / ((double) numberOfClassInstances);
             if (probability == ConstStrings.ZERO) {
                 singleAttrValue += ConstStrings.ZERO;
             } else {
@@ -172,15 +161,14 @@ public class ChineseAnt extends Ant {
         return singleAttrValue;
     }
 
-    private void computeHeuristic(Vertice sk, Vertice ak) {
+    private void computeHeuristic(Vertice sk) {
         domc.sortingBy.add(sk.getIndex());
-        Collections.sort(sortedDataset, domc);
+        sortedDataset.sort(domc);
         heuristicValues.put(sk, computeSignificanceFormula15());
         domc.sortingBy.remove((Integer) sk.getIndex());
     }
 
     private double computeSignificanceFormula15() {
-        double test = (DataAccessor.getDecisionEntropy() - conditionalEntropyC()) - reducedDataset;
-        return test;
+        return (DataAccessor.getDecisionEntropy() - conditionalEntropyC()) - reducedDataset;
     }
 }

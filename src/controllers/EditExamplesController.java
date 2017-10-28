@@ -42,27 +42,23 @@ public class EditExamplesController implements Initializable {
     
     private int itemsSize = ConstStrings.ZERO;
 
-    public int getPage() {
+    private int getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    private void setPage(int page) {
         this.page = page;
     }
 
-    public int getItemsSize() {
-        return itemsSize;
-    }
-
-    public void setItemsSize(int itemsSize) {
+    private void setItemsSize(int itemsSize) {
         this.itemsSize = itemsSize;
     }
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

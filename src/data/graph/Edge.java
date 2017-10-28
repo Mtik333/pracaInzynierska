@@ -14,19 +14,12 @@ import data.ConstStrings;
 public class Edge implements Comparable<Edge> {
 
     private double pheromone; //feromon na sciezce
-    private int weight; //waga sciezki
-    private Vertice start; //wierzcholek startowy (umownie)
-    private Vertice end; //wierzcholek koncowy (umownie)
-
-    public Edge() {
-    }
+    private final int weight; //waga sciezki
+    private final Vertice start; //wierzcholek startowy (umownie)
+    private final Vertice end; //wierzcholek koncowy (umownie)
 
     public int getWeight() {
         return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
     }
 
     public double getPheromone() {
@@ -41,16 +34,8 @@ public class Edge implements Comparable<Edge> {
         return start;
     }
 
-    public void setStart(Vertice start) {
-        this.start = start;
-    }
-
     public Vertice getEnd() {
         return end;
-    }
-
-    public void setEnd(Vertice end) {
-        this.end = end;
     }
 
     public Edge(Vertice start, Vertice end) {

@@ -6,6 +6,7 @@
 package data.roughsets;
 
 import data.ConstStrings;
+
 import java.util.List;
 
 /**
@@ -14,30 +15,20 @@ import java.util.List;
  */
 public class DataObject implements Comparable<DataObject> {
 
-    private String name; //nazwa obiektu (z reguly indeks jako ciag znakow)
+    private final String name; //nazwa obiektu (z reguly indeks jako ciag znakow)
     
     private List<Attribute> attributes; //lista atrybutow
 
     @Override
     public String toString() {
         StringBuilder returnString = new StringBuilder();
-        attributes.forEach((x) -> {
-            returnString.append(x.getValue()).append(ConstStrings.COMMA_SPACE);
-        });
+        attributes.forEach((x) -> returnString.append(x.getValue()).append(ConstStrings.COMMA_SPACE));
         returnString.delete(returnString.length() - ConstStrings.TWO, returnString.length());
         returnString.append(ConstStrings.SEMICOLON_NOSPACE);
         return name + ConstStrings.COLON_SPACE + returnString.toString() + ConstStrings.NEW_LINE;
     }
 
     public DataObject(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 

@@ -223,3 +223,7 @@ More and more doubts about core-searching in specific cases.
 0.6.7 - 08.10.2017
 
 Added FEATURECORE but code needs refactoring, a lot of refactoring.
+
+0.7.0 - 28.10.2017
+
+Migrated project to IntelliJ IDE, used "Inspect code" to refactor a lot of code, but still few methods can be improved

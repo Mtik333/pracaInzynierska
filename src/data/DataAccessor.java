@@ -5,26 +5,19 @@
  */
 package data;
 
-import static data.ConstStrings.*;
 import data.graph.Ant;
 import data.graph.Edge;
 import data.graph.Graph;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+
+import java.io.*;
+import java.util.*;
+
+import static data.ConstStrings.*;
 
 /**
  *
@@ -49,7 +42,6 @@ public class DataAccessor {
     private static List<Ant> allAnts; //lista wszystkich mrówek (wątków)
     private static int currentIter = 0; //obecny krok (wewnątrz iteracji algorytmu)
     private static List<Attribute> currentReduct; //obecny redukt
-    private static String[][] indiscMatrix; //macierz rozróznialności
     private static String calculationMode = COMPUTE_REDUCT; //tryb obliczania (znajdowania reduktu, jednej iteracji, jednego kroku)
     private static List<List<Attribute>> listOfReducts; //lista reduktów
     private static int performedIterations = 0; //ile razy wykonano algorytmu
@@ -224,7 +216,7 @@ public class DataAccessor {
         return decisionMaker;
     }
 
-    public static void setDecisionMaker(int decisionMaker) {
+    private static void setDecisionMaker(int decisionMaker) {
         DataAccessor.decisionMaker = decisionMaker;
     }
 
@@ -244,7 +236,7 @@ public class DataAccessor {
         DataAccessor.file = file;
     }
 
-    public static boolean parseFile() throws FileNotFoundException, IOException {
+    public static boolean parseFile() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(getFile().getPath()));
         stringToAttribute(br.readLine().split(getSeparator()));
         if (getAllAttributes().size() == ConstStrings.ONE) {
@@ -330,14 +322,14 @@ public class DataAccessor {
     /**
      * @param aDataset the dataset to set
      */
-    public static void setDataset(List<DataObject> aDataset) {
+    private static void setDataset(List<DataObject> aDataset) {
         dataset = aDataset;
     }
 
     /**
      * @param aAllAttributes the allAttributes to set
      */
-    public static void setAllAttributes(List<Attribute> aAllAttributes) {
+    private static void setAllAttributes(List<Attribute> aAllAttributes) {
         allAttributes = aAllAttributes;
     }
 
@@ -379,14 +371,6 @@ public class DataAccessor {
         currentReduct = aCurrentReduct;
     }
 
-    public static String[][] getIndiscMatrix() {
-        return indiscMatrix;
-    }
-
-    public static void setIndiscMatrix(String[][] aIndiscMatrix) {
-        indiscMatrix = aIndiscMatrix;
-    }
-
     public static int getMaxList() {
         return maxList;
     }
@@ -411,7 +395,7 @@ public class DataAccessor {
     public static Map<Line, Edge> sortByValue(Map<Line, Edge> unsortMap) {
         List<Map.Entry<Line, Edge>> list
                 = new LinkedList<>(unsortMap.entrySet());
-        Collections.sort(list, (Map.Entry<Line, Edge> o1, Map.Entry<Line, Edge> o2) -> {
+        list.sort((Map.Entry<Line, Edge> o1, Map.Entry<Line, Edge> o2) -> {
             if (o1.getValue().getPheromone() < o2.getValue().getPheromone()) {
                 return ConstStrings.MINUS_ONE;
             } else if (o1.getValue().getPheromone() > o2.getValue().getPheromone()) {
@@ -420,9 +404,7 @@ public class DataAccessor {
             return ConstStrings.ZERO;
         });
         Map<Line, Edge> sortedMap = new LinkedHashMap<>();
-        list.forEach((entry) -> {
-            sortedMap.put(entry.getKey(), entry.getValue());
-        });
+        list.forEach((entry) -> sortedMap.put(entry.getKey(), entry.getValue()));
         return sortedMap;
     }
 
@@ -437,7 +419,6 @@ public class DataAccessor {
         setAllAnts(null);
         setCurrentIter(ConstStrings.ZERO);
         setCurrentReduct(null);
-        setIndiscMatrix(null);
         setListOfReducts(null);
         setPerformedIterations(ConstStrings.ZERO);
         setCalculatedReductInIteration(false);

@@ -9,13 +9,13 @@ import data.ConstStrings;
 import data.DataAccessor;
 import data.JensenLogic;
 import data.graph.Vertice;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -26,26 +26,22 @@ public class ShowVerticeXMLController implements Initializable {
 
     private Vertice vertice;
 
-    public Vertice getVertice() {
-        return vertice;
-    }
-
-    public void setVertice(Vertice vertice) {
+    private void setVertice(Vertice vertice) {
         this.vertice = vertice;
     }
     
     @FXML
-    public TextField verticeName;
+    private TextField verticeName;
     @FXML
-    public TextField antsAmount;
+    private TextField antsAmount;
     @FXML
-    public TextField isInReduct;
+    private TextField isInReduct;
 
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url default URL
+     * @param rb default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,7 +62,7 @@ public class ShowVerticeXMLController implements Initializable {
     }
 
     @FXML
-    public void dismiss(ActionEvent event) {
+    public void dismiss() {
         Stage stage = (Stage) verticeName.getScene().getWindow();
         this.vertice = null;
         stage.close();
