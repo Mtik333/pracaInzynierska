@@ -17,7 +17,6 @@ import java.util.HashMap;
 import static data.ConstStrings.SINGLE_STEP;
 
 /**
- *
  * @author Mateusz
  */
 public class NewAnt extends Ant {
@@ -78,7 +77,6 @@ public class NewAnt extends Ant {
     }
 
     private boolean checkIfReduct() {
-        int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
         sortByAttributes.add(DataAccessor.verticeToAttribute(pickedAttributes.get(pickedAttributes.size() - ConstStrings.ONE)));
@@ -88,7 +86,6 @@ public class NewAnt extends Ant {
             if (prev == null) {
                 Arrays.fill(decisionsInstances, ConstStrings.ZERO);
                 prev = sortedDataset.get(i);
-                numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
             } else {
                 boolean theSame = true;
@@ -99,7 +96,6 @@ public class NewAnt extends Ant {
                     }
                 }
                 if (theSame) {
-                    numberOfClassInstances++;
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
                 } else {
                     int variousClasses = ConstStrings.ZERO;
@@ -111,7 +107,6 @@ public class NewAnt extends Ant {
                     if (variousClasses != ConstStrings.ONE) {
                         return false;
                     } else {
-                        numberOfClassInstances = ConstStrings.ZERO;
                         i--;
                         prev = null;
                     }

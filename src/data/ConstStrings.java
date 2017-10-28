@@ -6,7 +6,6 @@
 package data;
 
 /**
- *
  * @author Mateusz
  */
 public class ConstStrings {
@@ -58,7 +57,7 @@ public class ConstStrings {
     public static final String ONE_REDUCT_FXML_RES = "/fxmls/OneReductFXML.fxml";
 
     public static final String ONE_REDUCT_TITLE = "Calculated reduct";
-    
+
     public static final String MAIN_DOCUMENT_FXML_RES = "/fxmls/FXMLDocument.fxml";
 
     public static final String ALERT_ERROR_TITLE_NO_DATA = "Data error";
@@ -92,78 +91,72 @@ public class ConstStrings {
     public static final String COMPUTE_REDUCT = "Compute reduct";
 
     public static final String SECONDS = " s";
-    
+
     public static final String COMMA_SPACE = ", ";
-    
+
     public static final String COMMA_NOSPACE = ",";
-    
+
     public static final String SEMICOLON_NOSPACE = ";";
-    
+
     public static final String NEW_LINE = "\n";
-    
+
     public static final String CURLY_BRACKET_CLOSE = "}";
-    
+
     public static final String COLON_SPACE = ": ";
-    
+
     public static final int EMPTY_CORE = 0;
-    
+
     public static final int ALGORITHM_DEFAULT_INDEX = 0;
-    
+
     public static final int EXAMPLES_PAGE_SIZE = 15;
-    
+
     public static final int ZERO = 0;
-    
+
     public static final int ONE = 1;
-    
+
     public static final int CIRCLE_DEGREE = 360;
-    
+
     public static final int TWO = 2;
-    
+
     public static final int LABEL_MIN_WIDTH = 100;
-    
+
     public static final int GRAPH_TRANSLATE_X = 200;
-    
+
     public static final int GRAPH_TRANSLATE_Y = 200;
-    
+
     public static final String VERTICE_DEFAULT_STYLE = "-fx-border-color:red;-fx-background-color:white";
-    
+
     public static final int VERTICE_FONT_SIZE = 18;
-    
+
     public static final int FOUR = 4;
-    
+
     public static final String CORE_PANE_DEFAULT_STYLE = "-fx-border-color:red;-fx-background-color:transparent";
-    
+
     public static final String CORE = "Core";
-    
+
     public static final String CORE_TITLE_STYLE = "-fx-border-color:white;-fx-background-color:white";
-    
+
     public static final String CORE_VERTICES_STYLE = "-fx-border-color:blue;-fx-background-color:yellow";
-    
+
     public static final int EDGE_STROKE_WIDTH = 5;
-    
+
     public static final int RGB_MAX_VALUE = 255;
-    
+
     public static final int RGB_MAX_VALUE_DIV2 = 128;
-    
+
     public static final String VERTICE_IN_REDUCT_STYLE = "-fx-background-color:#CCFF99";
-    
+
     public static final String ITERATION_VIEW_STRING = "Iteration ";
-    
+
     public static final String ANT_VIEW_STRING = "Ant ";
-    
+
     public static final String EXAMPLES_DIRECTORY_PATH = "src/examples";
-    
+
     public static final String SLASH = "/";
-    
-    public static final int THOUSAND = 1000;
-    
-    public static final double HALF = 0.5;
-    
     public static final int MINUS_ONE = -1;
-    
-    public static final double PERTURBATION = 0.01;
-    
     public static final double DOUBLE_ZERO = 0.0;
-    
     public static final String PROGRAM_NAME = "Ant algorithms";
+    static final int THOUSAND = 1000;
+    static final double HALF = 0.5;
+    static final double PERTURBATION = 0.01;
 }

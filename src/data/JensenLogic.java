@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Mateusz
  */
 public class JensenLogic extends Logic {

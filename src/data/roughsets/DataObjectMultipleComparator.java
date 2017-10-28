@@ -13,17 +13,16 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- *
  * @author Mateusz
  */
 public class DataObjectMultipleComparator implements Comparator<DataObject> {
+
+    public final List<Integer> sortingBy;
 
     public DataObjectMultipleComparator(List<Attribute> attributes) {
         sortingBy = new ArrayList<>();
         attributes.forEach((attribute) -> sortingBy.add(DataAccessor.getAllAttributes().indexOf(attribute)));
     }
-
-    public final List<Integer> sortingBy;
 
     public List<Integer> getSortingBy() {
         return sortingBy;

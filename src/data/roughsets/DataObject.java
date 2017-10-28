@@ -10,14 +10,17 @@ import data.ConstStrings;
 import java.util.List;
 
 /**
- *
  * @author Mateusz
  */
 public class DataObject implements Comparable<DataObject> {
 
     private final String name; //nazwa obiektu (z reguly indeks jako ciag znakow)
-    
+
     private List<Attribute> attributes; //lista atrybutow
+
+    public DataObject(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {
@@ -26,10 +29,6 @@ public class DataObject implements Comparable<DataObject> {
         returnString.delete(returnString.length() - ConstStrings.TWO, returnString.length());
         returnString.append(ConstStrings.SEMICOLON_NOSPACE);
         return name + ConstStrings.COLON_SPACE + returnString.toString() + ConstStrings.NEW_LINE;
-    }
-
-    public DataObject(String name) {
-        this.name = name;
     }
 
     public List<Attribute> getAttributes() {

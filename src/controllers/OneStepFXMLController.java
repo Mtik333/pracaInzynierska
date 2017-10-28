@@ -25,11 +25,6 @@ import java.util.ResourceBundle;
 public class OneStepFXMLController implements Initializable {
 
     private Ant ant;
-
-    private void setAnt(Ant ant) {
-        this.ant = ant;
-    }
-
     @FXML
     private ComboBox<String> chosenAnt;
     @FXML
@@ -39,11 +34,15 @@ public class OneStepFXMLController implements Initializable {
     @FXML
     private TextField isSolutionFound;
 
+    private void setAnt(Ant ant) {
+        this.ant = ant;
+    }
+
     /**
      * Initializes the controller class.
      *
      * @param url default URL
-     * @param rb default ResourceBundle
+     * @param rb  default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

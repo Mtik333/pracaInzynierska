@@ -9,9 +9,6 @@ import data.ConstStrings;
 import data.DataAccessor;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +16,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -39,7 +40,7 @@ public class EditExamplesController implements Initializable {
     private Button lastObjects;
 
     private int page = ConstStrings.ZERO;
-    
+
     private int itemsSize = ConstStrings.ZERO;
 
     private int getPage() {
@@ -58,7 +59,7 @@ public class EditExamplesController implements Initializable {
      * Initializes the controller class.
      *
      * @param url default URL
-     * @param rb default ResourceBundle
+     * @param rb  default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

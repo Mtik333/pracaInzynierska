@@ -14,19 +14,70 @@ import data.roughsets.DataObjectMultipleComparator;
 import java.util.*;
 
 /**
- *
  * @author Mateusz
  */
 public class ChineseLogic extends Logic {
 
+    public static boolean checkIfCoreIsReduct() {
+        if (DataAccessor.getCoreAttributes().isEmpty()) {
+            return false;
+        }
+        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
+        DataObject prev = null;
+        DataObjectMultipleComparator domc = new DataObjectMultipleComparator(DataAccessor.getCoreAttributes());
+        DataAccessor.getDataset().sort(domc);
+        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
+            if (prev == null) {
+                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
+                prev = DataAccessor.getDataset().get(i);
+                decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+            } else {
+                boolean theSame = true;
+                for (int j = 0; j < domc.getSortingBy().size(); j++) {
+                    if (!prev.getAttributes().get(domc.getSortingBy().get(j)).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(domc.getSortingBy().get(j)).getValue())) {
+                        theSame = false;
+                        break;
+                    }
+                }
+                if (theSame) {
+                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
+                } else {
+                    int variousClasses = ConstStrings.ZERO;
+                    for (int decisionsInstance : decisionsInstances) {
+                        if (decisionsInstance != ConstStrings.ZERO) {
+                            variousClasses++;
+                        }
+                    }
+                    if (variousClasses != ConstStrings.ONE) {
+                        return false;
+                    } else {
+                        i--;
+                        prev = null;
+                    }
+                }
+            }
+        }
+        int variousClasses = ConstStrings.ZERO;
+        for (int decisionsInstance : decisionsInstances) {
+            if (decisionsInstance != ConstStrings.ZERO) {
+                variousClasses++;
+            }
+        }
+        if (variousClasses != ConstStrings.ONE) {
+            return false;
+        }
+        Collections.sort(DataAccessor.getDataset());
+        DataAccessor.setCalculatedReductInIteration(true);
+        return true;
+    }
+
     @Override
     public void generateGraph() {
         long startTime = new Date().getTime();
-        coreCT2();
-        long stopTime = new Date().getTime();
-        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
         calculateMutualInformation();
         featureCore();
+        long stopTime = new Date().getTime();
+        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
         List<Vertice> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {
@@ -58,79 +109,9 @@ public class ChineseLogic extends Logic {
         DataAccessor.setAllAnts(newAnts);
     }
 
-    //zlicza ilosc konfliktow (w klasie)
-    private int countConflictsRow(int[] ctRow) {
-        double initialValue = Math.pow(Arrays.stream(ctRow).sum(), ConstStrings.TWO);
-        for (int value : ctRow) {
-            initialValue = initialValue - Math.pow(value, ConstStrings.TWO);
-        }
-        initialValue = initialValue * ConstStrings.HALF;
-        return (int) initialValue;
-    }
-
-    //zlicza ilosc konfliktow ogolem
-    private int countConflictsTotal(int[] ctTotal) {
-        double finalValue = Math.pow(Arrays.stream(ctTotal).sum(), ConstStrings.TWO);
-        for (int value : ctTotal) {
-            finalValue = finalValue - Math.pow(value, ConstStrings.TWO);
-        }
-        finalValue = finalValue * ConstStrings.HALF;
-        return (int) finalValue;
-    }
-
-    //caly algorytm CT
-    private void coreCT2() {
-        List<Attribute> foundCore = new ArrayList<>();
-        int decisionClasses = countDecisionClasses();
-        for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {
-            int[] ctRow = new int[decisionClasses];
-            int[] ctTotal = new int[decisionClasses];
-            int confs = ConstStrings.ZERO;
-            DataObject prev = null;
-            boolean difference = false;
-            DataAccessor.getDataset().sort(new DataObjectComparator(i));
-            for (int k = 0; k < DataAccessor.getDataset().size(); k++) {
-                for (int j = 0; j < DataAccessor.getDataset().get(0).getAttributes().size() - 1; j++) {
-                    if (j != i) {
-                        if (prev != null) {
-                            if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(k).getAttributes().get(j).getValue())) {
-                                difference = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (!difference) {
-                    ctTotal[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(k).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                    ctRow[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(k).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                    prev = DataAccessor.getDataset().get(k);
-                } else {
-                    int confsRow = countConflictsRow(ctRow);
-                    confs = confs + confsRow;
-                    Arrays.fill(ctRow, ConstStrings.ZERO);
-                    difference = false;
-                    prev = null;
-                    k--;
-                }
-            }
-            int discdA = countConflictsTotal(ctTotal);
-            int discdAminus = discdA - confs;
-            if (discdAminus < discdA) {
-                foundCore.add(DataAccessor.getAllAttributes().get(i));
-            }
-        }
-        foundCore.forEach((a) -> {
-        });
-        if (foundCore.size() == DataAccessor.getAllAttributes().size() - ConstStrings.ONE) {
-            DataAccessor.setCoreAttributes(new ArrayList<>());
-        } else {
-            DataAccessor.setCoreAttributes(foundCore);
-        }
-        Collections.sort(DataAccessor.getDataset());
-    }
-
     //FUNKCJE DO LICZENIA ENTROPII
     private void calculateMutualInformation() {
+        countDecisionClasses();
         DataAccessor.setDatasetMutualInformation(informationEntropyD() - conditionalEntropyC());
     }
 
@@ -204,68 +185,11 @@ public class ChineseLogic extends Logic {
         return singleAttrValue;
     }
 
-    public static boolean checkIfCoreIsReduct() {
-        if (DataAccessor.getCoreAttributes().isEmpty()) {
-            return false;
-        }
-        int numberOfClassInstances = ConstStrings.ZERO;
-        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
-        DataObject prev = null;
-        DataObjectMultipleComparator domc = new DataObjectMultipleComparator(DataAccessor.getCoreAttributes());
-        DataAccessor.getDataset().sort(domc);
-        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
-            if (prev == null) {
-                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
-                prev = DataAccessor.getDataset().get(i);
-                numberOfClassInstances++;
-                decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-            } else {
-                boolean theSame = true;
-                for (int j = 0; j < domc.getSortingBy().size(); j++) {
-                    if (!prev.getAttributes().get(domc.getSortingBy().get(j)).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(domc.getSortingBy().get(j)).getValue())) {
-                        theSame = false;
-                        break;
-                    }
-                }
-                if (theSame) {
-                    numberOfClassInstances++;
-                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                } else {
-                    int variousClasses = ConstStrings.ZERO;
-                    for (int decisionsInstance : decisionsInstances) {
-                        if (decisionsInstance != ConstStrings.ZERO) {
-                            variousClasses++;
-                        }
-                    }
-                    if (variousClasses != ConstStrings.ONE) {
-                        return false;
-                    } else {
-                        numberOfClassInstances = ConstStrings.ZERO;
-                        i--;
-                        prev = null;
-                    }
-                }
-            }
-        }
-        int variousClasses = ConstStrings.ZERO;
-        for (int decisionsInstance : decisionsInstances) {
-            if (decisionsInstance != ConstStrings.ZERO) {
-                variousClasses++;
-            }
-        }
-        if (variousClasses != ConstStrings.ONE) {
-            return false;
-        }
-        Collections.sort(DataAccessor.getDataset());
-        DataAccessor.setCalculatedReductInIteration(true);
-        return true;
-    }
-
-    private void featureCore(){
+    private void featureCore() {
         List<Attribute> chineseCore = new ArrayList<>();
         double test = DataAccessor.getDatasetMutualInformation();
-        for (int i=0; i<DataAccessor.getAllAttributes().size(); i++){
-            if (mutualInformationWithoutAttr(DataAccessor.getAllAttributes().get(i), i)<test){
+        for (int i = 0; i < DataAccessor.getAllAttributes().size(); i++) {
+            if (mutualInformationWithoutAttr(DataAccessor.getAllAttributes().get(i), i) < test) {
                 chineseCore.add(DataAccessor.getAllAttributes().get(i));
             }
         }
@@ -276,11 +200,11 @@ public class ChineseLogic extends Logic {
         }
         Collections.sort(DataAccessor.getDataset());
     }
-    
-    private double mutualInformationWithoutAttr(Attribute attribute, int i){
-        return DataAccessor.getDecisionEntropy()-conditionalEntropyCWithoutAttribute(attribute, i);
+
+    private double mutualInformationWithoutAttr(Attribute attribute, int i) {
+        return DataAccessor.getDecisionEntropy() - conditionalEntropyCWithoutAttribute(attribute, i);
     }
-    
+
     private double conditionalEntropyCWithoutAttribute(Attribute attribute, int index) {
         double finalValue = ConstStrings.ZERO;
         double singleAttrValue;
@@ -297,7 +221,7 @@ public class ChineseLogic extends Logic {
             } else {
                 boolean theSame = true;
                 for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
-                    if (!prev.getAttributes().get(j).getName().equals(attribute.getName())){
+                    if (!prev.getAttributes().get(j).getName().equals(attribute.getName())) {
                         if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
                             theSame = false;
                             break;
@@ -322,9 +246,9 @@ public class ChineseLogic extends Logic {
             singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
             finalValue += singleAttrValue;
         }
-        if (finalValue<0)
-            finalValue*=-1;
+        if (finalValue < 0)
+            finalValue *= -1;
         return finalValue;
     }
-    
+
 }

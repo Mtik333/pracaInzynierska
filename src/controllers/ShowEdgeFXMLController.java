@@ -23,11 +23,6 @@ import java.util.ResourceBundle;
 public class ShowEdgeFXMLController implements Initializable {
 
     private Edge edge;
-
-    private void setEdge(Edge edge) {
-        this.edge = edge;
-    }
-    
     @FXML
     private TextField weightAmount;
     @FXML
@@ -37,11 +32,15 @@ public class ShowEdgeFXMLController implements Initializable {
     @FXML
     private TextField pheromoneAmount;
 
+    private void setEdge(Edge edge) {
+        this.edge = edge;
+    }
+
     /**
      * Initializes the controller class.
      *
      * @param url default URL
-     * @param rb default ResourceBundle
+     * @param rb  default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

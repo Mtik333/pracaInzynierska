@@ -8,15 +8,21 @@ package data.graph;
 import data.ConstStrings;
 
 /**
- *
  * @author Mateusz
  */
 public class Edge implements Comparable<Edge> {
 
-    private double pheromone; //feromon na sciezce
     private final int weight; //waga sciezki
     private final Vertice start; //wierzcholek startowy (umownie)
     private final Vertice end; //wierzcholek koncowy (umownie)
+    private double pheromone; //feromon na sciezce
+
+    public Edge(Vertice start, Vertice end) {
+        this.start = start;
+        this.end = end;
+        this.pheromone = ConstStrings.ZERO;
+        this.weight = ConstStrings.ONE;
+    }
 
     public int getWeight() {
         return weight;
@@ -36,13 +42,6 @@ public class Edge implements Comparable<Edge> {
 
     public Vertice getEnd() {
         return end;
-    }
-
-    public Edge(Vertice start, Vertice end) {
-        this.start = start;
-        this.end = end;
-        this.pheromone = ConstStrings.ZERO;
-        this.weight = ConstStrings.ONE;
     }
 
     @Override

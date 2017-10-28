@@ -10,7 +10,6 @@ import data.ConstStrings;
 import java.util.Comparator;
 
 /**
- *
  * @author Mateusz
  */
 public class DataObjectComparator implements Comparator<DataObject> {

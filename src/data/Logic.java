@@ -10,15 +10,28 @@ import data.graph.Ant;
 import data.graph.Vertice;
 import data.roughsets.Attribute;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
  * @author Mateusz
  */
 public abstract class Logic {
+
+    //zwraca ile mrowek znajduje sie w danym wierzcholku w danym kroku (tryb pojedynczych krokow)
+    public static int returnAntsNumberOnVertice(Vertice vertice) {
+        int i = ConstStrings.ZERO;
+        if (DataAccessor.getCalculationMode().equals(ConstStrings.SINGLE_STEP)) {
+            if (DataAccessor.getAllAnts() != null) {
+                i = DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().get(DataAccessor.getCurrentIter() - ConstStrings.ONE).equals(vertice))).map((_item) -> ConstStrings.ONE).reduce(i, Integer::sum);
+            }
+        }
+        return i;
+    }
 
     //generuje graf (wierzchołki i krawędzi)
     public abstract void generateGraph();
@@ -108,17 +121,6 @@ public abstract class Logic {
         return false;
     }
 
-    //zwraca ile mrowek znajduje sie w danym wierzcholku w danym kroku (tryb pojedynczych krokow)
-    public static int returnAntsNumberOnVertice(Vertice vertice) {
-        int i = ConstStrings.ZERO;
-        if (DataAccessor.getCalculationMode().equals(ConstStrings.SINGLE_STEP)) {
-            if (DataAccessor.getAllAnts() != null) {
-                i = DataAccessor.getAllAnts().stream().filter((ant) -> (ant.getPickedAttributes().get(DataAccessor.getCurrentIter() - ConstStrings.ONE).equals(vertice))).map((_item) -> ConstStrings.ONE).reduce(i, Integer::sum);
-            }
-        }
-        return i;
-    }
-
     //weryfikacja otrzymanych rozwiazan
     private void evaluateSubsets() {
         DataAccessor.getAllAnts().stream().filter((ant) -> (ant.isFoundSolution())).peek((ant) -> ant.getPickedAttributes().forEach((vertice) -> {
@@ -161,10 +163,10 @@ public abstract class Logic {
         });
     }
 
-    int countDecisionClasses() {
+    void countDecisionClasses() {
         DataAccessor.setDecisionValues(new ArrayList<>());
         DataAccessor.getDataset().stream().filter((dataObject) -> (!DataAccessor.getDecisionValues().contains(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()))).forEachOrdered((dataObject) -> DataAccessor.getDecisionValues().add(dataObject.getAttributes().get(DataAccessor.getDecisionMaker()).getValue()));
-        return DataAccessor.getDecisionValues().size();
+        DataAccessor.getDecisionValues().size();
     }
 
     private boolean checkFruitlessSearches() {

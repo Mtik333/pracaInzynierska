@@ -6,13 +6,12 @@
 package data.graph;
 
 /**
- *
  * @author Mateusz
  */
 public class Vertice {
 
     private final String name; //nazwa cechy
-    
+
     private final int index; //indeks
 
     public Vertice(String name, int index) {

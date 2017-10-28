@@ -2,11 +2,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" xmlns="http://javafx.com/javafx/8"
             fx:controller="controllers.FXMLDocumentController">
     <MenuBar prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#loadDataset" text="Load dataset from file"/>
+            <MenuItem mnemonicParsing="false" onAction="#openDatasetDialog" text="Load dataset from file"/>
             <MenuItem mnemonicParsing="false" onAction="#loadSampleDataset" text="Load sample dataset"/>
             <MenuItem mnemonicParsing="false" onAction="#setSeparator" text="Set separator"/>
             <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#exitApp" text="Exit"/>

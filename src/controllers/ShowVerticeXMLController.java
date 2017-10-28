@@ -25,11 +25,6 @@ import java.util.ResourceBundle;
 public class ShowVerticeXMLController implements Initializable {
 
     private Vertice vertice;
-
-    private void setVertice(Vertice vertice) {
-        this.vertice = vertice;
-    }
-    
     @FXML
     private TextField verticeName;
     @FXML
@@ -37,11 +32,15 @@ public class ShowVerticeXMLController implements Initializable {
     @FXML
     private TextField isInReduct;
 
+    private void setVertice(Vertice vertice) {
+        this.vertice = vertice;
+    }
+
     /**
      * Initializes the controller class.
      *
      * @param url default URL
-     * @param rb default ResourceBundle
+     * @param rb  default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,13 +51,11 @@ public class ShowVerticeXMLController implements Initializable {
         } else {
             antsAmount.setText(String.valueOf(ConstStrings.ZERO));
         }
-        if (DataAccessor.getCurrentReduct()!=null){
-            if (DataAccessor.ifVerticeInReduct(vertice)){
+        if (DataAccessor.getCurrentReduct() != null) {
+            if (DataAccessor.ifVerticeInReduct(vertice)) {
                 isInReduct.setText(String.valueOf(true));
-            }
-            else isInReduct.setText(String.valueOf(false));
-        }
-        else isInReduct.setText(String.valueOf(false));
+            } else isInReduct.setText(String.valueOf(false));
+        } else isInReduct.setText(String.valueOf(false));
     }
 
     @FXML

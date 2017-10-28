@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfejsinżynierski;
+package interfejsinzynierski;
 
 import data.ConstStrings;
 import data.DataAccessor;
@@ -14,10 +14,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
  * @author Mateusz
  */
-public class InterfejsInżynierski extends Application {
+public class InterfejsInzynierski extends Application {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -27,13 +33,6 @@ public class InterfejsInżynierski extends Application {
         stage.setTitle(ConstStrings.PROGRAM_NAME);
         stage.setScene(scene);
         stage.show();
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 
 }

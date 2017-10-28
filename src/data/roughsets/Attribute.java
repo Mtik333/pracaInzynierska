@@ -10,7 +10,6 @@ import data.ConstStrings;
 import static data.ConstStrings.*;
 
 /**
- *
  * @author Mateusz
  */
 public class Attribute {
@@ -19,15 +18,6 @@ public class Attribute {
     private String value; //wartosc atrybutu
     private boolean decisionMaking; //czy decyzyjny
 
-    @Override
-    public String toString() {
-        if (!decisionMaking) {
-            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ConstStrings.CURLY_BRACKET_CLOSE;
-        } else {
-            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + true + ConstStrings.CURLY_BRACKET_CLOSE;
-        }
-    }
-
     public Attribute(String name) {
         this.name = name;
     }
@@ -35,6 +25,15 @@ public class Attribute {
     public Attribute(String name, String value) {
         this.name = name;
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        if (!decisionMaking) {
+            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ConstStrings.CURLY_BRACKET_CLOSE;
+        } else {
+            return ATTRIBUTE_TO_STRING + ATTRIBUTE_TO_STRING_NAME + name + ATTRIBUTE_TO_STRING_VALUE + value + ATTRIBUTE_TO_STRING_DECISIONMAKING + true + ConstStrings.CURLY_BRACKET_CLOSE;
+        }
     }
 
     /**

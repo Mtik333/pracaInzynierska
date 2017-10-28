@@ -226,4 +226,8 @@ Added FEATURECORE but code needs refactoring, a lot of refactoring.
 
 0.7.0 - 28.10.2017
 
-Migrated project to IntelliJ IDE, used "Inspect code" to refactor a lot of code, but still few methods can be improved
+Migrated project to IntelliJ IDE, used "Inspect code" to refactor a lot of code, but still few methodscan be improved
+
+0.7.1 - 28.10.2017
+
+Scrapped Core CT algorithm - it is not used anymore

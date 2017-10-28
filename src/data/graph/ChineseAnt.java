@@ -10,12 +10,14 @@ import data.DataAccessor;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static data.ConstStrings.SINGLE_STEP;
 
 /**
- *
  * @author Mateusz
  */
 public class ChineseAnt extends Ant {

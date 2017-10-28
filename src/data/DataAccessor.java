@@ -14,13 +14,15 @@ import data.roughsets.DataObject;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 import static data.ConstStrings.*;
 
 /**
- *
  * @author Mateusz
  */
 public class DataAccessor {
@@ -54,12 +56,15 @@ public class DataAccessor {
     private static String algorithmType = RSFSACO; //wybrany typ algorytmu
     private static double elapsedTime = 0; //czas znalezienia reduktu
     private static int fruitlessSearches = 5; //ilosc bezowocnych poszukiwan
+    private static int maxList;
+    private static double pheromoneEvaporation = 0.9;
+    private static Graph graph;
 
     public static double getElapsedTime() {
         return elapsedTime;
     }
 
-    public static void setElapsedTime(double elapsedTime) {
+    static void setElapsedTime(double elapsedTime) {
         DataAccessor.elapsedTime = elapsedTime;
     }
 
@@ -101,7 +106,7 @@ public class DataAccessor {
         return decisionEntropy;
     }
 
-    public static void setDecisionEntropy(double decisionEntropy) {
+    static void setDecisionEntropy(double decisionEntropy) {
         DataAccessor.decisionEntropy = decisionEntropy;
     }
 
@@ -109,7 +114,7 @@ public class DataAccessor {
         return datasetMutualInformation;
     }
 
-    public static void setDatasetMutualInformation(double datasetMutualInformation) {
+    static void setDatasetMutualInformation(double datasetMutualInformation) {
         DataAccessor.datasetMutualInformation = datasetMutualInformation;
     }
 
@@ -117,7 +122,7 @@ public class DataAccessor {
         return coreAttributes;
     }
 
-    public static void setCoreAttributes(List<Attribute> coreAttributes) {
+    static void setCoreAttributes(List<Attribute> coreAttributes) {
         DataAccessor.coreAttributes = coreAttributes;
     }
 
@@ -125,7 +130,7 @@ public class DataAccessor {
         return decisionValues;
     }
 
-    public static void setDecisionValues(List<String> decisionValues) {
+    static void setDecisionValues(List<String> decisionValues) {
         DataAccessor.decisionValues = decisionValues;
     }
 
@@ -133,7 +138,7 @@ public class DataAccessor {
         return calculatedReductInIteration;
     }
 
-    public static void setCalculatedReductInIteration(boolean calculatedReductInIteration) {
+    static void setCalculatedReductInIteration(boolean calculatedReductInIteration) {
         DataAccessor.calculatedReductInIteration = calculatedReductInIteration;
     }
 
@@ -141,7 +146,7 @@ public class DataAccessor {
         return performedIterations;
     }
 
-    public static void setPerformedIterations(int performedIterations) {
+    static void setPerformedIterations(int performedIterations) {
         DataAccessor.performedIterations = performedIterations;
     }
 
@@ -149,11 +154,9 @@ public class DataAccessor {
         return listOfReducts;
     }
 
-    public static void setListOfReducts(List<List<Attribute>> listOfReducts) {
+    static void setListOfReducts(List<List<Attribute>> listOfReducts) {
         DataAccessor.listOfReducts = listOfReducts;
     }
-    private static int maxList;
-    private static double pheromoneEvaporation = 0.9;
 
     public static double getPheromoneEvaporation() {
         return pheromoneEvaporation;
@@ -186,30 +189,59 @@ public class DataAccessor {
     public static void setAnalyzedVertice(Vertice analyzedVertice) {
         DataAccessor.analyzedVertice = analyzedVertice;
     }
-    private static Graph graph;
 
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public static void setPrimaryStage(Stage primaryStage) {
+        DataAccessor.primaryStage = primaryStage;
     }
 
     public static String getSeparator() {
         return separator;
     }
 
+    public static void setSeparator(String separator) {
+        DataAccessor.separator = separator;
+    }
+
     public static boolean isLoadedData() {
         return loadedData;
+    }
+
+    public static void setLoadedData(boolean loadedData) {
+        DataAccessor.loadedData = loadedData;
     }
 
     public static File getFile() {
         return file;
     }
 
+    public static void setFile(File file) {
+        DataAccessor.file = file;
+    }
+
     public static List<DataObject> getDataset() {
         return dataset;
     }
 
+    /**
+     * @param aDataset the dataset to set
+     */
+    private static void setDataset(List<DataObject> aDataset) {
+        dataset = aDataset;
+    }
+
     public static List<Attribute> getAllAttributes() {
         return allAttributes;
+    }
+
+    /**
+     * @param aAllAttributes the allAttributes to set
+     */
+    private static void setAllAttributes(List<Attribute> aAllAttributes) {
+        allAttributes = aAllAttributes;
     }
 
     public static int getDecisionMaker() {
@@ -218,22 +250,6 @@ public class DataAccessor {
 
     private static void setDecisionMaker(int decisionMaker) {
         DataAccessor.decisionMaker = decisionMaker;
-    }
-
-    public static void setLoadedData(boolean loadedData) {
-        DataAccessor.loadedData = loadedData;
-    }
-
-    public static void setSeparator(String separator) {
-        DataAccessor.separator = separator;
-    }
-
-    public static void setPrimaryStage(Stage primaryStage) {
-        DataAccessor.primaryStage = primaryStage;
-    }
-
-    public static void setFile(File file) {
-        DataAccessor.file = file;
     }
 
     public static boolean parseFile() throws IOException {
@@ -320,20 +336,6 @@ public class DataAccessor {
     }
 
     /**
-     * @param aDataset the dataset to set
-     */
-    private static void setDataset(List<DataObject> aDataset) {
-        dataset = aDataset;
-    }
-
-    /**
-     * @param aAllAttributes the allAttributes to set
-     */
-    private static void setAllAttributes(List<Attribute> aAllAttributes) {
-        allAttributes = aAllAttributes;
-    }
-
-    /**
      * @return the graph
      */
     public static Graph getGraph() {
@@ -351,7 +353,7 @@ public class DataAccessor {
         return allAnts;
     }
 
-    public static void setAllAnts(List<Ant> aAllAnts) {
+    static void setAllAnts(List<Ant> aAllAnts) {
         allAnts = aAllAnts;
     }
 
@@ -359,7 +361,7 @@ public class DataAccessor {
         return currentIter;
     }
 
-    public static void setCurrentIter(int aCurrentIter) {
+    static void setCurrentIter(int aCurrentIter) {
         currentIter = aCurrentIter;
     }
 
@@ -367,7 +369,7 @@ public class DataAccessor {
         return currentReduct;
     }
 
-    public static void setCurrentReduct(List<Attribute> aCurrentReduct) {
+    static void setCurrentReduct(List<Attribute> aCurrentReduct) {
         currentReduct = aCurrentReduct;
     }
 
@@ -375,7 +377,7 @@ public class DataAccessor {
         return maxList;
     }
 
-    public static void setMaxList(int aMaxList) {
+    static void setMaxList(int aMaxList) {
         maxList = aMaxList;
     }
 

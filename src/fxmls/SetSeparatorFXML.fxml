@@ -5,8 +5,8 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxWidth="600.0" prefHeight="103.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SetSeparatorFXMLController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxWidth="600.0" prefHeight="103.0" prefWidth="300.0"
+            xmlns="http://javafx.com/javafx/8" fx:controller="controllers.SetSeparatorFXMLController">
     <VBox prefHeight="103.0" prefWidth="300.0">
         <HBox prefHeight="31.0" prefWidth="280.0" VBox.vgrow="NEVER">
             <VBox.margin>

@@ -42,7 +42,7 @@ public class OneReductFXMLController implements Initializable {
      * Initializes the controller class.
      *
      * @param url default URL
-     * @param rb default ResourceBundle
+     * @param rb  default ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

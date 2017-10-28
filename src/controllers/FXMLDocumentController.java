@@ -5,6 +5,10 @@
  */
 package controllers;
 
+import controllers.events.CoreMouseDraggedHandler;
+import controllers.events.EdgeShowInfoHandler;
+import controllers.events.VerticeMouseDraggedHandler;
+import controllers.events.VerticeMousePressedHandler;
 import data.ChineseLogic;
 import data.ConstStrings;
 import data.DataAccessor;
@@ -16,7 +20,6 @@ import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,8 +31,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -50,11 +51,16 @@ import java.util.logging.Logger;
 import static data.ConstStrings.*;
 
 /**
- *
  * @author Mateusz
  */
 public class FXMLDocumentController implements Initializable {
 
+    public static Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
+    public static Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
+    private final VerticeMousePressedHandler verticeMousePressedHandler = new VerticeMousePressedHandler(this);
+    private final EdgeShowInfoHandler edgeShowInfoHandler = new EdgeShowInfoHandler(this);
+    private final VerticeMouseDraggedHandler verticeMouseDraggedHandler = new VerticeMouseDraggedHandler(this);
+    private final CoreMouseDraggedHandler coreMouseDraggedHandler = new CoreMouseDraggedHandler(this);
     @FXML
     private Button viewExamples;
     @FXML
@@ -71,13 +77,37 @@ public class FXMLDocumentController implements Initializable {
     private Button resetAlgorithm;
     @FXML
     private AnchorPane solver; //widok grafu
-    private static Map<Line, Edge> edgeLines; //zmapowanie krawedzi rzeczywistych na graficzne
-    private static Map<Label, Vertice> verticeLabels; //zmapowanie wierzcholkow rzeczywistych na graficzne
     private double orgSceneX;
     private double orgSceneY; //do przenoszenia wierzcholkow/krawedzi
     private double orgTranslateX;
     private double orgTranslateY; //do przenoszenia wierzcholkow/krawedzi
     private Logic newLogic; //logika algorytmu
+
+    public static void colorEdges() {
+        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
+            edgeLines = DataAccessor.sortByValue(edgeLines);
+        }
+        double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(Edge::getPheromone)).getPheromone();
+        edgeLines.forEach((Line k, Edge v) -> {
+            double value = ((max - v.getPheromone()) / (max)) * ConstStrings.RGB_MAX_VALUE;
+            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
+                if (value < ConstStrings.RGB_MAX_VALUE_DIV2) {
+                    k.toFront();
+                }
+            }
+            k.setStroke(Color.rgb((int) value, ConstStrings.RGB_MAX_VALUE, (int) value));
+        });
+        verticeLabels.forEach((t, u) -> {
+            if (DataAccessor.ifVerticeInReduct(u)) {
+                t.setStyle(ConstStrings.VERTICE_IN_REDUCT_STYLE);
+            } else {
+                t.setStyle(ConstStrings.VERTICE_DEFAULT_STYLE);
+            }
+            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
+                t.toFront();
+            }
+        });
+    }
 
     @FXML
     public void exitApp() {
@@ -102,7 +132,7 @@ public class FXMLDocumentController implements Initializable {
 
     //wczytuje zestaw danych z pliku
     @FXML
-    public void loadDataset() {
+    public void openDatasetDialog() {
         if (newLogic != null) {
             DataAccessor.resetValues();
         }
@@ -252,7 +282,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     //ŁADOWANIE DOWOLNEGO KONTROLERA
-    private void showFXML(String resource, String title) {
+    public void showFXML(String resource, String title) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resource));
             Parent root1 = fxmlLoader.load();
@@ -316,16 +346,7 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 0; i < DataAccessor.getGraph().getVertices().size(); i++) {
             double cosinus = Math.cos(Math.toRadians(i * degreesIncrement));
             double sinus = Math.sin(Math.toRadians(i * degreesIncrement));
-            Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
-            label.setMinWidth(ConstStrings.LABEL_MIN_WIDTH);
-            label.setAlignment(Pos.CENTER);
-            label.setTranslateX(middleX + ConstStrings.GRAPH_TRANSLATE_X * sinus);
-            label.setTranslateY(middleY + ConstStrings.GRAPH_TRANSLATE_Y * cosinus);
-            label.setStyle(ConstStrings.VERTICE_DEFAULT_STYLE);
-            label.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
-            label.setTextAlignment(TextAlignment.CENTER);
-            label.setOnMousePressed(circleOnMousePressedEventHandler);
-            label.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+            Label label = getAttributeLabel(middleX, middleY, i, cosinus, sinus);
             labels.add(label);
             verticeLabels.put(label, DataAccessor.getGraph().getVertices().get(i));
         }
@@ -350,21 +371,40 @@ public class FXMLDocumentController implements Initializable {
             core.setAlignment(Pos.CENTER);
             stackPane.getChildren().add(core);
             for (int i = 0; i < DataAccessor.getCoreAttributes().size(); i++) {
-                Label label = new Label(DataAccessor.getCoreAttributes().get(i).getName());
-                label.setMinWidth(LABEL_MIN_WIDTH);
-                label.setStyle(ConstStrings.CORE_VERTICES_STYLE);
-                label.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
-                label.setTextAlignment(TextAlignment.CENTER);
-                label.setAlignment(Pos.CENTER);
+                Label label = addCoreLabel(i);
                 stackPane.getChildren().add(label);
             }
-            stackPane.setOnMouseDragged(coreOnMouseDraggedEventHandler);
+            stackPane.setOnMouseDragged(coreMouseDraggedHandler.coreOnMouseDraggedEventHandler);
             solver.getChildren().add(stackPane);
 
         }
         solver.getChildren().addAll(lines);
         solver.getChildren().addAll(labels);
         labels.forEach(Node::toFront);
+    }
+
+    private Label getAttributeLabel(double middleX, double middleY, int i, double cosinus, double sinus) {
+        Label label = new Label(DataAccessor.getGraph().getVertices().get(i).getName());
+        label.setMinWidth(ConstStrings.LABEL_MIN_WIDTH);
+        label.setAlignment(Pos.CENTER);
+        label.setTranslateX(middleX + ConstStrings.GRAPH_TRANSLATE_X * sinus);
+        label.setTranslateY(middleY + ConstStrings.GRAPH_TRANSLATE_Y * cosinus);
+        label.setStyle(ConstStrings.VERTICE_DEFAULT_STYLE);
+        label.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setOnMousePressed(verticeMousePressedHandler.circleOnMousePressedEventHandler);
+        label.setOnMouseDragged(verticeMouseDraggedHandler.circleOnMouseDraggedEventHandler);
+        return label;
+    }
+
+    private Label addCoreLabel(int i) {
+        Label label = new Label(DataAccessor.getCoreAttributes().get(i).getName());
+        label.setMinWidth(LABEL_MIN_WIDTH);
+        label.setStyle(ConstStrings.CORE_VERTICES_STYLE);
+        label.setFont(javafx.scene.text.Font.font(ConstStrings.VERTICE_FONT_SIZE));
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setAlignment(Pos.CENTER);
+        return label;
     }
 
     //połączenie między wierzchołkami (grafika)
@@ -388,89 +428,39 @@ public class FXMLDocumentController implements Initializable {
         }, c2.boundsInParentProperty()));
         line.setStrokeWidth(ConstStrings.EDGE_STROKE_WIDTH);
         line.toBack();
-        line.setOnMouseClicked(lineOnMouseEventHandler);
+        line.setOnMouseClicked(edgeShowInfoHandler.lineOnMouseEventHandler);
         return line;
     }
 
-    public static void colorEdges() {
-        if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
-            edgeLines = DataAccessor.sortByValue(edgeLines);
-        }
-        double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(Edge::getPheromone)).getPheromone();
-        edgeLines.forEach((Line k, Edge v) -> {
-            double value = ((max - v.getPheromone()) / (max)) * ConstStrings.RGB_MAX_VALUE;
-            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
-                if (value < ConstStrings.RGB_MAX_VALUE_DIV2) {
-                    k.toFront();
-                }
-            }
-            k.setStroke(Color.rgb((int) value, ConstStrings.RGB_MAX_VALUE, (int) value));
-        });
-        verticeLabels.forEach((t, u) -> {
-            if (DataAccessor.ifVerticeInReduct(u)) {
-                t.setStyle(ConstStrings.VERTICE_IN_REDUCT_STYLE);
-            } else {
-                t.setStyle(ConstStrings.VERTICE_DEFAULT_STYLE);
-            }
-            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
-                t.toFront();
-            }
-        });
+    public double getOrgTranslateY() {
+        return orgTranslateY;
     }
 
-    //FUNKCJE OBSŁUGUJĄCE MYSZKĘ
-    //obsługa kliknięcia na wierzchołek
-    private final EventHandler<MouseEvent> circleOnMousePressedEventHandler
-            = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent t) {
-            if (t.getButton() == MouseButton.SECONDARY) {
-                DataAccessor.setAnalyzedVertice(verticeLabels.get(t.getSource()));
-                showFXML(SHOW_VERTICE_FXML_RES, SHOW_VERTICE_TITLE);
-            } else {
-                orgSceneX = t.getSceneX();
-                orgSceneY = t.getSceneY();
-                orgTranslateX = ((Label) (t.getSource())).getTranslateX();
-                orgTranslateY = ((Label) (t.getSource())).getTranslateY();
-                ((Label) (t.getSource())).toFront();
-            }
-        }
-    };
+    public void setOrgTranslateY(double orgTranslateY) {
+        this.orgTranslateY = orgTranslateY;
+    }
 
-    //obsługa przesuwania wierzchołków poprzez myszkę
-    private final EventHandler<MouseEvent> circleOnMouseDraggedEventHandler
-            = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent t) {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-            double newTranslateX = orgTranslateX + offsetX;
-            double newTranslateY = orgTranslateY + offsetY;
-            ((Label) (t.getSource())).setTranslateX(newTranslateX);
-            ((Label) (t.getSource())).setTranslateY(newTranslateY);
-        }
-    };
+    public double getOrgTranslateX() {
+        return orgTranslateX;
+    }
 
-    //obsługa przesuwania rdzenia poprzez myszkę
-    private final EventHandler<MouseEvent> coreOnMouseDraggedEventHandler
-            = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent t) {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-            double newTranslateX = orgTranslateX + offsetX;
-            double newTranslateY = orgTranslateY + offsetY;
-            ((VBox) (t.getSource())).setTranslateX(newTranslateX);
-            ((VBox) (t.getSource())).setTranslateY(newTranslateY);
-        }
-    };
+    public void setOrgTranslateX(double orgTranslateX) {
+        this.orgTranslateX = orgTranslateX;
+    }
 
-    //obsługa kliknięcia na krawędź
-    private final EventHandler<MouseEvent> lineOnMouseEventHandler
-            = (MouseEvent t) -> {
-                if (t.getButton() == MouseButton.SECONDARY) {
-                    DataAccessor.setAnalyzedEdge(edgeLines.get(t.getSource()));
-                    showFXML(SHOW_EDGE_FXML_RES, SHOW_EDGE_TITLE);
-                }
-            };
+    public double getOrgSceneX() {
+        return orgSceneX;
+    }
+
+    public void setOrgSceneX(double orgSceneX) {
+        this.orgSceneX = orgSceneX;
+    }
+
+    public double getOrgSceneY() {
+        return orgSceneY;
+    }
+
+    public void setOrgSceneY(double orgSceneY) {
+        this.orgSceneY = orgSceneY;
+    }
 }
