@@ -10,7 +10,6 @@ import data.DataAccessor;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -78,7 +77,7 @@ public class EditExamplesController implements Initializable {
     }
 
     @FXML
-    private void firstObjects(ActionEvent event) {
+    private void firstObjects() {
         setPage(ConstStrings.ZERO);
         datasetTable.getItems().clear();
         datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, ((ConstStrings.ONE + getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE - ConstStrings.ONE)));
@@ -89,7 +88,7 @@ public class EditExamplesController implements Initializable {
     }
 
     @FXML
-    private void previousObjects(ActionEvent event) {
+    private void previousObjects() {
         setPage(--page);
         datasetTable.getItems().clear();
         datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, ((ConstStrings.ONE + getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE - ConstStrings.ONE)));
@@ -102,7 +101,7 @@ public class EditExamplesController implements Initializable {
     }
 
     @FXML
-    private void nextObjects(ActionEvent event) {
+    private void nextObjects() {
         setPage(++page);
         datasetTable.getItems().clear();
         if (getPage() == (itemsSize / ConstStrings.EXAMPLES_PAGE_SIZE)) {
@@ -117,7 +116,7 @@ public class EditExamplesController implements Initializable {
     }
 
     @FXML
-    private void lastObjects(ActionEvent event) {
+    private void lastObjects() {
         setPage(itemsSize / ConstStrings.EXAMPLES_PAGE_SIZE);
         datasetTable.getItems().clear();
         datasetTable.getItems().setAll(DataAccessor.getDataset().subList((getPage()) * ConstStrings.EXAMPLES_PAGE_SIZE, itemsSize - ConstStrings.ONE));

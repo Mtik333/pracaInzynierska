@@ -18,27 +18,22 @@
             <MenuItem mnemonicParsing="false" text="About"/>
         </Menu>
     </MenuBar>
-    <HBox alignment="TOP_CENTER" layoutY="25.0" maxHeight="1.7976931348623157E308">
+    <HBox alignment="TOP_CENTER" layoutY="25.0" maxHeight="1.7976931348623157E308" prefWidth="900.0">
         <Button fx:id="viewExamples" disable="true" mnemonicParsing="false" onAction="#editExamples"
-                prefHeight="66.0" prefWidth="150.0" text="View dataset in a table view" textAlignment="CENTER"
-                wrapText="true" HBox.hgrow="ALWAYS"/>
-        <Button fx:id="manualAnts" disable="true" layoutX="330.0" layoutY="10.0" mnemonicParsing="false"
-                prefHeight="66.0" prefWidth="150.0" text="Initialize ants (manually)" textAlignment="CENTER"
+                prefHeight="66.0" prefWidth="180.0" text="View dataset in a table view" textAlignment="CENTER"
                 wrapText="true" HBox.hgrow="ALWAYS"/>
         <Button fx:id="nextEdge" disable="true" layoutX="170.0" layoutY="10.0" mnemonicParsing="false"
-                onAction="#antsOneStep" prefHeight="66.0" prefWidth="150.0"
+                onAction="#antsOneStep" prefHeight="66.0" prefWidth="180.0"
                 text="Step to next edge selection in single iteration" textAlignment="CENTER" wrapText="true"
                 HBox.hgrow="ALWAYS"/>
         <Button fx:id="singleIteration" disable="true" layoutX="490.0" layoutY="10.0" mnemonicParsing="false"
-                onAction="#antsOneIteration" prefHeight="66.0" prefWidth="150.0" text="Compute single iteration"
+                onAction="#antsOneIteration" prefHeight="66.0" prefWidth="180.0" text="Compute single iteration"
                 textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS"/>
         <Button fx:id="singleReduct" disable="true" mnemonicParsing="false" onAction="#antsFindReduct"
-                prefHeight="66.0" prefWidth="150.0" text="Compute reduct" textAlignment="CENTER" wrapText="true"
+                prefHeight="66.0" prefWidth="180.0" text="Compute reduct" textAlignment="CENTER" wrapText="true"
                 HBox.hgrow="ALWAYS"/>
-        <Button fx:id="showStatistics" disable="true" mnemonicParsing="false" prefHeight="66.0" prefWidth="150.0"
-                text="Show statistics" HBox.hgrow="ALWAYS"/>
         <Button fx:id="resetAlgorithm" disable="true" layoutX="760.0" layoutY="10.0" mnemonicParsing="false"
-                onAction="#resetAlgorithm" prefHeight="66.0" prefWidth="150.0" text="Reset algorithm"/>
+                onAction="#resetAlgorithm" prefHeight="66.0" prefWidth="180.0" text="Reset algorithm"/>
     </HBox>
     <TabPane fx:id="tabPane" layoutX="-30.0" layoutY="86.0" prefHeight="514.0" tabClosingPolicy="UNAVAILABLE"
              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

@@ -46,9 +46,7 @@ public class ChineseAnt extends Ant {
             unpickedAttributes.forEach(this::computeHeuristic);
             double pheromoneSum = calculateSum();
             for (int i = 0; i < probabilities.size(); i++) {
-                probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> {
-                    return u / pheromoneSum; //To change body of generated lambdas, choose Tools | Templates.
-                });
+                probabilities.computeIfPresent(unpickedAttributes.get(i), (t, u) -> u / pheromoneSum);
             }
             pickedAttributes.add(pickVerticeByProbability());
             reducedDataset = calculateMutualInformation();

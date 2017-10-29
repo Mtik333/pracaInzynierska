@@ -214,7 +214,7 @@ Restored "View dataset" functionality with additional buttons to navigate to pre
 
 0.6.5 - 24.09.2017
 
-Second refactorization of the code, especially removing "commented methods"
+Second refactor of the code, especially removing "commented methods"
 
 0.6.6 - 06.10.2017
 
@@ -226,8 +226,12 @@ Added FEATURECORE but code needs refactoring, a lot of refactoring.
 
 0.7.0 - 28.10.2017
 
-Migrated project to IntelliJ IDE, used "Inspect code" to refactor a lot of code, but still few methodscan be improved
+Migrated project to IntelliJ IDE, used "Inspect code" to refactor a lot of code, but still few methods can be improved
 
 0.7.1 - 28.10.2017
 
 Scrapped Core CT algorithm - it is not used anymore
+
+0.7.2 - 29.10.2017
+
+Refactored code associated with logic, especially calculating conditional entropy

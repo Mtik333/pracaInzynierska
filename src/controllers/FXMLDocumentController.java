@@ -19,7 +19,6 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -64,15 +63,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button viewExamples;
     @FXML
-    private Button manualAnts;
-    @FXML
     private Button nextEdge;
     @FXML
     private Button singleIteration;
     @FXML
     private Button singleReduct;
-    @FXML
-    private Button showStatistics;
     @FXML
     private Button resetAlgorithm;
     @FXML
@@ -179,7 +174,7 @@ public class FXMLDocumentController implements Initializable {
 
     //wykonanie jednego wyboru kolejnej krawędzi przez mrówkę
     @FXML
-    private void antsOneStep(ActionEvent t) {
+    private void antsOneStep() {
         if (DataAccessor.isLoadedData()) {
             if (DataAccessor.getAllAnts() == null || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
@@ -196,7 +191,7 @@ public class FXMLDocumentController implements Initializable {
 
     //wykonanie jednej iteracji algorytmu
     @FXML
-    private void antsOneIteration(ActionEvent t) {
+    private void antsOneIteration() {
         if (DataAccessor.isLoadedData()) {
             if (DataAccessor.getCurrentIter() == ConstStrings.ZERO || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
@@ -210,7 +205,7 @@ public class FXMLDocumentController implements Initializable {
 
     //znalezienie reduktu przez wykonanie określonej liczby iteracji algorytmu
     @FXML
-    private void antsFindReduct(ActionEvent t) {
+    private void antsFindReduct() {
         if (DataAccessor.isLoadedData()) {
             DataAccessor.setCalculationMode(ConstStrings.COMPUTE_REDUCT);
             Service<Void> service = new Service<Void>() {
@@ -305,8 +300,6 @@ public class FXMLDocumentController implements Initializable {
 
     private void enableButtons() {
         viewExamples.setDisable(false);
-        manualAnts.setDisable(false);
-        showStatistics.setDisable(false);
         nextEdge.setDisable(false);
         singleIteration.setDisable(false);
         singleReduct.setDisable(false);

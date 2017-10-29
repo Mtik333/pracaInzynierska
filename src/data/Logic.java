@@ -6,8 +6,7 @@
 package data;
 
 import controllers.FXMLDocumentController;
-import data.graph.Ant;
-import data.graph.Vertice;
+import data.graph.*;
 import data.roughsets.Attribute;
 
 import java.util.ArrayList;
@@ -37,7 +36,25 @@ public abstract class Logic {
     public abstract void generateGraph();
 
     //generuje feromony na ścieżkach
-    protected abstract void generateAntsPheromone();
+    private void generateAntsPheromone() {
+        if (DataAccessor.getCurrentReduct() == null) {
+            generateBasicPheromone();
+        }
+        List<Ant> newAnts = new ArrayList<>();
+        for (int i = 0; i < DataAccessor.getAntsNumber(); i++) {
+            Ant ant = generateSingleAnt(i);
+            ant.initLists(DataAccessor.getGraph().getVertices());
+            newAnts.add(ant);
+        }
+        DataAccessor.setAllAnts(newAnts);
+    }
+
+    private Ant generateSingleAnt(int i) {
+        if (this instanceof JensenLogic) {
+            return new NewAnt(i);
+        } else return new ChineseAnt(i);
+    }
+
 
     //inicjalizacja mrowek na losowych pozycjach
     public void initializeAntsRandom() {
@@ -52,7 +69,7 @@ public abstract class Logic {
     }
 
     //generowanie bazowego feromonu
-    void generateBasicPheromone() {
+    private void generateBasicPheromone() {
         Random random = new Random();
         DataAccessor.getGraph().getEdges().forEach((x) -> x.setPheromone(random.nextDouble() * ConstStrings.PERTURBATION + ConstStrings.HALF));
     }
@@ -182,5 +199,16 @@ public abstract class Logic {
         } else {
             return false;
         }
+    }
+
+    void generateEdges(List<Vertice> vertices, List<Edge> edges) {
+        for (int i = 0; i < vertices.size(); i++) {
+            for (int j = i + 1; j < vertices.size(); j++) {
+                edges.add(new Edge(vertices.get(i), vertices.get(j))); //graf pelny, wiec krawdzie miedzy kazdymi wierzcholkami
+            }
+        }
+        DataAccessor.setGraph(new Graph(vertices, edges));
+        DataAccessor.setAntsNumber(vertices.size() / ConstStrings.TWO);
+        DataAccessor.setMaxList(vertices.size());
     }
 }

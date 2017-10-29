@@ -5,7 +5,8 @@
  */
 package data;
 
-import data.graph.*;
+import data.graph.Edge;
+import data.graph.Vertice;
 import data.roughsets.Attribute;
 import data.roughsets.DataObject;
 import data.roughsets.DataObjectComparator;
@@ -85,34 +86,13 @@ public class ChineseLogic extends Logic {
                 vertices.add(new Vertice(DataAccessor.getAllAttributes().get(i).getName(), i));
             }
         }
-        for (int i = 0; i < vertices.size(); i++) {
-            for (int j = i + 1; j < vertices.size(); j++) {
-                edges.add(new Edge(vertices.get(i), vertices.get(j))); //graf pelny, wiec krawdzie miedzy kazdymi wierzcholkami
-            }
-        }
-        DataAccessor.setGraph(new Graph(vertices, edges));
-        DataAccessor.setAntsNumber(vertices.size() / ConstStrings.TWO);
-        DataAccessor.setMaxList(vertices.size());
-    }
-
-    @Override
-    public void generateAntsPheromone() {
-        if (DataAccessor.getCurrentReduct() == null) {
-            generateBasicPheromone();
-        }
-        List<Ant> newAnts = new ArrayList<>();
-        for (int i = 0; i < DataAccessor.getAntsNumber(); i++) {
-            ChineseAnt ant = new ChineseAnt(i);
-            ant.initLists(DataAccessor.getGraph().getVertices());
-            newAnts.add(ant);
-        }
-        DataAccessor.setAllAnts(newAnts);
+        generateEdges(vertices, edges);
     }
 
     //FUNKCJE DO LICZENIA ENTROPII
     private void calculateMutualInformation() {
         countDecisionClasses();
-        DataAccessor.setDatasetMutualInformation(informationEntropyD() - conditionalEntropyC());
+        DataAccessor.setDatasetMutualInformation(informationEntropyD() - universalConditionalEntropyC(null, -1));
     }
 
     private double informationEntropyD() {
@@ -126,49 +106,6 @@ public class ChineseLogic extends Logic {
         }
         DataAccessor.setDecisionEntropy(value);
         return value;
-    }
-
-    private double conditionalEntropyC() {
-        double finalValue = ConstStrings.ZERO;
-        double singleAttrValue;
-        int numberOfClassInstances = ConstStrings.ZERO;
-        int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
-        DataObjectMultipleComparator domc = new DataObjectMultipleComparator(DataAccessor.getAllAttributes());
-        DataAccessor.getDataset().sort(domc);
-        DataObject prev = null;
-        for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
-            if (prev == null) {
-                Arrays.fill(decisionsInstances, ConstStrings.ZERO);
-                prev = DataAccessor.getDataset().get(i);
-                numberOfClassInstances++;
-                decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-            } else {
-                boolean theSame = true;
-                for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
-                    if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
-                        theSame = false;
-                        break;
-                    }
-                }
-                if (theSame) {
-                    numberOfClassInstances++;
-                    decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
-                } else {
-                    singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-                    singleAttrValue *= (ConstStrings.MINUS_ONE) * ((double) numberOfClassInstances) / ((double) DataAccessor.getDataset().size());
-                    numberOfClassInstances = ConstStrings.ZERO;
-                    finalValue += singleAttrValue;
-                    i--;
-                    prev = null;
-                }
-            }
-        }
-        //obliczanie ostatniego zbioru
-        if (numberOfClassInstances > ConstStrings.ONE) {
-            singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-            finalValue += singleAttrValue;
-        }
-        return finalValue;
     }
 
     private double directConditionalEntropyCalc(int[] decisionsInstances, int numberOfClassInstances) {
@@ -202,16 +139,47 @@ public class ChineseLogic extends Logic {
     }
 
     private double mutualInformationWithoutAttr(Attribute attribute, int i) {
-        return DataAccessor.getDecisionEntropy() - conditionalEntropyCWithoutAttribute(attribute, i);
+        return DataAccessor.getDecisionEntropy() - universalConditionalEntropyC(attribute, i);
     }
 
-    private double conditionalEntropyCWithoutAttribute(Attribute attribute, int index) {
+    private boolean isTheSame(DataObject prev, int i) {
+        for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
+            if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isTheSameWithoutAttribute(Attribute attribute, DataObject prev, int i) {
+        for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
+            if (!prev.getAttributes().get(j).getName().equals(attribute.getName())) {
+                if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private double getFinalValue(double finalValue, int numberOfClassInstances, int[] decisionsInstances) {
+        double singleAttrValue;
+        if (numberOfClassInstances > ConstStrings.ONE) {
+            singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
+            finalValue += singleAttrValue;
+        }
+        return finalValue;
+    }
+
+    private double universalConditionalEntropyC(Attribute attribute, int index) {
         double finalValue = ConstStrings.ZERO;
         double singleAttrValue;
         int numberOfClassInstances = ConstStrings.ZERO;
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         DataObject prev = null;
-        DataAccessor.getDataset().sort(new DataObjectComparator(index));
+        if (index == -1)
+            DataAccessor.getDataset().sort(new DataObjectMultipleComparator(DataAccessor.getAllAttributes()));
+        else DataAccessor.getDataset().sort(new DataObjectComparator(index));
         for (int i = 0; i < DataAccessor.getDataset().size(); i++) {
             if (prev == null) {
                 Arrays.fill(decisionsInstances, ConstStrings.ZERO);
@@ -219,15 +187,10 @@ public class ChineseLogic extends Logic {
                 numberOfClassInstances++;
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
             } else {
-                boolean theSame = true;
-                for (int j = 0; j < prev.getAttributes().size() - 1; j++) {
-                    if (!prev.getAttributes().get(j).getName().equals(attribute.getName())) {
-                        if (!prev.getAttributes().get(j).getValue().equals(DataAccessor.getDataset().get(i).getAttributes().get(j).getValue())) {
-                            theSame = false;
-                            break;
-                        }
-                    }
-                }
+                boolean theSame;
+                if (index == -1)
+                    theSame = isTheSame(prev, i);
+                else theSame = isTheSameWithoutAttribute(attribute, prev, i);
                 if (theSame) {
                     numberOfClassInstances++;
                     decisionsInstances[DataAccessor.getDecisionValues().indexOf(DataAccessor.getDataset().get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
@@ -242,12 +205,11 @@ public class ChineseLogic extends Logic {
             }
         }
         //obliczanie ostatniego zbioru
-        if (numberOfClassInstances > ConstStrings.ONE) {
-            singleAttrValue = directConditionalEntropyCalc(decisionsInstances, numberOfClassInstances);
-            finalValue += singleAttrValue;
+        finalValue = getFinalValue(finalValue, numberOfClassInstances, decisionsInstances);
+        if (index != -1) {
+            if (finalValue < 0)
+                finalValue *= -1;
         }
-        if (finalValue < 0)
-            finalValue *= -1;
         return finalValue;
     }
 
