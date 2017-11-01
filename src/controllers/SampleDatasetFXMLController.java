@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import data.ConstStrings;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import data.DataAccessor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.net.URL;
+import java.net.*;
 import java.util.ResourceBundle;
 
 /**
@@ -34,22 +34,44 @@ public class SampleDatasetFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        File dir = new File(ConstStrings.EXAMPLES_DIRECTORY_PATH);
-        File dir_list[] = dir.listFiles();
-        if (dir_list != null) {
-            for (File child : dir_list) {
-                exampleDataset.getItems().add(child.getName());
+        URL url2 = getClass().getProtectionDomain().getCodeSource().getLocation();
+        try {
+            String path = url2.toURI().getPath();
+            if (path.contains("jar")){
+                path=path.replace("JavaFXApp.jar", "examples");
             }
+            else path=path.concat("examples");
+            System.out.println(path);
+            File file = new File(path);
+            File[] listOfFiles = file.listFiles();
+            if (listOfFiles != null) {
+                for (File child : listOfFiles) {
+                    if (child.getName().contains(".csv"))
+                        exampleDataset.getItems().add(child.getName());
+                }
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
         exampleDataset.getSelectionModel().selectFirst();
     }
 
     @FXML
-    public void loadFile() {
-        File file = new File(ConstStrings.EXAMPLES_DIRECTORY_PATH + ConstStrings.SLASH + exampleDataset.getSelectionModel().getSelectedItem());
-        DataAccessor.setFile(file);
-        Stage stage = (Stage) exampleDataset.getScene().getWindow();
-        stage.close();
+    public void loadFile() throws URISyntaxException {
+        URL url2 = getClass().getProtectionDomain().getCodeSource().getLocation();
+        try {
+            String path = url2.toURI().getPath();
+            if (path.contains("jar")){
+                path=path.replace("JavaFXApp.jar", "examples/").concat(exampleDataset.getSelectionModel().getSelectedItem());
+            }
+            else path=path.concat("examples/").concat(exampleDataset.getSelectionModel().getSelectedItem());
+            File file = new File(path);
+            DataAccessor.setFile(file);
+            Stage stage = (Stage) exampleDataset.getScene().getWindow();
+            stage.close();
+        }catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 }

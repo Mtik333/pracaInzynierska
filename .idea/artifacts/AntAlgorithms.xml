@@ -1,0 +1,31 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="AntAlgorithms">
+    <output-path>$PROJECT_DIR$/out/artifacts/AntAlgorithms</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="sample.Main" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="JavaFXApp.jar">
+        <element id="module-output" name="PracaInzynierska" />
+      </element>
+      <element id="directory" name="examples">
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/audiology.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/breast-cancer.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/c30-data-dyskretyzacja35.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/chess-king.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/coreCT.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/coreCT41.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/coteCT23.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/monks-1.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/monks-3.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/mushroom.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/vote.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/wekaExample1000.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/wine-disc5.csv" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/examples/zoo.csv" />
+      </element>
+    </root>
+  </artifact>
+</component>

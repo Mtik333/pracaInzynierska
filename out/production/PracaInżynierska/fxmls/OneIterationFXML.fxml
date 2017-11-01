@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" xmlns="http://javafx.com/javafx/8"
+            fx:controller="controllers.OneIterationFXMLController">
+    <VBox>
+        <HBox layoutX="15.0" layoutY="15.0" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label prefHeight="40.0" text="Statistics for single iteration" textAlignment="CENTER"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <HBox layoutX="10.0" layoutY="50.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="New reduct size:"/>
+            <TextField fx:id="newReductSize" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox layoutX="15.0" layoutY="115.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="Attributes in reduct:"/>
+            <TextField fx:id="reductList" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox layoutX="15.0" layoutY="165.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="Previous reduct size:"/>
+            <TextField fx:id="previousReductSize" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox layoutX="15.0" layoutY="215.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label prefHeight="40.0" prefWidth="180.0" text="Number of ants with solution:"/>
+            <TextField fx:id="foundSolutions" editable="false" prefHeight="40.0" prefWidth="220.0"/>
+        </HBox>
+        <HBox>
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Pane layoutX="90.0" layoutY="10.0" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#dismiss"
+                    prefHeight="25.0" prefWidth="70.0" text="OK">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
