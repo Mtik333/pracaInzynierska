@@ -239,3 +239,7 @@ Refactored code associated with logic, especially calculating conditional entrop
 0.7.3 - 01.11.2017
 
 Completely refactored the structure of app so it's fully openable in IntelliJ.
+
+0.7.4 - 01.11.2017
+
+Small fixes not worth mentioning

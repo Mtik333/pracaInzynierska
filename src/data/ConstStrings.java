@@ -150,9 +150,14 @@ public class ConstStrings {
 
     public static final String ANT_VIEW_STRING = "Ant ";
 
-    public static final String EXAMPLES_DIRECTORY_PATH = "src/examples";
+    public static final String CSV_EXTENSION = ".csv";
 
-    public static final String SLASH = "/";
+    public static final String JAR_NAME = "AntAlgorithms.jar";
+
+    public static final String EXAMPLES_DIR = "examples";
+
+    public static final String JAR_EXTENSION = ".jar";
+
     public static final int MINUS_ONE = -1;
     public static final double DOUBLE_ZERO = 0.0;
     public static final String PROGRAM_NAME = "Ant algorithms";

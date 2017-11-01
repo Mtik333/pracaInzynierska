@@ -175,6 +175,7 @@ public class FXMLDocumentController implements Initializable {
     //wykonanie jednego wyboru kolejnej krawędzi przez mrówkę
     @FXML
     private void antsOneStep() {
+        disableButtons();
         if (DataAccessor.isLoadedData()) {
             if (DataAccessor.getAllAnts() == null || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
@@ -187,11 +188,13 @@ public class FXMLDocumentController implements Initializable {
                 showStepStats();
             }
         }
+        enableButtons();
     }
 
     //wykonanie jednej iteracji algorytmu
     @FXML
     private void antsOneIteration() {
+        disableButtons();
         if (DataAccessor.isLoadedData()) {
             if (DataAccessor.getCurrentIter() == ConstStrings.ZERO || DataAccessor.isCalculatedReductInIteration()) {
                 newLogic.initializeAntsRandom();
@@ -201,11 +204,14 @@ public class FXMLDocumentController implements Initializable {
         }
         colorEdges();
         showIterationStats();
+        enableButtons();
     }
 
     //znalezienie reduktu przez wykonanie określonej liczby iteracji algorytmu
     @FXML
     private void antsFindReduct() {
+        disableButtons();
+        resetAlgorithm.setDisable(true);
         if (DataAccessor.isLoadedData()) {
             DataAccessor.setCalculationMode(ConstStrings.COMPUTE_REDUCT);
             Service<Void> service = new Service<Void>() {
@@ -218,6 +224,7 @@ public class FXMLDocumentController implements Initializable {
                             //Background work
                             final CountDownLatch latch = new CountDownLatch(1);
                             Platform.runLater(() -> {
+                                resetAlgorithm.setDisable(false);
                                 DataAccessor.setCalculationMode(SINGLE_ITERATION);
                                 colorEdges();
                                 showAlgorithmStats();

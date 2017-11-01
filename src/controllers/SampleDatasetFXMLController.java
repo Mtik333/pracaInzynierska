@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
+import data.ConstStrings;
 import data.DataAccessor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.net.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
@@ -36,17 +37,11 @@ public class SampleDatasetFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         URL url2 = getClass().getProtectionDomain().getCodeSource().getLocation();
         try {
-            String path = url2.toURI().getPath();
-            if (path.contains("jar")){
-                path=path.replace("JavaFXApp.jar", "examples");
-            }
-            else path=path.concat("examples");
-            System.out.println(path);
-            File file = new File(path);
+            File file = getFile(url2);
             File[] listOfFiles = file.listFiles();
             if (listOfFiles != null) {
                 for (File child : listOfFiles) {
-                    if (child.getName().contains(".csv"))
+                    if (child.getName().contains(ConstStrings.CSV_EXTENSION))
                         exampleDataset.getItems().add(child.getName());
                 }
             }
@@ -56,15 +51,24 @@ public class SampleDatasetFXMLController implements Initializable {
         exampleDataset.getSelectionModel().selectFirst();
     }
 
+    private File getFile(URL url2) throws URISyntaxException {
+        String path = url2.toURI().getPath();
+        if (path.contains(ConstStrings.JAR_EXTENSION)){
+            path=path.replace(ConstStrings.JAR_NAME, ConstStrings.EXAMPLES_DIR);
+        }
+        else path=path.concat(ConstStrings.EXAMPLES_DIR);
+        return new File(path);
+    }
+
     @FXML
-    public void loadFile() throws URISyntaxException {
+    public void loadFile() {
         URL url2 = getClass().getProtectionDomain().getCodeSource().getLocation();
         try {
             String path = url2.toURI().getPath();
-            if (path.contains("jar")){
-                path=path.replace("JavaFXApp.jar", "examples/").concat(exampleDataset.getSelectionModel().getSelectedItem());
+            if (path.contains(ConstStrings.JAR_EXTENSION)){
+                path=path.replace(ConstStrings.JAR_NAME, ConstStrings.EXAMPLES_DIR+"/").concat(exampleDataset.getSelectionModel().getSelectedItem());
             }
-            else path=path.concat("examples/").concat(exampleDataset.getSelectionModel().getSelectedItem());
+            else path=path.concat(ConstStrings.EXAMPLES_DIR+"/").concat(exampleDataset.getSelectionModel().getSelectedItem());
             File file = new File(path);
             DataAccessor.setFile(file);
             Stage stage = (Stage) exampleDataset.getScene().getWindow();
