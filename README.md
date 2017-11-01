@@ -1,4 +1,4 @@
-# pracaInzynierska
+# Finding Rough Set Reducts with Ant Colony Optimization
 First attempts on Ant Colony Optimization solving the problem of finding possibly the best reduct in dataset.
 
 0.0.1 - 29.06.2017
@@ -235,3 +235,7 @@ Scrapped Core CT algorithm - it is not used anymore
 0.7.2 - 29.10.2017
 
 Refactored code associated with logic, especially calculating conditional entropy
+
+0.7.3 - 01.11.2017
+
+Completely refactored the structure of app so it's fully openable in IntelliJ.
