@@ -6,144 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/AntAlgorithms.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/AntAlgorithms.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/PracaInzynierska.iml" afterPath="$PROJECT_DIR$/AntAlgorithms.iml" />
-      <change beforePath="$PROJECT_DIR$/README.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/AntAlgorithms.zip" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/AntAlgorithms/AntAlgorithms.jar" afterPath="$PROJECT_DIR$/out/artifacts/AntAlgorithms/AntAlgorithms.jar" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/AntAlgorithms/AntAlgorithms.jnlp" afterPath="$PROJECT_DIR$/out/artifacts/AntAlgorithms/AntAlgorithms.jnlp" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/DataAccessor.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/DataAccessor.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/audiology.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/audiology.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/breast-cancer.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/breast-cancer.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/c30-data-dyskretyzacja35.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/chess-king.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/chess-king.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/coreCT.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/coreCT41.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/coteCT23.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/monks-1.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/monks-1.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/monks-3.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/monks-3.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/mushroom.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/mushroom.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/vote.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/vote.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/wekaExample1000.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/wine-disc5.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/wine-disc5.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/examples/zoo.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/zoo.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/AlgorithmSettingsFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/CoreIsReductFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/EditExamplesController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/FXMLDocumentController$1$1.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1$1.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/FXMLDocumentController$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/FXMLDocumentController.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/OneIterationFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/OneReductFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/OneStepFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/SampleDatasetFXMLController.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/SampleDatasetFXMLController.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/SetSeparatorFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/ShowEdgeFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/ShowVerticeXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/events/CoreMouseDraggedHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/events/EdgeShowInfoHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/events/VerticeMouseDraggedHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/controllers/events/VerticeMousePressedHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/ChineseLogic.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/ConstStrings.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/ConstStrings.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/DataAccessor.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/JensenLogic.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/Logic.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/Logic.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/graph/Ant.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/graph/ChineseAnt.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/graph/Edge.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/graph/Graph.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/graph/NewAnt.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/graph/Vertice.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/roughsets/Attribute.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/roughsets/DataObject.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/roughsets/DataObjectComparator.class" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/roughsets/DataObjectComparator.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/data/roughsets/DataObjectMultipleComparator.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/audiology.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/audiology.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/breast-cancer.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/breast-cancer.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/chess-king.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/examples/chess-king.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/monks-1.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/monks-1.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/monks-3.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/monks-3.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/mushroom.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/mushroom.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/vote.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/vote.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/wine-disc5.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/wine-disc5.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/examples/zoo.csv" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/zoo.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/AlgorithmSettingsFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/CoreIsReductFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/EditExamplesFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/FXMLDocument.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/OneIterationFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/OneReductFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/OneStepFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/SampleDatasetFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/SetSeparatorFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/ShowEdgeFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/fxmls/ShowVerticeXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInzynierska/sample/Main.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/AlgorithmSettingsFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/CoreIsReductFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/EditExamplesController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/FXMLDocumentController$1$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/FXMLDocumentController$1.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/FXMLDocumentController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/OneIterationFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/OneReductFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/OneStepFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/SampleDatasetFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/SetSeparatorFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/ShowEdgeFXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/ShowVerticeXMLController.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/events/CoreMouseDraggedHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/events/EdgeShowInfoHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/events/VerticeMouseDraggedHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/controllers/events/VerticeMousePressedHandler.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/ChineseLogic.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/ConstStrings.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/DataAccessor.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/JensenLogic.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/Logic.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/graph/Ant.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/graph/ChineseAnt.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/graph/Edge.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/graph/Graph.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/graph/NewAnt.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/graph/Vertice.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/roughsets/Attribute.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/roughsets/DataObject.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/roughsets/DataObjectComparator.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/data/roughsets/DataObjectMultipleComparator.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/audiology.csv" afterPath="$PROJECT_DIR$/src/examples/audiology.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/breast-cancer.csv" afterPath="$PROJECT_DIR$/src/examples/breast-cancer.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/c30-data-dyskretyzacja35.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/chess-king.csv" afterPath="$PROJECT_DIR$/src/examples/chess-king.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/coreCT.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/coreCT41.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/coteCT23.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/monks-1.csv" afterPath="$PROJECT_DIR$/src/examples/monks-1.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/monks-3.csv" afterPath="$PROJECT_DIR$/src/examples/monks-3.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/mushroom.csv" afterPath="$PROJECT_DIR$/src/examples/mushroom.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/vote.csv" afterPath="$PROJECT_DIR$/src/examples/vote.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/wekaExample1000.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/wine-disc5.csv" afterPath="$PROJECT_DIR$/src/examples/wine-disc5.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/examples/zoo.csv" afterPath="$PROJECT_DIR$/src/examples/zoo.csv" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/AlgorithmSettingsFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/CoreIsReductFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/EditExamplesFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/FXMLDocument.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/OneIterationFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/OneReductFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/OneStepFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/SampleDatasetFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/SetSeparatorFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/ShowEdgeFXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/fxmls/ShowVerticeXML.fxml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/PracaInżynierska/sample/Main.class" afterPath="" />
-    </list>
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -271,6 +134,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -283,9 +148,7 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -458,7 +321,6 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -469,7 +331,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26172465" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2655068" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -484,6 +346,7 @@
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -506,6 +369,30 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="54" column="13" lean-forward="false" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/SampleDatasetFXMLController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="25" column="13" lean-forward="false" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
