@@ -243,3 +243,8 @@ Completely refactored the structure of app so it's fully openable in IntelliJ.
 0.7.4 - 01.11.2017
 
 Small fixes not worth mentioning
+
+0.8.0 - 07.12.2017
+
+Fixed bug with timer not being reset if core is a reduct.
+Discovered glitch caused by too many lines on the scene created by Audiology dataset.

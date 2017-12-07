@@ -53,9 +53,9 @@ public class DataAccessor {
     private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
-    private static String algorithmType = RSFSACO; //wybrany typ algorytmu
+    private static String algorithmType = JSACO; //wybrany typ algorytmu
     private static double elapsedTime = 0; //czas znalezienia reduktu
-    private static int fruitlessSearches = 5; //ilosc bezowocnych poszukiwan
+    private static int fruitlessSearches = 3; //ilosc bezowocnych poszukiwan
     private static int maxList;
     private static double pheromoneEvaporation = 0.9;
     private static Graph graph;
@@ -64,7 +64,7 @@ public class DataAccessor {
         return elapsedTime;
     }
 
-    static void setElapsedTime(double elapsedTime) {
+    public static void setElapsedTime(double elapsedTime) {
         DataAccessor.elapsedTime = elapsedTime;
     }
 

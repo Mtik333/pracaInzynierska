@@ -1,15 +1,17 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" build-on-make="true" name="AntAlgorithms">
+  <artifact type="javafx" name="AntAlgorithms">
     <output-path>$PROJECT_DIR$/out/artifacts/AntAlgorithms</output-path>
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="sample.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
       </options>
     </properties>
     <root id="root">
-      <element id="archive" name="AntAlgorithms.jar">
-        <element id="module-output" name="PracaInzynierska" />
-      </element>
       <element id="directory" name="examples">
         <element id="file-copy" path="$PROJECT_DIR$/resources/audiology.csv" />
         <element id="file-copy" path="$PROJECT_DIR$/resources/breast-cancer.csv" />
@@ -20,6 +22,9 @@
         <element id="file-copy" path="$PROJECT_DIR$/resources/vote.csv" />
         <element id="file-copy" path="$PROJECT_DIR$/resources/wine-disc5.csv" />
         <element id="file-copy" path="$PROJECT_DIR$/resources/zoo.csv" />
+      </element>
+      <element id="archive" name="AntAlgorithms.jar">
+        <element id="module-output" name="PracaInzynierska" />
       </element>
     </root>
   </artifact>

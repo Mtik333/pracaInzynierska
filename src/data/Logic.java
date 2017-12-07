@@ -166,8 +166,7 @@ public abstract class Logic {
 
     //dodanie do listy reduktów w kolejnych iteracji reduktu z poprzedniej pętli (rozwiazanie z poprzedniej iteracji bylo lepsze)
     private void addPreviousReduct() {
-        List<Attribute> newReduct = new ArrayList<>();
-        newReduct.addAll(DataAccessor.getCurrentReduct());
+        List<Attribute> newReduct = new ArrayList<>(DataAccessor.getCurrentReduct());
         DataAccessor.getListOfReducts().add(newReduct);
     }
 

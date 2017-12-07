@@ -14,7 +14,7 @@ import java.util.Comparator;
  */
 public class DataObjectComparator implements Comparator<DataObject> {
 
-    private int unusedAttribute = ConstStrings.ZERO; //nieuzywane atrybuty
+    private int unusedAttribute; //nieuzywane atrybuty
 
     public DataObjectComparator(int unusedAttribute) {
         this.unusedAttribute = unusedAttribute;

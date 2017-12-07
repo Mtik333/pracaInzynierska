@@ -221,18 +221,13 @@ public class FXMLDocumentController implements Initializable {
                         @Override
                         protected Void call() throws Exception {
                             newLogic.findReduct();
-                            //Background work
-                            final CountDownLatch latch = new CountDownLatch(1);
                             Platform.runLater(() -> {
                                 resetAlgorithm.setDisable(false);
                                 DataAccessor.setCalculationMode(SINGLE_ITERATION);
                                 colorEdges();
-                                showAlgorithmStats();
                                 disableButtons();
-                                //FX Stuff done here
+                                showAlgorithmStats();
                             });
-                            latch.await();
-                            //Keep with the background work
                             return null;
                         }
                     };
@@ -325,6 +320,7 @@ public class FXMLDocumentController implements Initializable {
         if (newLogic instanceof ChineseLogic) {
             if (ChineseLogic.checkIfCoreIsReduct()) {
                 showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
+                DataAccessor.setElapsedTime(0);
                 disableButtons();
             }
 
