@@ -36,7 +36,7 @@ public class ConstStrings {
 
     public static final String EDIT_EXAMPLES_FXML_RES = "/fxmls/EditExamplesFXML.fxml";
 
-    public static final String EDIT_EXAMPLES_TITLE = "Edit examples";
+    public static final String EDIT_EXAMPLES_TITLE = "Preview examples";
 
     public static final String SAMPLE_DATASET_FXML_RES = "/fxmls/SampleDatasetFXML.fxml";
 

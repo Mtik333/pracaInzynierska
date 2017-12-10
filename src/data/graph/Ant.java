@@ -52,6 +52,9 @@ public abstract class Ant implements Runnable {
     }
 
     public void pickVertice(Vertice v) {
+        if (v==null){
+            System.out.println("a");
+        }
         pickedAttributes.add(v);
         unpickedAttributes.remove(v);
     }

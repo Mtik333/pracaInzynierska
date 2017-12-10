@@ -16,6 +16,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         DataAccessor.setPrimaryStage(stage);
         stage.setTitle(ConstStrings.PROGRAM_NAME);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

@@ -19,9 +19,9 @@ import static data.ConstStrings.SINGLE_STEP;
 /**
  * @author Mateusz
  */
-public class NewAnt extends Ant {
+public class JensenAnt extends Ant {
 
-    public NewAnt(int index) {
+    public JensenAnt(int index) {
         this.index = index;
         this.pickedAttributes = new ArrayList<>();
         this.unpickedAttributes = new ArrayList<>();
@@ -67,8 +67,11 @@ public class NewAnt extends Ant {
                 }
                 if (v != null) {
                     if (!pickedAttributes.contains(v)) {
-                        sumPheromone += Math.pow(x.getPheromone(), DataAccessor.getPheromoneRelevance()) * Math.pow(x.getWeight(), DataAccessor.getEdgeRelevance());
-                        probabilities.put(v, x.getPheromone());
+                        double test1 = Math.pow(x.getPheromone(), DataAccessor.getPheromoneRelevance());
+                        double test2 = Math.pow(x.getWeight(), DataAccessor.getEdgeRelevance());
+                        double addedValue = test1 * test2;
+                        sumPheromone += addedValue;
+                        probabilities.put(v, addedValue);
                     }
                 }
             }

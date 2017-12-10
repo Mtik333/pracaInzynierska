@@ -29,8 +29,6 @@ public class SampleDatasetFXMLController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    public TextArea datasetDescription;
-    @FXML
     private ComboBox<String> exampleDataset;
 
     @Override

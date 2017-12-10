@@ -51,7 +51,7 @@ public abstract class Logic {
 
     private Ant generateSingleAnt(int i) {
         if (this instanceof JensenLogic) {
-            return new NewAnt(i);
+            return new JensenAnt(i);
         } else return new ChineseAnt(i);
     }
 
