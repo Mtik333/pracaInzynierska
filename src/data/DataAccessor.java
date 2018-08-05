@@ -5,6 +5,7 @@
  */
 package data;
 
+import data.fishsearch.Fish;
 import data.graph.Ant;
 import data.graph.Edge;
 import data.graph.Graph;
@@ -33,6 +34,7 @@ public class DataAccessor {
     private static File file; //obiekt pliku
     private static List<DataObject> dataset; //zbior obiektów wczytanych
     private static List<Attribute> allAttributes; //zbior wszystkich atrybutów
+    private static int nonDecisionAttributesNumber;
     private static int decisionMaker; //atrybut decyzyjny
     private static int loopLimit = 100; //maksymalna ilosc wykonan algorytmu
     private static double pheromoneRelevance = 1.0; //waznosc feromonu na sciezce
@@ -59,6 +61,73 @@ public class DataAccessor {
     private static int maxList;
     private static double pheromoneEvaporation = 0.9;
     private static Graph graph;
+
+    private static int fishNumber=10;
+    private static List<Fish> allFishes; //lista wszystkich ryb
+    private static double fishAlphaRelevance=0.9;
+    private static double fishDeltaRelevance=0.9;
+    private static double globalDependencyDegree=1;
+    private static int fishMaxCycle;
+
+    public static int getFishMaxCycle() {
+        return fishMaxCycle;
+    }
+
+    public static void setFishMaxCycle(int fishMaxCycle) {
+        DataAccessor.fishMaxCycle = fishMaxCycle;
+    }
+
+    public static double getGlobalDependencyDegree() {
+        return globalDependencyDegree;
+    }
+
+    public static void setGlobalDependencyDegree(double globalDependencyDegree) {
+        DataAccessor.globalDependencyDegree = globalDependencyDegree;
+    }
+
+    public static double getFishDeltaRelevance() {
+        return fishDeltaRelevance;
+    }
+
+    public static void setFishDeltaRelevance(double fishDeltaRelevance) {
+        DataAccessor.fishDeltaRelevance = fishDeltaRelevance;
+    }
+
+    public static int getFishVisual() {
+        return fishVisual;
+    }
+
+    public static void setFishVisual(int fishVisual) {
+        DataAccessor.fishVisual = fishVisual;
+    }
+
+    private static int fishVisual;
+
+    public static int getNonDecisionAttributesNumber() {
+        return nonDecisionAttributesNumber;
+    }
+
+    public static void setNonDecisionAttributesNumber(int nonDecisionAttributesNumber) {
+        DataAccessor.nonDecisionAttributesNumber = nonDecisionAttributesNumber;
+    }
+
+    public static double getFishAlphaRelevance() {
+        return fishAlphaRelevance;
+    }
+
+    public static void setFishAlphaRelevance(double fishAlphaRelevance) {
+        DataAccessor.fishAlphaRelevance = fishAlphaRelevance;
+    }
+
+    public static double getFishBetaRelevance() {
+        return fishBetaRelevance;
+    }
+
+    public static void setFishBetaRelevance(double fishBetaRelevance) {
+        DataAccessor.fishBetaRelevance = fishBetaRelevance;
+    }
+
+    private static double fishBetaRelevance=0.1;
 
     public static double getElapsedTime() {
         return elapsedTime;
@@ -293,6 +362,8 @@ public class DataAccessor {
             getAllAttributes().add(myAttribute);
         }
         getAllAttributes().get(getDecisionMaker()).setDecisionMaking(true);
+        setNonDecisionAttributesNumber(getAllAttributes().size()-1);
+        setFishVisual(getNonDecisionAttributesNumber()/2);
     }
 
     public static int getLoopLimit() {
@@ -428,4 +499,51 @@ public class DataAccessor {
         setCoreAttributes(null);
         System.gc();
     }
+
+    public static int hammingDistance(Fish f1, Fish f2){
+        int distance=0;
+        for (int i=0; i<f1.getValues().length; i++){
+            if (f1.getValues()[i]!=f2.getValues()[i])
+                distance++;
+        }
+        return distance;
+    }
+
+    public static Fish updateCenterFish(List<Fish> fishes){
+        Fish centerFish = new Fish(-1);
+        centerFish.getAttributeList().clear();
+        centerFish.getNotUsedAttributeList().clear();
+        for (int i=0; i<nonDecisionAttributesNumber; i++){
+            int sum=0;
+            double divideSum;
+            for (Fish fish : fishes){
+                if (fish.getValues()[i])
+                    sum++;
+            }
+            divideSum = ((double)sum)/((double)(fishes.size()));
+            if (divideSum>0.5){
+                centerFish.getValues()[i]=true;
+                centerFish.getAttributeList().add(DataAccessor.getAllAttributes().get(i));
+            }
+            else centerFish.getValues()[i]=false;
+        }
+        return centerFish;
+    }
+
+    public static int getFishNumber() {
+        return fishNumber;
+    }
+
+    public static void setFishNumber(int fishNumber) {
+        DataAccessor.fishNumber = fishNumber;
+    }
+
+    public static List<Fish> getAllFishes() {
+        return allFishes;
+    }
+
+    public static void setAllFishes(List<Fish> allFishes) {
+        DataAccessor.allFishes = allFishes;
+    }
+
 }

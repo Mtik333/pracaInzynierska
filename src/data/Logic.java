@@ -55,7 +55,6 @@ public abstract class Logic {
         } else return new ChineseAnt(i);
     }
 
-
     //inicjalizacja mrowek na losowych pozycjach
     public void initializeAntsRandom() {
         DataAccessor.setCalculatedReductInIteration(false);

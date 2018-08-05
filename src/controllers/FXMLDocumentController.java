@@ -13,6 +13,7 @@ import data.ChineseLogic;
 import data.ConstStrings;
 import data.DataAccessor;
 import data.Logic;
+import data.fishsearch.FishLogic;
 import data.graph.Edge;
 import data.graph.Vertice;
 import javafx.application.Platform;
@@ -43,7 +44,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -326,6 +326,16 @@ public class FXMLDocumentController implements Initializable {
 
         }
         DataAccessor.setLoadedData(true);
+    }
+
+    @FXML
+    private void testFish(){
+        if (DataAccessor.isLoadedData()){
+            FishLogic fishLogic = new FishLogic();
+            fishLogic.initializeFish();
+            fishLogic.testThings();
+            int i=0;
+        }
     }
 
     //FUNKCJE RYSOWANIA GRAFU I GŁÓWNEGO WIDOKU

@@ -12,6 +12,7 @@
                  <items>
                      <MenuItem mnemonicParsing="false" onAction="#openDatasetDialog" text="Load dataset from file" />
                      <MenuItem mnemonicParsing="false" onAction="#loadSampleDataset" text="Load sample dataset" />
+                  <MenuItem mnemonicParsing="false" onAction="#testFish" text="Fish" />
                      <MenuItem mnemonicParsing="false" onAction="#setSeparator" text="Set separator" />
                      <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                  </items>
