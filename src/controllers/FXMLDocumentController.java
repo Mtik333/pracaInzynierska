@@ -332,8 +332,7 @@ public class FXMLDocumentController implements Initializable {
     private void testFish(){
         if (DataAccessor.isLoadedData()){
             FishLogic fishLogic = new FishLogic();
-            fishLogic.initializeFish();
-            fishLogic.testThings();
+            fishLogic.findReduct();
             int i=0;
         }
     }

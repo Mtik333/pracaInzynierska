@@ -521,7 +521,7 @@ public class DataAccessor {
                     sum++;
             }
             divideSum = ((double)sum)/((double)(fishes.size()));
-            if (divideSum>0.5){
+            if (divideSum>=0.5){
                 centerFish.getValues()[i]=true;
                 centerFish.getAttributeList().add(DataAccessor.getAllAttributes().get(i));
             }
