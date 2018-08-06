@@ -161,7 +161,7 @@ public class ConstStrings {
     public static final int MINUS_ONE = -1;
     public static final double DOUBLE_ZERO = 0.0;
     public static final String PROGRAM_NAME = "Ant algorithms";
-    static final int THOUSAND = 1000;
+    public static final int THOUSAND = 1000;
     static final double HALF = 0.5;
     static final double PERTURBATION = 0.01;
 }

@@ -332,8 +332,24 @@ public class FXMLDocumentController implements Initializable {
     private void testFish(){
         if (DataAccessor.isLoadedData()){
             FishLogic fishLogic = new FishLogic();
-            fishLogic.findReduct();
             int i=0;
+            Service<Void> service = new Service<Void>() {
+                @Override
+                protected Task<Void> createTask() {
+                    return new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            fishLogic.findReduct();
+                            Platform.runLater(() -> {
+                                resetAlgorithm.setDisable(false);
+                                DataAccessor.setCalculationMode(SINGLE_ITERATION);
+                            });
+                            return null;
+                        }
+                    };
+                }
+            };
+            service.start();
         }
     }
 

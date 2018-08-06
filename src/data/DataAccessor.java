@@ -67,7 +67,17 @@ public class DataAccessor {
     private static double fishAlphaRelevance=0.9;
     private static double fishDeltaRelevance=0.9;
     private static double globalDependencyDegree=1;
-    private static int fishMaxCycle;
+    private static int fishMaxCycle=5;
+
+    public static List<Attribute> getTemporaryReduct() {
+        return temporaryReduct;
+    }
+
+    public static void setTemporaryReduct(List<Attribute> temporaryReduct) {
+        DataAccessor.temporaryReduct = temporaryReduct;
+    }
+
+    private static List<Attribute> temporaryReduct;
 
     public static int getFishMaxCycle() {
         return fishMaxCycle;
@@ -528,6 +538,16 @@ public class DataAccessor {
             else centerFish.getValues()[i]=false;
         }
         return centerFish;
+    }
+
+    public static List<Attribute> returnNonUsedAttributes(List<Attribute> usedAttributes){
+        List<Attribute> myList = new ArrayList<>();
+        for (int i=0; i<getAllAttributes().size()-1; i++){
+            if (!usedAttributes.contains(getAllAttributes().get(i))){
+                myList.add(getAllAttributes().get(i));
+            }
+        }
+        return myList;
     }
 
     public static int getFishNumber() {

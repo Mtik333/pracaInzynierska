@@ -252,3 +252,15 @@ Discovered glitch caused by too many lines on the scene created by Audiology dat
 0.8.1 - 10.12.2017
 
 Another small fixes.
+
+1.0.1 - 05.08.2018
+
+Implementation of basic fish search algorithm
+
+1.0.2 - 05.08.2018
+
+Several fixes to issue that caused reduct to disappear from results and reduct not being calculated correctly
+
+1.0.3 - 06.08.2018
+
+Fixed time that it takes to compute results (limiting number of dependency calculations)
