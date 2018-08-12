@@ -264,3 +264,7 @@ Several fixes to issue that caused reduct to disappear from results and reduct n
 1.0.3 - 06.08.2018
 
 Fixed time that it takes to compute results (limiting number of dependency calculations)
+
+1.0.4 - 12.08.2018
+
+Few investigations on algorithm results

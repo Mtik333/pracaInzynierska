@@ -24,6 +24,7 @@ public class FishLogic {
         fishReduct=new ArrayList<>();
         fishReductSize=Integer.MAX_VALUE;
         fishReduct.addAll(DataAccessor.getAllAttributes());
+        DataAccessor.setFishNumber(DataAccessor.getAllAttributes().size()/2);
         List<Fish> fishList = new ArrayList<>();
         for (int i=0; i< DataAccessor.getFishNumber(); i++){
             Fish fish = new Fish(i);
@@ -39,17 +40,20 @@ public class FishLogic {
 
     public void findReduct(){
         List<Attribute> reduct = new ArrayList<>();
+        DataAccessor.setListOfReducts(new ArrayList<>());
+        DataAccessor.setCurrentReduct(DataAccessor.getAllAttributes());
         reduct.addAll(DataAccessor.getAllAttributes());
+        reduct.remove(reduct.size()-1);
         double globalDegree = DataAccessor.getGlobalDependencyDegree();
         int iteration=0;
         int additional=0;
-        dependency = fullDependencyDegree(DataAccessor.getAllAttributes());
+        dependency = fullDependencyDegree(reduct);
         long timeElapsed = (long) DataAccessor.getElapsedTime();
-        while (iteration<=DataAccessor.getFishMaxCycle()){
-            additional=0;
+        while (iteration<=DataAccessor.getLoopLimit()){
+            additional=1;
             initializeFish();
             do{
-                if (additional>DataAccessor.getAllAttributes().size())
+                if (additional>=DataAccessor.getCurrentReduct().size())
                     break;
                 ExecutorService executor = Executors.newFixedThreadPool(DataAccessor.getAllFishes().size());
                 long startTime = new Date().getTime();
@@ -63,31 +67,58 @@ public class FishLogic {
                 additional++;
             }
             while(!evaluate());
+            DataAccessor.getListOfReducts().add(DataAccessor.getCurrentReduct());
+            System.out.println(calculateFitness());
             iteration++;
+            DataAccessor.setPerformedIterations(iteration);
+            if (checkFruitlessSearches())
+                break;
         }
         DataAccessor.setElapsedTime(((double) timeElapsed / ConstStrings.THOUSAND));
         System.out.println(DataAccessor.getElapsedTime());
-        System.out.println(DataAccessor.getTemporaryReduct().size());
+        System.out.println(DataAccessor.getCurrentReduct().size());
     }
 
     public boolean evaluate(){
         boolean allFishFound=true;
         for (Fish fish : DataAccessor.getAllFishes()){
             if (!fish.hasReduct){
-                double dependencyFish = fish.updateDependencyDegree(fish.getAttributeList());
-                if (dependencyFish == dependency){
-                    fish.setHasReduct(true);
-                    if (fish.getAttributeList().size()<fishReductSize){
+                if (fish.getAttributeList().size()<DataAccessor.getCurrentReduct().size()){
+                    double dependencyFish = fish.updateDependencyDegree(fish.getAttributeList());
+                    if (dependencyFish == dependency){
+                        fish.setHasReduct(true);
                         fishReduct.clear();
                         fishReduct.addAll(fish.getAttributeList());
                         fishReductSize=fishReduct.size();
-                        DataAccessor.setTemporaryReduct(fishReduct);
+                        DataAccessor.setCurrentReduct(fishReduct);
                     }
+                    else allFishFound=false;
                 }
-                else allFishFound=false;
             }
         }
         return allFishFound;
+    }
+
+    private boolean checkFruitlessSearches() {
+        if (DataAccessor.getListOfReducts().size() > DataAccessor.getFruitlessSearches()) {
+            int performedIterations = DataAccessor.getPerformedIterations();
+            int size = DataAccessor.getListOfReducts().get(performedIterations - ConstStrings.ONE).size();
+            for (int i = 2; i <= DataAccessor.getFruitlessSearches(); i++) {
+                if (DataAccessor.getListOfReducts().get(performedIterations - i - 1).size() != size) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public double calculateFitness(){
+        double fitness = (DataAccessor.getFishAlphaRelevance() * dependency);
+        double test = (double)(DataAccessor.getNonDecisionAttributesNumber()-DataAccessor.getCurrentReduct().size())/((double)DataAccessor.getNonDecisionAttributesNumber());
+        fitness = fitness + DataAccessor.getFishBetaRelevance() * test;
+        return fitness;
     }
 
     public double fullDependencyDegree(List<Attribute> attributes){

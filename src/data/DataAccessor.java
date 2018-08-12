@@ -225,7 +225,7 @@ public class DataAccessor {
         return performedIterations;
     }
 
-    static void setPerformedIterations(int performedIterations) {
+    public static void setPerformedIterations(int performedIterations) {
         DataAccessor.performedIterations = performedIterations;
     }
 
@@ -233,7 +233,7 @@ public class DataAccessor {
         return listOfReducts;
     }
 
-    static void setListOfReducts(List<List<Attribute>> listOfReducts) {
+    public static void setListOfReducts(List<List<Attribute>> listOfReducts) {
         DataAccessor.listOfReducts = listOfReducts;
     }
 
@@ -450,7 +450,7 @@ public class DataAccessor {
         return currentReduct;
     }
 
-    static void setCurrentReduct(List<Attribute> aCurrentReduct) {
+    public static void setCurrentReduct(List<Attribute> aCurrentReduct) {
         currentReduct = aCurrentReduct;
     }
 
@@ -507,6 +507,7 @@ public class DataAccessor {
         setCalculatedReductInIteration(false);
         setDecisionValues(null);
         setCoreAttributes(null);
+        setAllFishes(null);
         System.gc();
     }
 

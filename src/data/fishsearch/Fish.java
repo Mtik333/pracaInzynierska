@@ -16,6 +16,8 @@ public class Fish implements Runnable {
     boolean[] values; //tablica atrybutow
     List<Attribute> attributeList;
     List<Attribute> notUsedAttributeList;
+    DataObjectMultipleComparator domc; //komparator do zbioru
+    List<DataObject> sortedDataset; //dane posortowane
 
     public boolean isHasReduct() {
         return hasReduct;
@@ -51,17 +53,17 @@ public class Fish implements Runnable {
         this.sortedDataset = sortedDataset;
     }
 
-    List<DataObject> sortedDataset; //dane posortowane
-
     public Fish(int index){
         this.index = index;
         this.values = new boolean[DataAccessor.getNonDecisionAttributesNumber()];
         this.attributeList = new ArrayList<>();
         this.notUsedAttributeList = new ArrayList<>();
+        this.sortedDataset = new ArrayList<>();
+        this.sortedDataset.addAll(DataAccessor.getDataset());
         initFish();
     }
 
-    public Fish(int index, boolean[] values, int numberOfUsedAttributes, List<Attribute> attributes, List<Attribute> notUsed){
+    public Fish(int index, boolean[] values, int numberOfUsedAttributes, List<Attribute> attributes, List<Attribute> notUsed, List<DataObject> dataset, DataObjectMultipleComparator domc){
         this.index = index;
         this.values = Arrays.copyOf(values,values.length);
         this.attributeList = new ArrayList<>();
@@ -69,6 +71,8 @@ public class Fish implements Runnable {
         this.notUsedAttributeList = new ArrayList<>();
         notUsedAttributeList.addAll(notUsed);
         this.numberOfUsedAttributes=numberOfUsedAttributes;
+        this.sortedDataset=dataset;
+        this.domc=domc;
     }
 
     public void initFish(){
@@ -122,10 +126,8 @@ public class Fish implements Runnable {
         int[] decisionsInstances = new int[DataAccessor.getDecisionValues().size()];
         int goodObjs=0;
         DataObject prev = null;
-        DataObjectMultipleComparator domc = new DataObjectMultipleComparator(attributes);
-        List<DataObject> sortedDataset = new ArrayList<>();
-        sortedDataset.addAll(DataAccessor.getDataset());
-        sortedDataset.sort(domc);
+        this.domc = new DataObjectMultipleComparator(attributes);
+        this.sortedDataset.sort(this.domc);
         for (int i = 0; i < sortedDataset.size(); i++) {
             if (prev == null) {
                 Arrays.fill(decisionsInstances, ConstStrings.ZERO);
@@ -133,8 +135,8 @@ public class Fish implements Runnable {
                 decisionsInstances[DataAccessor.getDecisionValues().indexOf(sortedDataset.get(i).getAttributes().get(DataAccessor.getDecisionMaker()).getValue())]++;
             } else {
                 boolean theSame = true;
-                for (int j = 0; j < domc.getSortingBy().size(); j++) {
-                    if (!prev.getAttributes().get(domc.getSortingBy().get(j)).getValue().equals(sortedDataset.get(i).getAttributes().get(domc.getSortingBy().get(j)).getValue())) {
+                for (int j = 0; j < this.domc.getSortingBy().size(); j++) {
+                    if (!prev.getAttributes().get(this.domc.getSortingBy().get(j)).getValue().equals(this.sortedDataset.get(i).getAttributes().get(this.domc.getSortingBy().get(j)).getValue())) {
                         theSame = false;
                         break;
                     }
@@ -181,19 +183,43 @@ public class Fish implements Runnable {
         newlyUsed.addAll(myFish.attributeList);
         boolean[] temporarySearching = Arrays.copyOf(myFish.values,myFish.values.length);
         Random random = new Random();
+        boolean betterDependency=false;
+        int step=0;
+        while (!betterDependency){
+            step++;
+            if (myFish.notUsedAttributeList.size()!=0) {
+                int index = random.nextInt(myFish.notUsedAttributeList.size());
+                Attribute attribute = myFish.notUsedAttributeList.get(index);
+                myFish.attributeList.add(attribute);
+                myFish.notUsedAttributeList.remove(attribute);
+                int indexOf = DataAccessor.getAllAttributes().indexOf(attribute);
+                temporarySearching[indexOf] = true;
+                double newDependency = updateDependencyDegree(myFish.getAttributeList());
+                if (newDependency>currentDependencyDegree)
+                    betterDependency=true;
+                else if (step==myFish.notUsedAttributeList.size()){
+                    betterDependency=true;
+                }
+                else{
+                    myFish.attributeList.remove(attribute);
+                    myFish.notUsedAttributeList.add(attribute);
+                    temporarySearching[indexOf] = false;
+                }
+            }
+        }
+//
 //        do{
-                    if (myFish.notUsedAttributeList.size()!=0)
-                    {
-                    int index = random.nextInt(myFish.notUsedAttributeList.size());
-                    Attribute attribute = myFish.notUsedAttributeList.get(index);
-                    myFish.attributeList.add(attribute);
-                    myFish.notUsedAttributeList.remove(attribute);
-                    int indexOf = DataAccessor.getAllAttributes().indexOf(attribute);
-                    temporarySearching[indexOf] = true;
-                    }
-
+//                    if (myFish.notUsedAttributeList.size()!=0)
+//                    {
+//                    int index = random.nextInt(myFish.notUsedAttributeList.size());
+//                    Attribute attribute = myFish.notUsedAttributeList.get(index);
+//                    myFish.attributeList.add(attribute);
+//                    myFish.notUsedAttributeList.remove(attribute);
+//                    int indexOf = DataAccessor.getAllAttributes().indexOf(attribute);
+//                    temporarySearching[indexOf] = true;
+//                    }
 //        }
-//        while(currentDependencyDegree>=updateDependencyDegree(myFish.getAttributeList()) && getAttributeList().size()<DataAccessor.getAllAttributes().size()-1);
+//        while(currentDependencyDegree>=updateDependencyDegree(myFish.getAttributeList()));
         myFish.numberOfUsedAttributes=returnTrueSize();
         myFish.values=Arrays.copyOf(temporarySearching,temporarySearching.length);
         myFish.setNotUsedAttributeList(DataAccessor.returnNonUsedAttributes(myFish.attributeList));
@@ -204,7 +230,7 @@ public class Fish implements Runnable {
         double v=0;
         List<Fish> friendFishes = new ArrayList<>();
         for (Fish fish : DataAccessor.getAllFishes()){
-            if (fish!=myFish){
+            if (!fish.equals(myFish)){
                 if (DataAccessor.hammingDistance(myFish, fish)<DataAccessor.getFishVisual()){
                     n=n+1;
                     friendFishes.add(fish);
@@ -230,24 +256,30 @@ public class Fish implements Runnable {
         double dependencyMax=0;
         double vmax=0;
         for (Fish fish : DataAccessor.getAllFishes()){
-            if (fish!=myFish) {
-                if (DataAccessor.hammingDistance(myFish, fish) < DataAccessor.getFishVisual() && updateDependencyDegree(fish.getAttributeList()) > dependencyMax){
-                    bestFish=fish;
-                    dependencyMax=updateDependencyDegree(bestFish.getAttributeList());
+            if (!fish.equals(myFish)) {
+                if (DataAccessor.hammingDistance(myFish, fish) < DataAccessor.getFishVisual()){
+                    double dependencyTemp=updateDependencyDegree(fish.getAttributeList());
+                    if (dependencyTemp>dependencyMax){
+                        bestFish=fish;
+                        dependencyMax=dependencyTemp;
+                    }
                 }
             }
         }
-        if (bestFish==null)
+        if (bestFish==null){
             bestFish=myFish;
+        }
         for (Fish fish : DataAccessor.getAllFishes()){
-            if (fish!=myFish) {
+            if (!fish.equals(bestFish)) {
                 if (DataAccessor.hammingDistance(bestFish, fish) < DataAccessor.getFishVisual()){
                     n=n+1;
                     vmax=vmax+updateDependencyDegree(fish.getAttributeList());
                 }
             }
         }
-        if (vmax/((double)(n))<(myDependency)*DataAccessor.getFishDeltaRelevance()){
+        double test1 = (vmax)/((double)n);
+        double test2=(myDependency)*DataAccessor.getFishDeltaRelevance();
+        if (test1<test2){
             myFish.attributeList=bestFish.getAttributeList();
             myFish.numberOfUsedAttributes=returnTrueSize();
             myFish.values=Arrays.copyOf(bestFish.values,bestFish.values.length);
@@ -260,6 +292,8 @@ public class Fish implements Runnable {
 
     @Override
     public void run() {
+        if (DataAccessor.getCurrentReduct().size()<this.attributeList.size())
+            return;
         double dependency = updateDependencyDegree(attributeList);
         if (this.hasReduct){
             return;
@@ -269,9 +303,9 @@ public class Fish implements Runnable {
             return;
         }
 
-        Fish searchFish = new Fish(this.index, this.values, this.numberOfUsedAttributes, this.getAttributeList(), this.notUsedAttributeList);
-        Fish swarmingFish = new Fish(this.index, this.values, this.numberOfUsedAttributes,this.getAttributeList(), this.notUsedAttributeList);
-        Fish swimmingFish = new Fish(this.index, this.values, this.numberOfUsedAttributes,this.getAttributeList(), this.notUsedAttributeList);
+        Fish searchFish = new Fish(this.index, this.values, this.numberOfUsedAttributes, this.getAttributeList(), this.notUsedAttributeList, this.sortedDataset, this.domc);
+        Fish swarmingFish = new Fish(this.index, this.values, this.numberOfUsedAttributes,this.getAttributeList(), this.notUsedAttributeList, this.sortedDataset, this.domc);
+        Fish swimmingFish = new Fish(this.index, this.values, this.numberOfUsedAttributes,this.getAttributeList(), this.notUsedAttributeList, this.sortedDataset, this.domc);
         searchingAlgorithm(searchFish, dependency);
         swarmingAlgorithm(swarmingFish, dependency);
         swimmingAlgorithm(swimmingFish, dependency);
@@ -304,5 +338,18 @@ public class Fish implements Runnable {
         double test = (double)(DataAccessor.getNonDecisionAttributesNumber()-fish.returnTrueSize())/((double)DataAccessor.getNonDecisionAttributesNumber());
         fitness = fitness + DataAccessor.getFishBetaRelevance() * test;
         return fitness;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fish fish = (Fish) o;
+        return index == fish.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index);
     }
 }
