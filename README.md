@@ -272,3 +272,7 @@ Few investigations on algorithm results
 1.0.6 - 17.08.2018
 
 Investigating time elapsed issues
+
+1.1.0 - 17.08.2018
+
+Huge fix on time consumption and results of fish algorithms (need to check what's wrong with ant algorithms now)

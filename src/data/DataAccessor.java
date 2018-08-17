@@ -68,6 +68,15 @@ public class DataAccessor {
     private static double fishDeltaRelevance=0.9;
     private static double globalDependencyDegree=1;
     private static int fishMaxCycle=5;
+    private static double coreDependency=0;
+
+    public static double getCoreDependency() {
+        return coreDependency;
+    }
+
+    public static void setCoreDependency(double coreDependency) {
+        DataAccessor.coreDependency = coreDependency;
+    }
 
     public static List<Attribute> getTemporaryReduct() {
         return temporaryReduct;

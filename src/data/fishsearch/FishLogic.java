@@ -46,6 +46,9 @@ public class FishLogic {
             System.out.println(DataAccessor.getCurrentReduct().size());
             return;
         }
+        if (core && !DataAccessor.getCoreAttributes().isEmpty()){
+            DataAccessor.setCoreDependency(fullDependencyDegree(DataAccessor.getCoreAttributes()));
+        }
         DataAccessor.setCurrentReduct(DataAccessor.getAllAttributes());
         reduct.addAll(DataAccessor.getAllAttributes());
         reduct.remove(reduct.size()-1);
@@ -55,7 +58,7 @@ public class FishLogic {
         dependency = fullDependencyDegree(reduct);
         long timeElapsed = (long) DataAccessor.getElapsedTime();
         while (iteration<=DataAccessor.getLoopLimit()){
-            //System.out.println("Iter"+iteration);
+            System.out.println("Iter"+iteration+","+DataAccessor.getCurrentReduct().size());
             additional=1;
             initializeFish(core);
             do{
