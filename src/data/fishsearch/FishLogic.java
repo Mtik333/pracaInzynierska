@@ -20,14 +20,14 @@ public class FishLogic {
     public int fishReductSize=Integer.MAX_VALUE;
     public double dependency=0;
 
-    public void initializeFish(){
+    public void initializeFish(boolean core){
         fishReduct=new ArrayList<>();
         fishReductSize=Integer.MAX_VALUE;
         fishReduct.addAll(DataAccessor.getAllAttributes());
         DataAccessor.setFishNumber(DataAccessor.getAllAttributes().size()/2);
         List<Fish> fishList = new ArrayList<>();
         for (int i=0; i< DataAccessor.getFishNumber(); i++){
-            Fish fish = new Fish(i);
+            Fish fish = new Fish(i, core);
             fishList.add(fish);
         }
         DataAccessor.setAllFishes(fishList);
@@ -38,9 +38,14 @@ public class FishLogic {
 //        DataAccessor.getAllFishes().get(0).swarmingAlgorithm();
 //    }
 
-    public void findReduct(){
+    public void findReduct(boolean core){
         List<Attribute> reduct = new ArrayList<>();
         DataAccessor.setListOfReducts(new ArrayList<>());
+        if (DataAccessor.isCalculatedReductInIteration()){
+            System.out.println(DataAccessor.getElapsedTime());
+            System.out.println(DataAccessor.getCurrentReduct().size());
+            return;
+        }
         DataAccessor.setCurrentReduct(DataAccessor.getAllAttributes());
         reduct.addAll(DataAccessor.getAllAttributes());
         reduct.remove(reduct.size()-1);
@@ -50,8 +55,9 @@ public class FishLogic {
         dependency = fullDependencyDegree(reduct);
         long timeElapsed = (long) DataAccessor.getElapsedTime();
         while (iteration<=DataAccessor.getLoopLimit()){
+            //System.out.println("Iter"+iteration);
             additional=1;
-            initializeFish();
+            initializeFish(core);
             do{
                 if (additional>=DataAccessor.getCurrentReduct().size())
                     break;
@@ -68,7 +74,6 @@ public class FishLogic {
             }
             while(!evaluate());
             DataAccessor.getListOfReducts().add(DataAccessor.getCurrentReduct());
-            System.out.println(calculateFitness());
             iteration++;
             DataAccessor.setPerformedIterations(iteration);
             if (checkFruitlessSearches())
