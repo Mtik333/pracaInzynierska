@@ -1,5 +1,5 @@
-# Finding Rough Set Reducts with Ant Colony Optimization
-First attempts on Ant Colony Optimization solving the problem of finding possibly the best reduct in dataset.
+# Finding Rough Set Reducts with Ant Colony Optimization and Fish Search Algorithms
+Ant Colony Optimization and Fish Search algorithms for finding possibly the best reduct in rough set.
 
 0.0.1 - 29.06.2017
 
@@ -268,3 +268,11 @@ Fixed time that it takes to compute results (limiting number of dependency calcu
 1.0.4 - 12.08.2018
 
 Few investigations on algorithm results
+
+1.0.5 - 14.08.2018
+
+Added core variant of fish search algorithm
+
+1.0.6 - 17.08.2018
+
+Investigating time elapsed issues

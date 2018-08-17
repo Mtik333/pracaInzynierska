@@ -53,14 +53,14 @@ public class Fish implements Runnable {
         this.sortedDataset = sortedDataset;
     }
 
-    public Fish(int index){
+    public Fish(int index, boolean core){
         this.index = index;
         this.values = new boolean[DataAccessor.getNonDecisionAttributesNumber()];
         this.attributeList = new ArrayList<>();
         this.notUsedAttributeList = new ArrayList<>();
         this.sortedDataset = new ArrayList<>();
         this.sortedDataset.addAll(DataAccessor.getDataset());
-        initFish();
+        initFish(core);
     }
 
     public Fish(int index, boolean[] values, int numberOfUsedAttributes, List<Attribute> attributes, List<Attribute> notUsed, List<DataObject> dataset, DataObjectMultipleComparator domc){
@@ -75,16 +75,27 @@ public class Fish implements Runnable {
         this.domc=domc;
     }
 
-    public void initFish(){
+    public void initFish(boolean core){
         Random random = new Random();
         notUsedAttributeList.addAll(DataAccessor.getAllAttributes());
         notUsedAttributeList.remove(DataAccessor.getAllAttributes().size()-1);
-        int index = random.nextInt(DataAccessor.getNonDecisionAttributesNumber());
-        Attribute attribute = DataAccessor.getAllAttributes().get(index);
-        attributeList.add(attribute);
-        notUsedAttributeList.remove(attribute);
-        values[index] = true;
-        this.numberOfUsedAttributes=returnTrueSize();
+        if (core){
+            for (Attribute attribute : DataAccessor.getCoreAttributes()){
+                attributeList.add(attribute);
+                notUsedAttributeList.remove(attribute);
+                int index = DataAccessor.getAllAttributes().indexOf(attribute);
+                values[index]=true;
+            }
+            this.numberOfUsedAttributes = returnTrueSize();
+        }
+        else {
+            int index = random.nextInt(DataAccessor.getNonDecisionAttributesNumber());
+            Attribute attribute = DataAccessor.getAllAttributes().get(index);
+            attributeList.add(attribute);
+            notUsedAttributeList.remove(attribute);
+            values[index] = true;
+            this.numberOfUsedAttributes = returnTrueSize();
+        }
     }
 
     public int getIndex() {

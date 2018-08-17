@@ -164,6 +164,8 @@ public class FXMLDocumentController implements Initializable {
                 if (ChineseLogic.checkIfCoreIsReduct()) {
                     showFXML(CORE_IS_REDUCT_FXML_RES, CORE_IS_REDUCT_TITLE);
                     disableButtons();
+                    DataAccessor.setCurrentReduct(new ArrayList<>());
+                    DataAccessor.getCurrentReduct().addAll(DataAccessor.getCoreAttributes());
                 }
             }
         } catch (IOException ioException) {
@@ -339,7 +341,32 @@ public class FXMLDocumentController implements Initializable {
                     return new Task<Void>() {
                         @Override
                         protected Void call() throws Exception {
-                            fishLogic.findReduct();
+                            fishLogic.findReduct(false);
+                            Platform.runLater(() -> {
+                                resetAlgorithm.setDisable(false);
+                                DataAccessor.setCalculationMode(SINGLE_ITERATION);
+                            });
+                            return null;
+                        }
+                    };
+                }
+            };
+            service.start();
+        }
+    }
+
+    @FXML
+    private void testFishWithCore(){
+        if (DataAccessor.isLoadedData()){
+            FishLogic fishLogic = new FishLogic();
+            int i=0;
+            Service<Void> service = new Service<Void>() {
+                @Override
+                protected Task<Void> createTask() {
+                    return new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            fishLogic.findReduct(true);
                             Platform.runLater(() -> {
                                 resetAlgorithm.setDisable(false);
                                 DataAccessor.setCalculationMode(SINGLE_ITERATION);

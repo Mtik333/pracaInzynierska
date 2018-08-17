@@ -55,7 +55,7 @@ public class DataAccessor {
     private static double datasetMutualInformation; //wartosc informacji wzajemnej w zbiorze
     private static double decisionEntropy; //entropia decyzji w zbiorze
     private static double epsilonValue = 0.001; //wartosc "minimalna" do heurystyki
-    private static String algorithmType = JSACO; //wybrany typ algorytmu
+    private static String algorithmType = RSFSACO; //wybrany typ algorytmu
     private static double elapsedTime = 0; //czas znalezienia reduktu
     private static int fruitlessSearches = 3; //ilosc bezowocnych poszukiwan
     private static int maxList;
@@ -521,7 +521,7 @@ public class DataAccessor {
     }
 
     public static Fish updateCenterFish(List<Fish> fishes){
-        Fish centerFish = new Fish(-1);
+        Fish centerFish = new Fish(-1, false);
         centerFish.getAttributeList().clear();
         centerFish.getNotUsedAttributeList().clear();
         for (int i=0; i<nonDecisionAttributesNumber; i++){
