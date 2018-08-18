@@ -276,3 +276,7 @@ Investigating time elapsed issues
 1.1.0 - 17.08.2018
 
 Huge fix on time consumption and results of fish algorithms (need to check what's wrong with ant algorithms now)
+
+1.1.1 - 18.08.2018
+
+Second (fixed) experiment performed on following code

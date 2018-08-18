@@ -78,7 +78,9 @@ public class ChineseLogic extends Logic {
         calculateMutualInformation();
         featureCore();
         long stopTime = new Date().getTime();
-        DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
+        if (DataAccessor.getElapsedTime()==0)
+            DataAccessor.setElapsedTime(DataAccessor.getElapsedTime() + (((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
+        else DataAccessor.setElapsedTime((((double) (stopTime - startTime)) / ConstStrings.THOUSAND));
         List<Vertice> vertices = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < DataAccessor.getAllAttributes().size() - 1; i++) {

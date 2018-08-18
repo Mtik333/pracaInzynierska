@@ -188,8 +188,8 @@ public abstract class Logic {
         if (DataAccessor.getListOfReducts().size() > DataAccessor.getFruitlessSearches()) {
             int performedIterations = DataAccessor.getPerformedIterations();
             int size = DataAccessor.getListOfReducts().get(performedIterations - ConstStrings.ONE).size();
-            for (int i = 2; i < DataAccessor.getFruitlessSearches(); i++) {
-                if (DataAccessor.getListOfReducts().get(performedIterations - i).size() != size) {
+            for (int i = 2; i <= DataAccessor.getFruitlessSearches(); i++) {
+                if (DataAccessor.getListOfReducts().get(performedIterations - i - 1).size() != size) {
                     return false;
                 }
             }

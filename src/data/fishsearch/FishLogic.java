@@ -7,10 +7,10 @@ import data.roughsets.DataObject;
 import data.roughsets.DataObjectMultipleComparator;
 
 import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -52,13 +52,14 @@ public class FishLogic {
         DataAccessor.setCurrentReduct(DataAccessor.getAllAttributes());
         reduct.addAll(DataAccessor.getAllAttributes());
         reduct.remove(reduct.size()-1);
-        double globalDegree = DataAccessor.getGlobalDependencyDegree();
+        //double globalDegree = DataAccessor.getGlobalDependencyDegree();
         int iteration=0;
         int additional=0;
         dependency = fullDependencyDegree(reduct);
-        long timeElapsed = (long) DataAccessor.getElapsedTime();
+        double timeElapsed = 0;
+        double timeForCore = DataAccessor.getElapsedTime();
         while (iteration<=DataAccessor.getLoopLimit()){
-            System.out.println("Iter"+iteration+","+DataAccessor.getCurrentReduct().size());
+            //System.out.println("Iter"+iteration+","+DataAccessor.getCurrentReduct().size());
             additional=1;
             initializeFish(core);
             do{
@@ -82,9 +83,13 @@ public class FishLogic {
             if (checkFruitlessSearches())
                 break;
         }
-        DataAccessor.setElapsedTime(((double) timeElapsed / ConstStrings.THOUSAND));
-        System.out.println(DataAccessor.getElapsedTime());
-        System.out.println(DataAccessor.getCurrentReduct().size());
+        DataAccessor.setElapsedTime((timeElapsed / ConstStrings.THOUSAND)+timeForCore);
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.UK);
+        otherSymbols.setDecimalSeparator('.');
+        otherSymbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat("###.###", otherSymbols);
+        System.out.println(DataAccessor.getCurrentReduct().size()+","+df.format(DataAccessor.getElapsedTime()));
+        DataAccessor.setElapsedTime(timeForCore);
     }
 
     public boolean evaluate(){

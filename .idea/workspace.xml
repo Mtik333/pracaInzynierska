@@ -6,16 +6,13 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85a4dcc8-ea74-4d86-8a71-4894865c5f09" name="Default" comment="Build 1.0.6">
+    <list default="true" id="85a4dcc8-ea74-4d86-8a71-4894865c5f09" name="Default" comment="Build 1.1.0">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/DataAccessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/DataAccessor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/Logic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/Logic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/Fish.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/Fish.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/FishLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/FishLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ChineseLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ChineseLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/DataAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/DataAccessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/Logic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/Logic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/fishsearch/Fish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/fishsearch/Fish.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,16 +25,18 @@
     <session id="1207440553">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="7" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.164" value="1" />
+          <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.27" value="1" />
           <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.45" value="1" />
           <entry key="project.open.time.49" value="1" />
+          <entry key="project.open.time.60" value="1" />
           <entry key="project.open.time.62" value="1" />
           <entry key="project.open.time.68" value="1" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -46,8 +45,8 @@
           <entry key="csv" value="3" />
           <entry key="fxml" value="3" />
           <entry key="iml" value="1" />
-          <entry key="java" value="52" />
-          <entry key="md" value="3" />
+          <entry key="java" value="69" />
+          <entry key="md" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -55,23 +54,23 @@
           <entry key="CLASS" value="3" />
           <entry key="CSV" value="3" />
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="52" />
-          <entry key="Markdown" value="3" />
+          <entry key="JAVA" value="69" />
+          <entry key="Markdown" value="4" />
           <entry key="XML" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="9029" />
-          <entry key="md" value="491" />
-          <entry key="txt" value="11" />
+          <entry key="java" value="9245" />
+          <entry key="md" value="571" />
+          <entry key="txt" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="9029" />
-          <entry key="Markdown" value="491" />
-          <entry key="PLAIN_TEXT" value="11" />
+          <entry key="JAVA" value="9245" />
+          <entry key="Markdown" value="571" />
+          <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
     </session>
@@ -79,82 +78,12 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="531" column="23" selection-start-line="531" selection-start-column="23" selection-end-line="531" selection-end-column="23" />
-              <folding>
-                <element signature="e#3445#3446#0" expanded="true" />
-                <element signature="e#3482#3483#0" expanded="true" />
-                <element signature="e#3549#3550#0" expanded="true" />
-                <element signature="e#3609#3610#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="358" column="33" selection-start-line="358" selection-start-column="33" selection-end-line="358" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/Logic.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="190" column="31" selection-start-line="190" selection-start-column="31" selection-end-line="190" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="383">
-                <caret line="277" column="112" selection-start-line="277" selection-start-column="112" selection-end-line="277" selection-end-column="112" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="43" selection-start-line="43" selection-end-line="43" />
+            <state relative-caret-position="225">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/concurrent/Task.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="1450" selection-start-line="1450" selection-end-line="1450" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/fishsearch/Fish.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="324" column="51" selection-start-line="324" selection-start-column="51" selection-end-line="324" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#753#754#0" expanded="true" />
-                <element signature="e#793#794#0" expanded="true" />
-                <element signature="e#859#860#0" expanded="true" />
-                <element signature="e#917#918#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -163,8 +92,69 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/JensenLogic.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/Logic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2057">
+              <caret line="191" column="83" selection-start-line="191" selection-start-column="83" selection-end-line="191" selection-end-column="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/graph/JensenAnt.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="70" column="87" selection-start-line="70" selection-start-column="79" selection-end-line="70" selection-end-column="87" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/ChineseLogic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="83" selection-start-line="83" selection-end-line="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/graph/Ant.java">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <caret line="75" selection-start-line="75" selection-end-line="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="45" column="69" selection-start-line="45" selection-start-column="69" selection-end-line="45" selection-end-column="69" />
+              <folding>
+                <element signature="e#4148#4149#0" expanded="true" />
+                <element signature="e#4193#4194#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="280">
+                <caret line="281" column="53" selection-start-line="281" selection-start-column="53" selection-end-line="281" selection-end-column="53" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -202,6 +192,11 @@
       <find>updateCen</find>
       <find>setCurr</find>
       <find>updateDe</find>
+      <find>edgeRele</find>
+      <find>edgeRel</find>
+      <find>pickVert</find>
+      <find>elaps</find>
+      <find>setEla</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Mateusz\OneDrive\Studia II stopnia\Semestr III\Praca dyplomowa magisterska\AntAlgorithms\src</dir>
@@ -217,10 +212,12 @@
         <option value="$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml" />
         <option value="$PROJECT_DIR$/src/controllers/FXMLDocumentController.java" />
         <option value="$PROJECT_DIR$/out/production/AntAlgorithms/fxmls/FXMLDocument.fxml" />
-        <option value="$PROJECT_DIR$/src/data/Logic.java" />
+        <option value="$PROJECT_DIR$/src/data/fishsearch/Fish.java" />
+        <option value="$PROJECT_DIR$/src/data/ConstStrings.java" />
         <option value="$PROJECT_DIR$/src/data/DataAccessor.java" />
         <option value="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" />
-        <option value="$PROJECT_DIR$/src/data/fishsearch/Fish.java" />
+        <option value="$PROJECT_DIR$/src/data/Logic.java" />
+        <option value="$PROJECT_DIR$/src/data/ChineseLogic.java" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
@@ -243,6 +240,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -250,11 +248,21 @@
               <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
               <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
@@ -353,7 +361,9 @@
       <workItem from="1533706231742" duration="241000" />
       <workItem from="1533706746096" duration="102000" />
       <workItem from="1534064452230" duration="22109000" />
-      <workItem from="1534522855039" duration="6792000" />
+      <workItem from="1534522855039" duration="8524000" />
+      <workItem from="1534576478153" duration="666000" />
+      <workItem from="1534577857992" duration="18549000" />
     </task>
     <task id="LOCAL-00001" summary="Build 1.0.6">
       <created>1534524983281</created>
@@ -362,17 +372,24 @@
       <option name="project" value="LOCAL" />
       <updated>1534524983281</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Build 1.1.0">
+      <created>1534532990970</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1534532990970</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70599000" />
+    <option name="totallyTimeSpent" value="91546000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20801815" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21406959" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -381,8 +398,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4977307" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.20785597" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4977307" weight="0.34697217" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3764321" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4977307" weight="0.43698853" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -410,34 +427,35 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Build 1.0.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build 1.0.6" />
+    <MESSAGE value="Build 1.1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Build 1.1.0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java</url>
-          <line>95</line>
-          <properties />
-          <option name="timeStamp" value="130" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java</url>
-          <line>109</line>
+          <line>114</line>
           <properties />
           <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java</url>
-          <line>43</line>
+          <url>file://$PROJECT_DIR$/src/data/graph/JensenAnt.java</url>
+          <line>56</line>
           <properties />
-          <option name="timeStamp" value="149" />
+          <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/data/fishsearch/Fish.java</url>
-          <line>324</line>
+          <url>file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java</url>
+          <line>322</line>
           <properties />
-          <option name="timeStamp" value="150" />
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java</url>
+          <line>90</line>
+          <properties />
+          <option name="timeStamp" value="179" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -448,47 +466,47 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>(myDependency)*DataAccessor.getFishDeltaRelevance()</expression-string>
+        <expression-string>(timeElapsed / ConstStrings.THOUSAND) + timeForCore</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>vmax/(double)n</expression-string>
+        <expression-string>timeElapsed / ConstStrings.THOUSAND</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>DataAccessor.getNonDecisionAttributesNumber()</expression-string>
+        <expression-string>test1*Math.pow(findHeuristicValue(v), 0.1)</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fish.getAttributeList();</expression-string>
+        <expression-string>Math.pow(findHeuristicValue(v), 0.1)</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>updateDependencyDegree(this.getAttributeList())</expression-string>
+        <expression-string>Math.pow(findHeuristicValue(v), 0.9)</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>updateDependencyDegree(newlyUsed)</expression-string>
+        <expression-string>Math.pow(findHeuristicValue(v), DataAccessor.getEdgeRelevance())</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>(double)(DataAccessor.getNonDecisionAttributesNumber()-fish.returnTrueSize())/((double)DataAccessor.getNonDecisionAttributesNumber())</expression-string>
+        <expression-string>findHeuristicValue(v)</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>(double)(DataAccessor.getNonDecisionAttributesNumber()-fish.returnTrueSize())/2</expression-string>
+        <expression-string>findHeuristicValue(v);</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>(double)(DataAccessor.getNonDecisionAttributesNumber()-fish.returnTrueSize())</expression-string>
+        <expression-string>DataAccessor.getEdgeRelevance()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -499,9 +517,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -518,38 +533,10 @@
     <entry file="file://$PROJECT_DIR$/src/examples/test.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/ChineseLogic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-221">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="109">
           <caret line="1772" selection-start-line="1772" selection-end-line="1772" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/ConstStrings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/graph/Edge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/graph/ChineseAnt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-289">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -594,20 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/graph/JensenAnt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1156">
-          <caret line="81" column="33" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/graph/Ant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="30" column="4" selection-start-line="30" selection-start-column="4" selection-end-line="31" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -624,13 +597,6 @@
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="358" column="33" selection-start-line="358" selection-start-column="33" selection-end-line="358" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/javafx-src.zip!/javafx/concurrent/Task.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -638,33 +604,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
+    <entry file="file://$PROJECT_DIR$/src/data/graph/Edge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="531" column="23" selection-start-line="531" selection-start-column="23" selection-end-line="531" selection-end-column="23" />
-          <folding>
-            <element signature="e#3445#3446#0" expanded="true" />
-            <element signature="e#3482#3483#0" expanded="true" />
-            <element signature="e#3549#3550#0" expanded="true" />
-            <element signature="e#3609#3610#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-170">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java">
+    <entry file="file://$PROJECT_DIR$/src/data/ConstStrings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="347">
+          <caret line="164" column="33" selection-start-line="164" selection-start-column="33" selection-end-line="164" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/fishsearch/Fish.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="324" column="51" selection-start-line="324" selection-start-column="51" selection-end-line="324" selection-end-column="51" />
+        <state relative-caret-position="-1">
+          <caret line="317" column="9" lean-forward="true" selection-start-line="317" selection-start-column="9" selection-end-line="317" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#753#754#0" expanded="true" />
@@ -675,25 +632,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/graph/JensenAnt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="70" column="87" selection-start-line="70" selection-start-column="79" selection-end-line="70" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="222" column="43" selection-start-line="222" selection-start-column="43" selection-end-line="222" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/JensenLogic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        <state relative-caret-position="280">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/graph/ChineseAnt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="84" selection-start-line="84" selection-end-line="84" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/Logic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="190" column="31" selection-start-line="190" selection-start-column="31" selection-end-line="190" selection-end-column="31" />
+        <state relative-caret-position="2057">
+          <caret line="191" column="83" selection-start-line="191" selection-start-column="83" selection-end-line="191" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/graph/Ant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/ChineseLogic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="83" selection-start-line="83" selection-end-line="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="45" column="69" selection-start-line="45" selection-start-column="69" selection-end-line="45" selection-end-column="69" />
+          <folding>
+            <element signature="e#4148#4149#0" expanded="true" />
+            <element signature="e#4193#4194#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="383">
-            <caret line="277" column="112" selection-start-line="277" selection-start-column="112" selection-end-line="277" selection-end-column="112" />
+          <first_editor relative-caret-position="280">
+            <caret line="281" column="53" selection-start-line="281" selection-start-column="53" selection-end-line="281" selection-end-column="53" />
           </first_editor>
           <second_editor />
         </state>

@@ -37,8 +37,8 @@ public class DataAccessor {
     private static int nonDecisionAttributesNumber;
     private static int decisionMaker; //atrybut decyzyjny
     private static int loopLimit = 100; //maksymalna ilosc wykonan algorytmu
-    private static double pheromoneRelevance = 1.0; //waznosc feromonu na sciezce
-    private static double edgeRelevance = 0.1; //waznosc wagi krawedzi
+    private static double pheromoneRelevance = 0.1; //waznosc feromonu na sciezce
+    private static double edgeRelevance = 0.9; //waznosc wagi krawedzi
     private static int antsNumber; //liczba mrowek w algorytmie
     private static double constantForUpdating = 0.1; //stala do aktualizacji feromonow na ścieżkach
     private static Edge analyzedEdge; //analizowana krawędź (UI)
