@@ -280,3 +280,12 @@ Huge fix on time consumption and results of fish algorithms (need to check what'
 1.1.1 - 18.08.2018
 
 Second (fixed) experiment performed on following code
+
+1.1.2 - 19.08.2018
+
+What to do next:
+- option to disable graph
+- find reduct X times
+- add options for fish search in options menu
+- save results of finding reduct X times to TXT file
+- draw fitness charts for fish and ants
