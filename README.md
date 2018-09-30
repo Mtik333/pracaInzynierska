@@ -289,3 +289,7 @@ What to do next:
 - add options for fish search in options menu
 - save results of finding reduct X times to TXT file
 - draw fitness charts for fish and ants
+
+1.1.3 - 30.09.2018
+
+Cleaned up branches
