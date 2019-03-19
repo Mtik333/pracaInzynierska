@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import data.ConstStrings;
@@ -19,12 +14,7 @@ import java.util.ResourceBundle;
 import static data.ConstStrings.JSACO;
 import static data.ConstStrings.RSFSACO;
 
-/**
- * FXML Controller class
- *
- * @author Mateusz
- */
-public class AlgorithmSettingsFXMLController implements Initializable {
+public class FishAlgorithmSettingsFXMLController implements Initializable {
 
     @FXML
     private ChoiceBox<String> algorithmChoice;

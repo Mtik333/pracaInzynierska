@@ -293,3 +293,4 @@ What to do next:
 1.1.3 - 30.09.2018
 
 Cleaned up branches
+

@@ -30,7 +30,7 @@ public class ConstStrings {
 
     public static final String SET_SEPARATOR_TITLE = "Set separator";
 
-    public static final String ALGORITHM_SETTINGS_FXML_RES = "/fxmls/AlgorithmSettingsFXML.fxml";
+    public static final String ALGORITHM_SETTINGS_FXML_RES = "/fxmls/AntAlgorithmSettingsFXML.fxml";
 
     public static final String ALGORITHM_SETTINGS_TITLE = "Edit algorithm settings";
 

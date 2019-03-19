@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" xmlns="http://javafx.com/javafx/8"
-            fx:controller="controllers.AlgorithmSettingsFXMLController">
+            fx:controller="controllers.AntAlgorithmSettingsFXMLController">
     <VBox>
         <HBox>
             <VBox.margin>
