@@ -365,10 +365,10 @@ public class Fish implements Runnable {
     }
 
     public Double calculateFitness(Fish fish){
-        double fitness = (DataAccessor.getFishAlphaRelevance() * fish.getCurrentDependency());
+        double fitness = (DataAccessor.getFishQualityRelevance() * fish.getCurrentDependency());
         //double fitness = (DataAccessor.getFishAlphaRelevance() * fish.updateDependencyDegree(fish.getAttributeList()));
         double test = (double)(DataAccessor.getNonDecisionAttributesNumber()-fish.returnTrueSize())/((double)DataAccessor.getNonDecisionAttributesNumber());
-        fitness = fitness + DataAccessor.getFishBetaRelevance() * test;
+        fitness = fitness + DataAccessor.getFishSubsetRelevance() * test;
         return fitness;
     }
 

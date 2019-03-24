@@ -14,6 +14,10 @@ public class ConstStrings {
 
     public static final String RSFSACO = "RSFSACO (Chen, Miao, Wang: 2009)";
 
+    public static final String FSARSR = "FSARSR";
+
+    public static final String FSARSRC = "FSARSR with core";
+
     public static final String USERDIR = "user.dir";
 
     public static final String CHOOSE_FILE = "Choose file";
@@ -30,9 +34,13 @@ public class ConstStrings {
 
     public static final String SET_SEPARATOR_TITLE = "Set separator";
 
-    public static final String ALGORITHM_SETTINGS_FXML_RES = "/fxmls/AntAlgorithmSettingsFXML.fxml";
+    public static final String ANT_ALGORITHM_SETTINGS_FXML_RES = "/fxmls/AntAlgorithmSettingsFXML.fxml";
 
-    public static final String ALGORITHM_SETTINGS_TITLE = "Edit algorithm settings";
+    public static final String ANT_ALGORITHM_SETTINGS_TITLE = "Edit ant algorithm settings";
+
+    public static final String FISH_ALGORITHM_SETTINGS_FXML_RES = "/fxmls/FishAlgorithmSettingsFXML.fxml";
+
+    public static final String FISH_ALGORITHM_SETTINGS_TITLE = "Edit fish algorithm settings";
 
     public static final String EDIT_EXAMPLES_FXML_RES = "/fxmls/EditExamplesFXML.fxml";
 

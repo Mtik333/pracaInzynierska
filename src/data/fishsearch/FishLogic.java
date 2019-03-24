@@ -33,11 +33,6 @@ public class FishLogic {
         DataAccessor.setAllFishes(fishList);
     }
 
-//    public void testThings(){
-//        DataAccessor.getAllFishes().get(0).searchingAlgorithm();
-//        DataAccessor.getAllFishes().get(0).swarmingAlgorithm();
-//    }
-
     public void findReduct(boolean core){
         List<Attribute> reduct = new ArrayList<>();
         DataAccessor.setListOfReducts(new ArrayList<>());
@@ -89,7 +84,7 @@ public class FishLogic {
         otherSymbols.setGroupingSeparator('.');
         DecimalFormat df = new DecimalFormat("###.###", otherSymbols);
         System.out.println(DataAccessor.getCurrentReduct().size()+","+df.format(DataAccessor.getElapsedTime()));
-        DataAccessor.setElapsedTime(timeForCore);
+        //DataAccessor.setElapsedTime(timeForCore);
     }
 
     public boolean evaluate(){
@@ -128,9 +123,9 @@ public class FishLogic {
     }
 
     public double calculateFitness(){
-        double fitness = (DataAccessor.getFishAlphaRelevance() * dependency);
+        double fitness = (DataAccessor.getFishQualityRelevance() * dependency);
         double test = (double)(DataAccessor.getNonDecisionAttributesNumber()-DataAccessor.getCurrentReduct().size())/((double)DataAccessor.getNonDecisionAttributesNumber());
-        fitness = fitness + DataAccessor.getFishBetaRelevance() * test;
+        fitness = fitness + DataAccessor.getFishSubsetRelevance() * test;
         return fitness;
     }
 

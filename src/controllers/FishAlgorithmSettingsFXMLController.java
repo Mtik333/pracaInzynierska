@@ -11,27 +11,24 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static data.ConstStrings.JSACO;
-import static data.ConstStrings.RSFSACO;
+import static data.ConstStrings.*;
 
 public class FishAlgorithmSettingsFXMLController implements Initializable {
 
     @FXML
     private ChoiceBox<String> algorithmChoice;
     @FXML
-    private TextField pheromoneImportance;
+    private TextField qualityImportance;
     @FXML
-    private TextField weightImportance;
+    private TextField subsetImportance;
+    @FXML
+    private TextField deltaImprotance;
     @FXML
     private TextField loopLimit;
     @FXML
-    private TextField antsNumber;
+    private TextField fishNumber;
     @FXML
-    private TextField pheromoneConstant;
-    @FXML
-    private TextField pheromoneEvaporation;
-    @FXML
-    private TextField epsilonValue;
+    private TextField fishVisual;
     @FXML
     private TextField fruitlessSearches;
 
@@ -43,41 +40,39 @@ public class FishAlgorithmSettingsFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        algorithmChoice.getItems().addAll(JSACO, RSFSACO);
-        if (DataAccessor.getAlgorithmType().equals(RSFSACO)) {
+        algorithmChoice.getItems().addAll(FSARSR, FSARSRC);
+        if (DataAccessor.getFishAlgorithmType().equals(FSARSRC)) {
             algorithmChoice.getSelectionModel().selectLast();
-            DataAccessor.setAlgorithmType(RSFSACO);
+            DataAccessor.setFishAlgorithmType(FSARSRC);
         } else {
             algorithmChoice.getSelectionModel().selectFirst();
         }
-        pheromoneImportance.setText(String.valueOf(DataAccessor.getPheromoneRelevance()));
-        weightImportance.setText(String.valueOf(DataAccessor.getEdgeRelevance()));
+        qualityImportance.setText(String.valueOf(DataAccessor.getFishQualityRelevance()));
+        subsetImportance.setText(String.valueOf(DataAccessor.getFishSubsetRelevance()));
+        deltaImprotance.setText(String.valueOf(DataAccessor.getFishDeltaRelevance()));
         loopLimit.setText(String.valueOf(DataAccessor.getLoopLimit()));
-        antsNumber.setText(String.valueOf(DataAccessor.getAntsNumber()));
+        fishNumber.setText(String.valueOf(DataAccessor.getFishNumber()));
         if (DataAccessor.getDataset() == null) {
-            antsNumber.setEditable(false);
+            fishNumber.setEditable(false);
         }
-        pheromoneConstant.setText(String.valueOf(DataAccessor.getConstantForUpdating()));
-        pheromoneEvaporation.setText(String.valueOf(DataAccessor.getPheromoneEvaporation()));
-        epsilonValue.setText(String.valueOf(DataAccessor.getEpsilonValue()));
+        fishVisual.setText(String.valueOf(DataAccessor.getFishVisual()));
         fruitlessSearches.setText(String.valueOf(DataAccessor.getFruitlessSearches()));
     }
 
     @FXML
     public void setSettings() {
         if (algorithmChoice.getSelectionModel().getSelectedIndex() == ConstStrings.ALGORITHM_DEFAULT_INDEX) {
-            DataAccessor.setAlgorithmType(JSACO);
+            DataAccessor.setAlgorithmType(FSARSR);
         } else {
-            DataAccessor.setAlgorithmType(RSFSACO);
+            DataAccessor.setAlgorithmType(FSARSRC);
         }
-        DataAccessor.setPheromoneRelevance(Double.valueOf(pheromoneImportance.getText()));
-        DataAccessor.setEdgeRelevance(Double.valueOf(weightImportance.getText()));
+        DataAccessor.setFishQualityRelevance(Double.valueOf(qualityImportance.getText()));
+        DataAccessor.setFishSubsetRelevance(Double.valueOf(subsetImportance.getText()));
+        DataAccessor.setFishDeltaRelevance(Double.valueOf(deltaImprotance.getText()));
         DataAccessor.setLoopLimit(Integer.valueOf(loopLimit.getText()));
-        DataAccessor.setAntsNumber(Integer.valueOf(antsNumber.getText()));
-        DataAccessor.setConstantForUpdating(Double.valueOf(pheromoneConstant.getText()));
-        DataAccessor.setPheromoneEvaporation(Double.valueOf(pheromoneEvaporation.getText()));
-        DataAccessor.setEpsilonValue(Double.valueOf(epsilonValue.getText()));
-        DataAccessor.setFruitlessSearches(Integer.valueOf(fruitlessSearches.getText()));
+        DataAccessor.setFishNumber(Integer.valueOf(fishNumber.getText()));
+        DataAccessor.setFishVisual(Integer.valueOf(fishVisual.getText()));
+        DataAccessor.setFishMaxCycle(Integer.valueOf(fruitlessSearches.getText()));
         cancelSettings();
     }
 

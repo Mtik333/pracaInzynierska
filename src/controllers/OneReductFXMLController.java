@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static data.ConstStrings.FSARSR;
+
 /**
  * FXML Controller class
  *
@@ -46,7 +48,7 @@ public class OneReductFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (DataAccessor.getCoreAttributes() != null) {
+        if (DataAccessor.getCoreAttributes() != null && !DataAccessor.isIsFishAlgorithmLastCalculated()) {
             coreSize = DataAccessor.getCoreAttributes().size();
         }
         for (int i = 0; i < DataAccessor.getListOfReducts().size(); i++) {
@@ -54,7 +56,7 @@ public class OneReductFXMLController implements Initializable {
         }
         chosenIteration.valueProperty().addListener((ov, t, t1) -> setNewValues());
         chosenIteration.getSelectionModel().select(0);
-        if (coreSize != ConstStrings.ZERO) {
+        if (coreSize != ConstStrings.ZERO && !DataAccessor.isIsFishAlgorithmLastCalculated()) {
             DataAccessor.getCoreAttributes().forEach((attribute) -> finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));
         }
         DataAccessor.getCurrentReduct().forEach((attribute) -> finalReduct.appendText(attribute.getName() + ConstStrings.COMMA_SPACE));

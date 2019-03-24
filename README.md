@@ -294,3 +294,6 @@ What to do next:
 
 Cleaned up branches
 
+1.2.0 - 24.03.2019
+
+Finish

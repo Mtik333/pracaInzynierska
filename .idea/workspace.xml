@@ -6,16 +6,33 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85a4dcc8-ea74-4d86-8a71-4894865c5f09" name="Default" comment="Build 1.1.1">
-      <change afterPath="$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml" afterDir="false" />
+    <list default="true" id="85a4dcc8-ea74-4d86-8a71-4894865c5f09" name="Default" comment="no build this time, few things to add but overall it's done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/AlgorithmSettingsFXMLController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$2$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$2$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$3$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/FXMLDocumentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/OneReductFXMLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/controllers/OneReductFXMLController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/ConstStrings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/ConstStrings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/DataAccessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/DataAccessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/Fish.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/Fish.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/FishLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/data/fishsearch/FishLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/fxmls/AlgorithmSettingsFXML.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/AntAlgorithms/fxmls/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AntAlgorithms/fxmls/FXMLDocument.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/AlgorithmSettingsFXMLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AntAlgorithmSettingsFXMLController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/FXMLDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/FXMLDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/OneReductFXMLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/OneReductFXMLController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/data/ConstStrings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ConstStrings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fxmls/AlgorithmSettingsFXML.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxmls/AntAlgorithmSettingsFXML.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/DataAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/DataAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/fishsearch/Fish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/fishsearch/Fish.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +42,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-303">
-              <caret line="40" column="26" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="26" />
+            <state relative-caret-position="1300">
+              <caret line="77" column="41" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -38,10 +55,82 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20">
+              <caret line="88" column="76" selection-start-line="88" selection-start-column="76" selection-end-line="88" selection-end-column="76" />
+              <folding>
+                <element signature="e#4216#4217#0" expanded="true" />
+                <element signature="e#4247#4248#0" expanded="true" />
+                <element signature="e#9245#9246#0" expanded="true" />
+                <element signature="e#9314#9315#0" expanded="true" />
+                <element signature="e#9410#9411#0" expanded="true" />
+                <element signature="e#9497#9498#0" expanded="true" />
+                <element signature="e#9548#9549#0" expanded="true" />
+                <element signature="e#9637#9638#0" expanded="true" />
+                <element signature="e#10167#10168#0" expanded="true" />
+                <element signature="e#10226#10227#0" expanded="true" />
+                <element signature="e#10319#10320#0" expanded="true" />
+                <element signature="e#10388#10389#0" expanded="true" />
+                <element signature="e#10472#10473#0" expanded="true" />
+                <element signature="e#10535#10536#0" expanded="true" />
+                <element signature="e#18801#18802#0" expanded="true" />
+                <element signature="e#18837#18838#0" expanded="true" />
+                <element signature="e#18895#18896#0" expanded="true" />
+                <element signature="e#18945#18946#0" expanded="true" />
+                <element signature="e#18985#18986#0" expanded="true" />
+                <element signature="e#19021#19022#0" expanded="true" />
+                <element signature="e#19079#19080#0" expanded="true" />
+                <element signature="e#19129#19130#0" expanded="true" />
+                <element signature="e#19165#19166#0" expanded="true" />
+                <element signature="e#19197#19198#0" expanded="true" />
+                <element signature="e#19247#19248#0" expanded="true" />
+                <element signature="e#19289#19290#0" expanded="true" />
+                <element signature="e#19325#19326#0" expanded="true" />
+                <element signature="e#19357#19358#0" expanded="true" />
+                <element signature="e#19407#19408#0" expanded="true" />
+                <element signature="e#19449#19450#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="444">
+                <caret line="298" column="6" selection-start-line="298" selection-start-column="6" selection-end-line="298" selection-end-column="6" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controllers/OneReductFXMLController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/fishsearch/Fish.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="313" column="55" lean-forward="true" selection-start-line="313" selection-start-column="55" selection-end-line="313" selection-end-column="55" />
+            <state relative-caret-position="1200">
+              <caret line="85" column="24" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -56,35 +145,25 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java">
+        <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="16" column="73" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
+            <state relative-caret-position="580">
+              <caret line="49" column="72" selection-start-line="49" selection-start-column="72" selection-end-line="49" selection-end-column="72" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#3631#3632#0" expanded="true" />
+                <element signature="e#3683#3684#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml">
+        <entry file="file://$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1300">
-              <caret line="7" column="74" selection-start-line="7" selection-start-column="74" selection-end-line="7" selection-end-column="74" />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+            <state relative-caret-position="1040">
+              <caret line="63" column="92" selection-start-line="63" selection-start-column="92" selection-end-line="63" selection-end-column="92" />
               <folding>
-                <element signature="e#4148#4149#0" expanded="true" />
-                <element signature="e#4193#4194#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,19 +181,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>allAnts</find>
-      <find>resources</find>
-      <find>allAttributes</find>
-      <find>decisionVal</find>
-      <find>generate</find>
-      <find>nonDe</find>
-      <find>fishMaxCycle</find>
-      <find>fishReduct</find>
-      <find>println</find>
-      <find>getNonDecisionAttributesNumber</find>
-      <find>print</find>
-      <find>pool</find>
-      <find>getall</find>
       <find>nonde</find>
       <find>notus</find>
       <find>fishvisu</find>
@@ -128,13 +194,27 @@
       <find>pickVert</find>
       <find>elaps</find>
       <find>setEla</find>
-      <find>width</find>
       <find>910</find>
       <find>447</find>
       <find>height</find>
+      <find>programsettings</find>
+      <find>subset</find>
+      <find>fishBetaRelevance</find>
+      <find>initFish</find>
+      <find>resetAlgorithm</find>
+      <find>algorith</find>
+      <find>core</find>
+      <find>RSFSACO</find>
+      <find>resetAlgorithmFish</find>
+      <find>width</find>
+      <find>912</find>
+      <find>91</find>
+      <find>wid</find>
+      <find>color</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Mateusz\OneDrive\Studia II stopnia\Semestr III\Praca dyplomowa magisterska\AntAlgorithms\src</dir>
+      <dir>C:\Users\Mateusz\OneDrive\Studia II stopnia\Semestr III\Praca dyplomowa magisterska\AntAlgorithms</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -144,19 +224,20 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/data/graph/Ant.java" />
-        <option value="$PROJECT_DIR$/src/controllers/FXMLDocumentController.java" />
         <option value="$PROJECT_DIR$/out/production/AntAlgorithms/fxmls/FXMLDocument.fxml" />
-        <option value="$PROJECT_DIR$/src/data/fishsearch/Fish.java" />
-        <option value="$PROJECT_DIR$/src/data/ConstStrings.java" />
-        <option value="$PROJECT_DIR$/src/data/DataAccessor.java" />
-        <option value="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" />
         <option value="$PROJECT_DIR$/src/data/Logic.java" />
         <option value="$PROJECT_DIR$/src/data/ChineseLogic.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/controllers/AntAlgorithmSettingsFXMLController.java" />
         <option value="$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml" />
+        <option value="$PROJECT_DIR$/src/data/ConstStrings.java" />
+        <option value="$PROJECT_DIR$/src/data/fishsearch/Fish.java" />
         <option value="$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java" />
+        <option value="$PROJECT_DIR$/src/data/DataAccessor.java" />
+        <option value="$PROJECT_DIR$/src/controllers/OneReductFXMLController.java" />
+        <option value="$PROJECT_DIR$/src/data/fishsearch/FishLogic.java" />
         <option value="$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml" />
+        <option value="$PROJECT_DIR$/src/controllers/FXMLDocumentController.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -179,12 +260,36 @@
               <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
               <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="fishsearch" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AntAlgorithms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AntAlgorithms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="fxmls" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -291,7 +396,10 @@
       <workItem from="1538296877512" duration="592000" />
       <workItem from="1538297955132" duration="97000" />
       <workItem from="1539107122811" duration="65000" />
-      <workItem from="1553021273832" duration="5490000" />
+      <workItem from="1553021273832" duration="5932000" />
+      <workItem from="1553275137347" duration="6121000" />
+      <workItem from="1553357572868" duration="3106000" />
+      <workItem from="1553428929333" duration="231000" />
     </task>
     <task id="LOCAL-00001" summary="Build 1.0.6">
       <created>1534524983281</created>
@@ -314,16 +422,24 @@
       <option name="project" value="LOCAL" />
       <updated>1534616333159</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="no build this time, few things to add but overall it's done">
+      <created>1553032180050</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1553032180050</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99091000" />
+    <option name="totallyTimeSpent" value="108991000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-316" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16151386" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1663113" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -333,7 +449,7 @@
       <window_info anchor="bottom" id="Docker" order="0" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" sideWeight="0.4977307" weight="0.32827735" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.18526544" />
+      <window_info anchor="bottom" id="Run" order="3" weight="0.3347779" />
       <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.4977307" weight="0.43661973" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -341,9 +457,8 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50226927" side_tool="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Messages" order="10" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" visible="true" weight="0.37811485" />
+      <window_info anchor="bottom" id="Version Control" order="11" visible="true" weight="0.37811485" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -353,6 +468,7 @@
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info anchor="right" id="Database" order="8" />
+      <window_info anchor="right" id="Maven" order="9" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,14 +478,15 @@
     <MESSAGE value="Build 1.0.6" />
     <MESSAGE value="Build 1.1.0" />
     <MESSAGE value="Build 1.1.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build 1.1.1" />
+    <MESSAGE value="no build this time, few things to add but overall it's done" />
+    <option name="LAST_COMMIT_MESSAGE" value="no build this time, few things to add but overall it's done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java</url>
-          <line>114</line>
+          <line>109</line>
           <properties />
           <option name="timeStamp" value="145" />
         </line-breakpoint>
@@ -381,21 +498,65 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java</url>
-          <line>322</line>
+          <line>337</line>
           <properties />
           <option name="timeStamp" value="177" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java</url>
-          <line>90</line>
+          <line>85</line>
           <properties />
           <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java</url>
+          <line>365</line>
+          <properties />
+          <option name="timeStamp" value="185" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controllers/OneReductFXMLController.java</url>
+          <line>50</line>
+          <properties />
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controllers/OneReductFXMLController.java</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="188" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java</url>
+          <line>390</line>
+          <properties />
+          <option name="timeStamp" value="189" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>DataAccessor.getElapsedTime()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>DataAccessor.getListOfReducts()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>DataAccessor.getAllFishes()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>DataAccessor.getCurrentReduct()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>(timeElapsed / ConstStrings.THOUSAND) + timeForCore</expression-string>
         <language-id>JAVA</language-id>
@@ -418,26 +579,6 @@
       </expression>
       <expression>
         <expression-string>Math.pow(findHeuristicValue(v), 0.9)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>Math.pow(findHeuristicValue(v), DataAccessor.getEdgeRelevance())</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>findHeuristicValue(v)</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>findHeuristicValue(v);</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>DataAccessor.getEdgeRelevance()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -527,13 +668,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/ConstStrings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="164" column="33" selection-start-line="164" selection-start-column="33" selection-end-line="164" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/graph/ChineseAnt.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -570,74 +704,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fxmls/AntAlgorithmSettingsFXML.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/JensenLogic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1300">
-          <caret line="7" column="74" selection-start-line="7" selection-start-column="74" selection-end-line="7" selection-end-column="74" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/AntAlgorithmSettingsFXMLController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="26" column="72" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="73" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/fishsearch/Fish.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="313" column="55" lean-forward="true" selection-start-line="313" selection-start-column="55" selection-end-line="313" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="42" column="13" lean-forward="true" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="73" column="24" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="582">
-            <caret line="296" lean-forward="true" selection-start-line="296" selection-end-line="296" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -648,24 +725,127 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
+    <entry file="file://$PROJECT_DIR$/src/fxmls/FishAlgorithmSettingsFXML.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding>
-            <element signature="e#4148#4149#0" expanded="true" />
-            <element signature="e#4193#4194#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="320">
+          <caret line="16" column="91" selection-start-line="16" selection-start-column="91" selection-end-line="16" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/ConstStrings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2640">
+          <caret line="16" column="37" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/fishsearch/FishLogic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-303">
-          <caret line="40" column="26" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="26" />
+        <state relative-caret-position="1300">
+          <caret line="77" column="41" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fxmls/FXMLDocument.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/OneReductFXMLController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/fishsearch/Fish.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="85" column="24" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/AntAlgorithmSettingsFXMLController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="26" column="72" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/DataAccessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="49" column="72" selection-start-line="49" selection-start-column="72" selection-end-line="49" selection-end-column="72" />
+          <folding>
+            <element signature="e#3631#3632#0" expanded="true" />
+            <element signature="e#3683#3684#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/FishAlgorithmSettingsFXMLController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1040">
+          <caret line="63" column="92" selection-start-line="63" selection-start-column="92" selection-end-line="63" selection-end-column="92" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controllers/FXMLDocumentController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="88" column="76" selection-start-line="88" selection-start-column="76" selection-end-line="88" selection-end-column="76" />
+          <folding>
+            <element signature="e#4216#4217#0" expanded="true" />
+            <element signature="e#4247#4248#0" expanded="true" />
+            <element signature="e#9245#9246#0" expanded="true" />
+            <element signature="e#9314#9315#0" expanded="true" />
+            <element signature="e#9410#9411#0" expanded="true" />
+            <element signature="e#9497#9498#0" expanded="true" />
+            <element signature="e#9548#9549#0" expanded="true" />
+            <element signature="e#9637#9638#0" expanded="true" />
+            <element signature="e#10167#10168#0" expanded="true" />
+            <element signature="e#10226#10227#0" expanded="true" />
+            <element signature="e#10319#10320#0" expanded="true" />
+            <element signature="e#10388#10389#0" expanded="true" />
+            <element signature="e#10472#10473#0" expanded="true" />
+            <element signature="e#10535#10536#0" expanded="true" />
+            <element signature="e#18801#18802#0" expanded="true" />
+            <element signature="e#18837#18838#0" expanded="true" />
+            <element signature="e#18895#18896#0" expanded="true" />
+            <element signature="e#18945#18946#0" expanded="true" />
+            <element signature="e#18985#18986#0" expanded="true" />
+            <element signature="e#19021#19022#0" expanded="true" />
+            <element signature="e#19079#19080#0" expanded="true" />
+            <element signature="e#19129#19130#0" expanded="true" />
+            <element signature="e#19165#19166#0" expanded="true" />
+            <element signature="e#19197#19198#0" expanded="true" />
+            <element signature="e#19247#19248#0" expanded="true" />
+            <element signature="e#19289#19290#0" expanded="true" />
+            <element signature="e#19325#19326#0" expanded="true" />
+            <element signature="e#19357#19358#0" expanded="true" />
+            <element signature="e#19407#19408#0" expanded="true" />
+            <element signature="e#19449#19450#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="444">
+            <caret line="298" column="6" selection-start-line="298" selection-start-column="6" selection-end-line="298" selection-end-column="6" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

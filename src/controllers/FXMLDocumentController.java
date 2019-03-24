@@ -62,14 +62,18 @@ public class FXMLDocumentController implements Initializable {
     private final CoreMouseDraggedHandler coreMouseDraggedHandler = new CoreMouseDraggedHandler(this);
     @FXML
     private Button viewExamples;
-    @FXML
-    private Button nextEdge;
-    @FXML
-    private Button singleIteration;
+//    @FXML
+//    private Button nextEdge;
+//    @FXML
+//    private Button singleIteration;
     @FXML
     private Button singleReduct;
     @FXML
     private Button resetAlgorithm;
+    @FXML
+    private Button fishSingleReduct;
+//    @FXML
+//    private Button resetAlgorithmFish;
     @FXML
     private AnchorPane solver; //widok grafu
     private double orgSceneX;
@@ -83,15 +87,17 @@ public class FXMLDocumentController implements Initializable {
             edgeLines = DataAccessor.sortByValue(edgeLines);
         }
         double max = Collections.max(DataAccessor.getGraph().getEdges(), Comparator.comparing(Edge::getPheromone)).getPheromone();
-        edgeLines.forEach((Line k, Edge v) -> {
-            double value = ((max - v.getPheromone()) / (max)) * ConstStrings.RGB_MAX_VALUE;
-            if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
-                if (value < ConstStrings.RGB_MAX_VALUE_DIV2) {
-                    k.toFront();
+        if (!DataAccessor.isIsFishAlgorithmLastCalculated()){
+            edgeLines.forEach((Line k, Edge v) -> {
+                double value = ((max - v.getPheromone()) / (max)) * ConstStrings.RGB_MAX_VALUE;
+                if (!DataAccessor.getCalculationMode().equals(ConstStrings.COMPUTE_REDUCT)) {
+                    if (value < ConstStrings.RGB_MAX_VALUE_DIV2) {
+                        k.toFront();
+                    }
                 }
-            }
-            k.setStroke(Color.rgb((int) value, ConstStrings.RGB_MAX_VALUE, (int) value));
-        });
+                k.setStroke(Color.rgb((int) value, ConstStrings.RGB_MAX_VALUE, (int) value));
+            });
+        }
         verticeLabels.forEach((t, u) -> {
             if (DataAccessor.ifVerticeInReduct(u)) {
                 t.setStyle(ConstStrings.VERTICE_IN_REDUCT_STYLE);
@@ -183,6 +189,8 @@ public class FXMLDocumentController implements Initializable {
             } else if (newLogic.stepToNextVertice()) {
                 newLogic.initializeAntsRandom();
                 colorEdges();
+                DataAccessor.setIsFishAlgorithmLastCalculated(false);
+                //resetAlgorithmFish.setDisable(true);
                 showStepStats();
             } else {
                 showStepStats();
@@ -201,6 +209,7 @@ public class FXMLDocumentController implements Initializable {
             }
             DataAccessor.setCalculationMode(ConstStrings.SINGLE_ITERATION);
             newLogic.performOneIteration();
+            DataAccessor.setIsFishAlgorithmLastCalculated(false);
         }
         colorEdges();
         showIterationStats();
@@ -212,6 +221,7 @@ public class FXMLDocumentController implements Initializable {
     private void antsFindReduct() {
         disableButtons();
         resetAlgorithm.setDisable(true);
+        //resetAlgorithmFish.setDisable(true);
         if (DataAccessor.isLoadedData()) {
             DataAccessor.setCalculationMode(ConstStrings.COMPUTE_REDUCT);
             Service<Void> service = new Service<Void>() {
@@ -223,6 +233,8 @@ public class FXMLDocumentController implements Initializable {
                             newLogic.findReduct();
                             Platform.runLater(() -> {
                                 resetAlgorithm.setDisable(false);
+                                //resetAlgorithmFish.setDisable(false);
+                                DataAccessor.setIsFishAlgorithmLastCalculated(false);
                                 DataAccessor.setCalculationMode(SINGLE_ITERATION);
                                 colorEdges();
                                 disableButtons();
@@ -246,8 +258,13 @@ public class FXMLDocumentController implements Initializable {
 
     //przechodzi do widoku ustawień algorytmu
     @FXML
-    public void programSettings() {
-        showFXML(ALGORITHM_SETTINGS_FXML_RES, ALGORITHM_SETTINGS_TITLE);
+    public void antProgramSettings() {
+        showFXML(ANT_ALGORITHM_SETTINGS_FXML_RES, ANT_ALGORITHM_SETTINGS_TITLE);
+    }
+
+    @FXML
+    public void fishProgramSettings() {
+        showFXML(FISH_ALGORITHM_SETTINGS_FXML_RES, FISH_ALGORITHM_SETTINGS_TITLE);
     }
 
     //przechodzi do widoku edycji przykładów
@@ -295,17 +312,15 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void disableButtons() {
-        nextEdge.setDisable(true);
-        singleIteration.setDisable(true);
         singleReduct.setDisable(true);
+        fishSingleReduct.setDisable(true);
     }
 
     private void enableButtons() {
         viewExamples.setDisable(false);
-        nextEdge.setDisable(false);
-        singleIteration.setDisable(false);
         singleReduct.setDisable(false);
         resetAlgorithm.setDisable(false);
+        fishSingleReduct.setDisable(false);
     }
 
     @FXML
@@ -331,7 +346,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void testFish(){
+    private void calculateFish(){
         if (DataAccessor.isLoadedData()){
             FishLogic fishLogic = new FishLogic();
             int i=0;
@@ -341,35 +356,18 @@ public class FXMLDocumentController implements Initializable {
                     return new Task<Void>() {
                         @Override
                         protected Void call() throws Exception {
-                            fishLogic.findReduct(false);
+                            if (DataAccessor.getFishAlgorithmType().contentEquals(FSARSR)){
+                                fishLogic.findReduct(false);
+                            }
+                            else fishLogic.findReduct(true);
                             Platform.runLater(() -> {
+                                DataAccessor.setIsFishAlgorithmLastCalculated(true);
                                 resetAlgorithm.setDisable(false);
+                                //resetAlgorithmFish.setDisable(false);
                                 DataAccessor.setCalculationMode(SINGLE_ITERATION);
-                            });
-                            return null;
-                        }
-                    };
-                }
-            };
-            service.start();
-        }
-    }
-
-    @FXML
-    private void testFishWithCore(){
-        if (DataAccessor.isLoadedData()){
-            FishLogic fishLogic = new FishLogic();
-            int i=0;
-            Service<Void> service = new Service<Void>() {
-                @Override
-                protected Task<Void> createTask() {
-                    return new Task<Void>() {
-                        @Override
-                        protected Void call() throws Exception {
-                            fishLogic.findReduct(true);
-                            Platform.runLater(() -> {
-                                resetAlgorithm.setDisable(false);
-                                DataAccessor.setCalculationMode(SINGLE_ITERATION);
+                                disableButtons();
+                                colorEdges();
+                                showAlgorithmStats();
                             });
                             return null;
                         }

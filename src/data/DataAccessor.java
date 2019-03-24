@@ -64,11 +64,22 @@ public class DataAccessor {
 
     private static int fishNumber=10;
     private static List<Fish> allFishes; //lista wszystkich ryb
-    private static double fishAlphaRelevance=0.9;
+    private static String fishAlgorithmType = FSARSR;
+    private static double fishQualityRelevance=0.9;
+    private static double fishSubsetRelevance=0.1;
     private static double fishDeltaRelevance=0.9;
     private static double globalDependencyDegree=1;
     private static int fishMaxCycle=5;
     private static double coreDependency=0;
+    private static boolean isFishAlgorithmLastCalculated=false;
+
+    public static boolean isIsFishAlgorithmLastCalculated() {
+        return isFishAlgorithmLastCalculated;
+    }
+
+    public static void setIsFishAlgorithmLastCalculated(boolean isFishAlgorithmLastCalculated) {
+        DataAccessor.isFishAlgorithmLastCalculated = isFishAlgorithmLastCalculated;
+    }
 
     public static double getCoreDependency() {
         return coreDependency;
@@ -108,7 +119,7 @@ public class DataAccessor {
         return fishDeltaRelevance;
     }
 
-    public static void setFishDeltaRelevance(double fishDeltaRelevance) {
+    public static void getFishDeltaRelevance(double fishDeltaRelevance) {
         DataAccessor.fishDeltaRelevance = fishDeltaRelevance;
     }
 
@@ -130,23 +141,21 @@ public class DataAccessor {
         DataAccessor.nonDecisionAttributesNumber = nonDecisionAttributesNumber;
     }
 
-    public static double getFishAlphaRelevance() {
-        return fishAlphaRelevance;
+    public static double getFishQualityRelevance() {
+        return fishQualityRelevance;
     }
 
-    public static void setFishAlphaRelevance(double fishAlphaRelevance) {
-        DataAccessor.fishAlphaRelevance = fishAlphaRelevance;
+    public static void setFishQualityRelevance(double fishQualityRelevance) {
+        DataAccessor.fishQualityRelevance = fishQualityRelevance;
     }
 
-    public static double getFishBetaRelevance() {
-        return fishBetaRelevance;
+    public static double getFishSubsetRelevance() {
+        return fishSubsetRelevance;
     }
 
-    public static void setFishBetaRelevance(double fishBetaRelevance) {
-        DataAccessor.fishBetaRelevance = fishBetaRelevance;
+    public static void setFishSubsetRelevance(double fishSubsetRelevance) {
+        DataAccessor.fishSubsetRelevance = fishSubsetRelevance;
     }
-
-    private static double fishBetaRelevance=0.1;
 
     public static double getElapsedTime() {
         return elapsedTime;
@@ -162,6 +171,18 @@ public class DataAccessor {
 
     public static void setFruitlessSearches(int fruitlessSearches) {
         DataAccessor.fruitlessSearches = fruitlessSearches;
+    }
+
+    public static String getFishAlgorithmType() {
+        return fishAlgorithmType;
+    }
+
+    public static void setFishAlgorithmType(String fishAlgorithmType) {
+        DataAccessor.fishAlgorithmType = fishAlgorithmType;
+    }
+
+    public static void setFishDeltaRelevance(double fishDeltaRelevance) {
+        DataAccessor.fishDeltaRelevance = fishDeltaRelevance;
     }
 
     public static Logic createLogic() {
